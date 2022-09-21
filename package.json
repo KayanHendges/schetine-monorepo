@@ -1,0 +1,19 @@
+{
+  "name": "schetine",
+  "version": "1.0.0",
+  "description": "schedule services",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KayanHendges/schetine-monorepo.git"
+  },
+  "author": "Kayan Hendges",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/KayanHendges/schetine-monorepo/issues"
+  },
+  "homepage": "https://github.com/KayanHendges/schetine-monorepo#readme"
+}
