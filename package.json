@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "schedule services",
   "main": "index.js",
+  "private": true,
+  "workspaces": {
+    "packages": ["packages/*"]
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
