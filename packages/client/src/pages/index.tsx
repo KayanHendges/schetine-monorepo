@@ -1,5 +1,7 @@
+import { Text } from "../components/Texts/Text";
+
 export default function Home() {
   return (
-    <div className="font-bold text-2xl text-violet-100">Hello World</div>
+    <Text>Hello World</Text>
   )
 }
