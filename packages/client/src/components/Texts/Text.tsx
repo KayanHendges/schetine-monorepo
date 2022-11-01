@@ -13,7 +13,7 @@ export function Text({ size = "md", children, asChild }: TextProps) {
     
     return (
         <Component className={clsx(
-            'text-gray-100 font-sans',
+            'text-white font-sans',
             {
                 'text-xs': size === "sm", 
                 'text-sm': size === "md", 

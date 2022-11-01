@@ -5,13 +5,14 @@ module.exports = {
   ],
   theme: {
     colors: {
+      transparent: "transparent",
+      white: "#F5F5F5",
+      black: "##171717",
       gray: {
-        100: "#F5f5f5",  
         300: "#D4D4D4",  
         400: "#A3A3A3",  
         500: "#737373",  
         800: "#262626",  
-        900: "#171717",  
       },
       indigo: {
         300: "#A5B4FC",

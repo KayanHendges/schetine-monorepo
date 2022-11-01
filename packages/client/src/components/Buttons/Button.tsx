@@ -14,8 +14,8 @@ export function Button({ children, asChild }: ButtonProps) {
         <Component className={clsx(
             'w-full px-1 py-3 gap-3 rounded',
             'bg-indigo-400 transition-colors hover:bg-indigo-300',
-            'focus:ring-2 ring-gray-100',
-            'text-gray-900 font-semibold',
+            'focus:ring-2 ring-white',
+            'text-black font-semibold',
         )}>
             {children}
         </Component>
