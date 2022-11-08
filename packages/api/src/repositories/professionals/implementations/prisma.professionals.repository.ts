@@ -3,7 +3,7 @@ import { PrismaService } from 'src/providers/db/prisma.service';
 import { PrismaAbstractRepository } from 'src/repositories/base/prisma/prisma.abstract.repository';
 import { ProfessionalsInterfaceRepository } from '../professionals.interface.repository';
 
-export class ProfessionalsRepository
+export class PrismaProfessionalsRepository
   extends PrismaAbstractRepository<Professional>
   implements ProfessionalsInterfaceRepository
 {
