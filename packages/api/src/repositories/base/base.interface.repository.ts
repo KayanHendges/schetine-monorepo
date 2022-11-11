@@ -1,3 +1,3 @@
-export interface BaseInterfaceRepository<Entity> {
-  create(data: Entity | any): Promise<Entity>;
+export interface IBaseRepository<Entity> {
+  create(data: Entity): Promise<Entity>;
 }

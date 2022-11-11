@@ -5,6 +5,8 @@ export class Professional {
   name: string;
   username: string;
   email: string;
+  modified?: Date;
+  created?: Date;
 
   constructor(props: Omit<Professional, 'id'>, id?: string) {
     Object.assign(this, props);

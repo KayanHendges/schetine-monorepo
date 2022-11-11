@@ -13,7 +13,7 @@ datasource db {
 model Professional {
   id                   String                 @unique @default(uuid())
   name                 String
-  username             String
+  username             String                 @unique
   email                String
   password             String
   businessProfessional BusinessProfessional[]

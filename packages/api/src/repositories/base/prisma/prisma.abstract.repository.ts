@@ -1,8 +1,8 @@
-import { BaseInterfaceRepository } from '../base.interface.repository';
+import { IBaseRepository } from '../base.interface.repository';
 import { PrismaGenericService } from './types';
 
 export abstract class PrismaAbstractRepository<T>
-  implements BaseInterfaceRepository<T>
+  implements IBaseRepository<T>
 {
   private prisma: PrismaGenericService<T>;
 
@@ -11,6 +11,7 @@ export abstract class PrismaAbstractRepository<T>
   }
 
   public async create(data: T | any): Promise<T> {
+    // console.log(this.prisma);
     return await this.prisma.create({ data });
   }
 }
