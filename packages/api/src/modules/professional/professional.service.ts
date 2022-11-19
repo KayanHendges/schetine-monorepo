@@ -1,7 +1,11 @@
 import * as bcrypt from 'bcrypt';
 import { Injectable, Inject } from '@nestjs/common';
 import { IProfessionalRepository } from 'src/repositories/professionals/professionals.repository.interface';
-import { CreateProfessionalDTO } from './professional.dto';
+import {
+  CreateProfessionalDTO,
+  FindProfessionalDTO,
+  ListProfessionalDTO,
+} from './professional.dto';
 import { IProfessionalService } from './professional.service.interface';
 import { Professional } from '../../entities/professional';
 
@@ -22,5 +26,19 @@ export class ProfessionalService implements IProfessionalService {
     });
     delete createdProfessional.password;
     return createdProfessional;
+  }
+
+  async find(param: FindProfessionalDTO): Promise<Professional> {
+    const professional = await this.professionalRepository.find(param);
+
+    if (!professional) {
+      throw new Error(`professional not found`);
+    }
+
+    return professional;
+  }
+
+  async list(params: ListProfessionalDTO): Promise<Professional[]> {
+    return await this.professionalRepository.list({ where: params });
   }
 }
