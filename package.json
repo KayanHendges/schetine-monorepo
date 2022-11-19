@@ -8,11 +8,15 @@
     "packages": ["packages/*"]
   },
   "scripts": {
+    "dev": "concurrently \"yarn workspace schetine-api dev\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/KayanHendges/schetine-monorepo.git"
+  },
+  "devDependencies": {
+    "concurrently": "^7.1.0"
   },
   "author": "Kayan Hendges",
   "license": "MIT",
