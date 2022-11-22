@@ -8,6 +8,7 @@ import {
 } from './professional.dto';
 import { IProfessionalService } from './professional.service.interface';
 import { Professional } from '../../entities/professional';
+import { ResponseList } from '../../types';
 
 @Injectable()
 export class ProfessionalService implements IProfessionalService {
@@ -38,7 +39,23 @@ export class ProfessionalService implements IProfessionalService {
     return professional;
   }
 
-  async list(params: ListProfessionalDTO): Promise<Professional[]> {
-    return await this.professionalRepository.list({ where: params });
+  async list(params: ListProfessionalDTO): Promise<ResponseList<Professional>> {
+    const { page, pageSize, orderBy, ...where } = params;
+    const repositoryParams = {
+      where,
+      page,
+      pageSize,
+      orderBy,
+    };
+
+    const count = await this.professionalRepository.count(repositoryParams);
+    const list = (await this.professionalRepository.list(repositoryParams)).map(
+      (value) => {
+        const { password, ...professional } = value;
+        return professional;
+      },
+    );
+
+    return { page, pageSize, list, count };
   }
 }

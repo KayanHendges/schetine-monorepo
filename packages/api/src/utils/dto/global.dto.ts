@@ -1,3 +1,4 @@
+import { Transform, Type } from 'class-transformer';
 import {
   IsBoolean,
   IsDate,
@@ -7,22 +8,31 @@ import {
   IsOptional,
   IsPositive,
   IsString,
+  Max,
 } from 'class-validator';
 import { OrderParam } from '../../types';
+import { orderByFromString } from './orderByFromString';
 
 export class PaginationAndSortDTO<T> {
   @IsOptional()
   @IsInt()
   @IsPositive()
-  public page?: number;
+  @Type(() => Number)
+  public page = 1;
 
   @IsOptional()
   @IsInt()
   @IsPositive()
-  public pageSize?: number;
+  @Max(1000)
+  @Type(() => Number)
+  public pageSize = 100;
 
   @IsOptional()
-  @IsObject()
+  @IsObject({
+    message:
+      'orderBy must have the following format: key_direction(asc or desc)',
+  })
+  @Transform((value) => orderByFromString<T>(value.value))
   orderBy: OrderParam<T>;
 }
 

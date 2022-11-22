@@ -23,9 +23,9 @@ export abstract class PrismaAbstractRepository<T>
     where,
     orderBy,
     page,
-    pageLimit,
+    pageSize,
   }: ListParams<T>): Promise<T[]> {
-    const take = pageLimit ? pageLimit : undefined;
+    const take = pageSize ? pageSize : undefined;
     const skip = page && take ? (page - 1) * take : undefined;
     return await this.prisma.findMany({
       where,
@@ -39,9 +39,9 @@ export abstract class PrismaAbstractRepository<T>
     where,
     orderBy,
     page,
-    pageLimit,
+    pageSize,
   }: ListParams<T>): Promise<number> {
-    const take = pageLimit ? pageLimit : undefined;
+    const take = pageSize ? pageSize : undefined;
     const skip = page && take ? (page - 1) * take : undefined;
     return await this.prisma.count({
       where,

@@ -1,5 +1,4 @@
 import { Body, Controller, Post, Inject, Get, Query } from '@nestjs/common';
-import { QueryFilterToObject } from 'src/utils/dto/QueryFilterToObject';
 import {
   CreateProfessionalDTO,
   FindProfessionalDTO,

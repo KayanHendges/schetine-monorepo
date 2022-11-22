@@ -3,15 +3,14 @@ import {
   IsDate,
   IsEmail,
   IsNotEmpty,
-  IsObject,
   IsOptional,
   IsString,
   IsUUID,
   MaxLength,
   MinLength,
 } from 'class-validator';
-import { QueryFilterToObject } from '../../utils/dto/QueryFilterToObject';
-import { Transform } from 'class-transformer';
+import { Professional } from '../../entities/professional';
+import { PaginationAndSortDTO } from '../../utils/dto/global.dto';
 
 export class CreateProfessionalDTO {
   @IsString()
@@ -49,35 +48,33 @@ export class FindProfessionalDTO {
   email: string;
 }
 
-export class ListProfessionalDTO {
+export class ListProfessionalDTO extends PaginationAndSortDTO<Professional> {
   @IsString()
   @IsNotEmpty()
   @IsOptional()
-  @Transform((opa) => QueryFilterToObject(opa.value, 'string'))
   id: string;
 
+  @IsString()
   @IsNotEmpty()
   @IsOptional()
-  @Transform((opa) => QueryFilterToObject(opa.value, 'string'))
   name: string;
 
   @IsString()
   @IsNotEmpty()
   @IsOptional()
-  @Transform((opa) => QueryFilterToObject(opa.value, 'string'))
   username: string;
 
+  @IsEmail()
   @IsOptional()
-  @Transform((opa) => QueryFilterToObject(opa.value, 'string'))
   email: string;
 
   @IsDate()
   @IsOptional()
-  @Transform((opa) => QueryFilterToObject(opa.value, 'date'))
-  created: string;
+  @Type(() => Date)
+  created: Date;
 
   @IsDate()
   @IsOptional()
-  @Transform((opa) => QueryFilterToObject(opa.value, 'date'))
-  modified: string;
+  @Type(() => Date)
+  modified: Date;
 }

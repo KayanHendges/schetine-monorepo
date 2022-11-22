@@ -34,21 +34,20 @@ export type WhereParams<T> = {
         : never);
 };
 
-interface OrderParam<T> extends Record<keyof T, 'asc' | 'desc'> {}
+type OrderBy = 'asc' | 'desc';
+
+interface OrderParam<T> extends Record<keyof T, OrderBy> {}
 
 interface ListParams<T> {
   where?: WhereParams<T>;
   orderBy?: OrderParam<T>;
   page?: number;
-  pageLimit?: number;
+  pageSize?: number;
 }
 
-interface RepositoryList<T> {
-  count: number;
+interface ResponseList<T> {
   list: T[];
-}
-
-interface ListResponse<T> extends RepositoryList<T> {
+  count: number;
   page: number;
-  pageLimit: number;
+  pageSize: number;
 }

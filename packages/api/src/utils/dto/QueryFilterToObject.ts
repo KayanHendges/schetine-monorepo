@@ -6,7 +6,7 @@ import {
   WhereStringParams,
 } from '../../types';
 
-export function QueryFilterToObject<T>(
+export function queryFilterToObject<T>(
   filter: string,
   type: string,
 ): WhereParams<T> {
