@@ -1,11 +1,22 @@
 import { Professional } from 'src/entities/professional';
 import { ResponseList } from '../../types';
-import { CreateProfessionalDTO, FindProfessionalDTO } from './professional.dto';
+import {
+  CreateProfessionalDTO,
+  FindProfessionalDTO,
+  ListProfessionalDTO,
+  UpdateProfessionalDTO,
+  UpdateProfessionalParam,
+} from './professional.dto';
 
 export interface IProfessionalService {
-  create(professeional: CreateProfessionalDTO): Promise<Professional>;
+  create(professional: CreateProfessionalDTO): Promise<Professional>;
 
   find(params: FindProfessionalDTO): Promise<Professional>;
 
-  list(params: any): Promise<ResponseList<Professional>>;
+  list(params: ListProfessionalDTO): Promise<ResponseList<Professional>>;
+
+  update(
+    uniqueParam: UpdateProfessionalParam,
+    professional: UpdateProfessionalDTO,
+  ): Promise<Professional>;
 }

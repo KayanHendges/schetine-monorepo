@@ -5,6 +5,8 @@ import {
   CreateProfessionalDTO,
   FindProfessionalDTO,
   ListProfessionalDTO,
+  UpdateProfessionalDTO,
+  UpdateProfessionalParam,
 } from './professional.dto';
 import { IProfessionalService } from './professional.service.interface';
 import { Professional } from '../../entities/professional';
@@ -20,12 +22,17 @@ export class ProfessionalService implements IProfessionalService {
     createProfessional: CreateProfessionalDTO,
   ): Promise<Professional> {
     const professional = new Professional(createProfessional);
-    const password = bcrypt.hashSync(createProfessional.password, 8) as string;
-    const createdProfessional = await this.professionalRepository.create({
-      ...professional,
-      password,
-    });
-    delete createdProfessional.password;
+    const passwordHash = bcrypt.hashSync(
+      createProfessional.password,
+      8,
+    ) as string;
+
+    const { password, ...createdProfessional } =
+      await this.professionalRepository.create({
+        ...professional,
+        password: passwordHash,
+      });
+
     return createdProfessional;
   }
 
@@ -57,5 +64,18 @@ export class ProfessionalService implements IProfessionalService {
     );
 
     return { page, pageSize, list, count };
+  }
+
+  async update(
+    where: UpdateProfessionalParam,
+    professional: UpdateProfessionalDTO,
+  ): Promise<Professional> {
+    professional;
+    const { password, ...updated } = await this.professionalRepository.update(
+      where,
+      professional,
+    );
+
+    return updated;
   }
 }

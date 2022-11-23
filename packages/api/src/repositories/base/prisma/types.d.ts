@@ -1,3 +1,5 @@
+import { WhereParams } from '../../../types';
+
 interface FindUniqueParams<T> {
   where: Partial<T>;
 }
@@ -9,6 +11,11 @@ interface FindManyParams<T> {
   take?: number;
 }
 
+interface UpdateOneParams<T> {
+  where: WhereParams<T>;
+  data: Partial<T>;
+}
+
 export interface PrismaGenericService<Entity> {
   create({ data: T }): Promise<Entity>;
 
@@ -17,4 +24,6 @@ export interface PrismaGenericService<Entity> {
   findMany(params: FindManyParams<Entity>): Promise<Entity[]>;
 
   count(params: FindManyParams<Entity>): Promise<number>;
+
+  update(params: UpdateOneParams<Entity>): Promise<Entity>;
 }

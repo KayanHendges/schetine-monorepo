@@ -78,3 +78,25 @@ export class ListProfessionalDTO extends PaginationAndSortDTO<Professional> {
   @Type(() => Date)
   modified: Date;
 }
+
+export class UpdateProfessionalParam {
+  @IsString()
+  @IsNotEmpty()
+  id: string;
+}
+
+export class UpdateProfessionalDTO {
+  @IsString()
+  @IsNotEmpty()
+  @IsOptional()
+  name: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @IsOptional()
+  username: string;
+
+  @IsEmail()
+  @IsOptional()
+  email: string;
+}
