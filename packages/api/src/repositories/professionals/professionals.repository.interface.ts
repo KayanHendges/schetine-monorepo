@@ -11,7 +11,5 @@ interface IFindUniqueParams {
 }
 
 export interface IProfessionalRepository extends IBaseRepository<Professional> {
-  create(data: CreateProfessionalData): Promise<Professional>;
-
   find(unique: IFindUniqueParams): Promise<Professional | null>;
 }

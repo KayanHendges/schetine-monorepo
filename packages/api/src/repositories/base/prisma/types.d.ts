@@ -1,5 +1,9 @@
 import { WhereParams } from '../../../types';
 
+interface CreateParams<T> {
+  data: Omit<T, 'modified' | 'created'>;
+}
+
 interface UniqueParams<T> {
   where: Partial<T>;
 }
@@ -17,7 +21,7 @@ interface UpdateOneParams<T> {
 }
 
 export interface PrismaGenericService<Entity> {
-  create({ data: T }): Promise<Entity>;
+  create(payload: CreateParams<Entity>): Promise<Entity>;
 
   findUnique(param: UniqueParams<Entity>): Promise<Entity | null>;
 

@@ -44,6 +44,14 @@ export class HttpExceptionFilter implements ExceptionFilter {
       )} already exists`;
     }
 
+    if (exceptionObj?.code === 'P2003') {
+      const field_name = exceptionObj?.meta?.field_name;
+      status = 400;
+      message = `${
+        field_name || 'unknown'
+      } field does not exist or is not valid`;
+    }
+
     if (exceptionObj?.code === 'P2025') {
       status = 404;
       message = exceptionObj?.meta?.cause || 'not found';

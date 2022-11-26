@@ -1,7 +1,7 @@
 import { ListParams } from '../../types';
 
 export interface IBaseRepository<Entity> {
-  create(data: Entity): Promise<Entity>;
+  create(data: Omit<Entity, 'modified' | 'created'>): Promise<Entity>;
 
   find(param: Partial<Entity>): Promise<Entity | null>;
 

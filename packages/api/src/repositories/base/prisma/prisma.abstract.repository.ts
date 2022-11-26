@@ -11,7 +11,7 @@ export abstract class PrismaAbstractRepository<T>
     this.prisma = prismaServiceRepository;
   }
 
-  public async create(data: T): Promise<T> {
+  public async create(data: Omit<T, 'modified' | 'created'>): Promise<T> {
     return this.prisma.create({ data });
   }
 

@@ -86,7 +86,6 @@ export class ProfessionalService implements IProfessionalService {
   }
 
   async delete(where: DeleteProfessionalParam): Promise<Professional> {
-    console.log(where);
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { password, ...deleted } = await this.professionalRepository.delete(
       where,
