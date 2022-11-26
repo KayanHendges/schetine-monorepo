@@ -2,6 +2,7 @@ import { Professional } from 'src/entities/professional';
 import { ResponseList } from '../../types';
 import {
   CreateProfessionalDTO,
+  DeleteProfessionalParam,
   FindProfessionalDTO,
   ListProfessionalDTO,
   UpdateProfessionalDTO,
@@ -19,4 +20,6 @@ export interface IProfessionalService {
     uniqueParam: UpdateProfessionalParam,
     professional: UpdateProfessionalDTO,
   ): Promise<Professional>;
+
+  delete(params: DeleteProfessionalParam): Promise<Professional>;
 }

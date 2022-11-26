@@ -31,6 +31,11 @@ export class HttpExceptionFilter implements ExceptionFilter {
 
     const exceptionObj = JSON.parse(JSON.stringify(exception));
 
+    if (exception?.message.includes('not found')) {
+      status = 404;
+      message = exception.message;
+    }
+
     if (exceptionObj?.code === 'P2002') {
       const targets = exceptionObj?.meta?.target;
       status = 400;
@@ -39,9 +44,9 @@ export class HttpExceptionFilter implements ExceptionFilter {
       )} already exists`;
     }
 
-    if (exception?.message.includes('not found')) {
+    if (exceptionObj?.code === 'P2025') {
       status = 404;
-      message = exception.message;
+      message = exceptionObj?.meta?.cause || 'not found';
     }
 
     response.status(status).json({

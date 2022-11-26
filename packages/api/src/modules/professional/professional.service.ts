@@ -3,6 +3,7 @@ import { Injectable, Inject } from '@nestjs/common';
 import { IProfessionalRepository } from 'src/repositories/professionals/professionals.repository.interface';
 import {
   CreateProfessionalDTO,
+  DeleteProfessionalParam,
   FindProfessionalDTO,
   ListProfessionalDTO,
   UpdateProfessionalDTO,
@@ -27,6 +28,7 @@ export class ProfessionalService implements IProfessionalService {
       8,
     ) as string;
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { password, ...createdProfessional } =
       await this.professionalRepository.create({
         ...professional,
@@ -37,11 +39,13 @@ export class ProfessionalService implements IProfessionalService {
   }
 
   async find(param: FindProfessionalDTO): Promise<Professional> {
-    const professional = await this.professionalRepository.find(param);
+    const professionalFound = await this.professionalRepository.find(param);
 
-    if (!professional) {
+    if (!professionalFound) {
       throw new Error(`professional not found`);
     }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { password, ...professional } = professionalFound;
 
     return professional;
   }
@@ -58,6 +62,7 @@ export class ProfessionalService implements IProfessionalService {
     const count = await this.professionalRepository.count(repositoryParams);
     const list = (await this.professionalRepository.list(repositoryParams)).map(
       (value) => {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { password, ...professional } = value;
         return professional;
       },
@@ -71,11 +76,22 @@ export class ProfessionalService implements IProfessionalService {
     professional: UpdateProfessionalDTO,
   ): Promise<Professional> {
     professional;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { password, ...updated } = await this.professionalRepository.update(
       where,
       professional,
     );
 
     return updated;
+  }
+
+  async delete(where: DeleteProfessionalParam): Promise<Professional> {
+    console.log(where);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { password, ...deleted } = await this.professionalRepository.delete(
+      where,
+    );
+
+    return deleted;
   }
 }

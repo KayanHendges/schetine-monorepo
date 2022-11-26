@@ -7,9 +7,11 @@ import {
   Query,
   Param,
   Patch,
+  Delete,
 } from '@nestjs/common';
 import {
   CreateProfessionalDTO,
+  DeleteProfessionalParam,
   FindProfessionalDTO,
   ListProfessionalDTO,
   UpdateProfessionalDTO,
@@ -41,9 +43,14 @@ export class ProfessionalController {
 
   @Patch(':id')
   async update(
-    @Param() id: UpdateProfessionalParam,
+    @Param() param: UpdateProfessionalParam,
     @Body() professional: UpdateProfessionalDTO,
   ) {
-    return this.professionalService.update(id, professional);
+    return this.professionalService.update(param, professional);
+  }
+
+  @Delete(':id')
+  async delete(@Param() param: DeleteProfessionalParam) {
+    return this.professionalService.delete(param);
   }
 }

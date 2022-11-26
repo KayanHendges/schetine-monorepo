@@ -54,4 +54,8 @@ export abstract class PrismaAbstractRepository<T>
   public update(where: Partial<T>, data: Partial<T>): Promise<T> {
     return this.prisma.update({ where, data });
   }
+
+  public delete(where: Partial<T>): Promise<T> {
+    return this.prisma.delete({ where });
+  }
 }
