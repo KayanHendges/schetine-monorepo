@@ -20,8 +20,8 @@ async function bootstrap() {
       transformOptions: { enableImplicitConversion: true },
     }),
   );
-  await app.listen(process.env.SERVER_PORT, () => {
-    Logger.log('listening at ' + process.env.SERVER_PORT);
+  await app.listen(process.env.SERVER_PORT || 3333, () => {
+    Logger.log('listening at ' + process.env.SERVER_PORT || 3333);
   });
 }
 bootstrap();
