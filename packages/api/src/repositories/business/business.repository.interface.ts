@@ -1,4 +1,4 @@
-import { Business } from '@prisma/client';
+import { Business, BusinessProfessional } from '@prisma/client';
 import { IBaseRepository } from '../base/base.interface.repository';
 
 interface BusinessRepository
@@ -17,4 +17,14 @@ interface IFindUniqueParams {
 export interface IBusinessRepository
   extends IBaseRepository<BusinessRepository> {
   find(unique: IFindUniqueParams): Promise<BusinessRepository | null>;
+
+  associateProfessional(
+    businessId: string,
+    professionalId: string,
+  ): Promise<BusinessProfessional>;
+
+  diassociateProfessional(
+    businessId: string,
+    professionalId: string,
+  ): Promise<void>;
 }
