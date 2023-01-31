@@ -1,19 +1,13 @@
 import { Type } from 'class-transformer';
 import {
   IsDate,
-  IsEmail,
   IsNotEmpty,
   IsOptional,
   IsString,
   IsUUID,
-  Matches,
-  MaxLength,
-  MinLength,
 } from 'class-validator';
 import { Business } from '../../entities/business';
 import { PaginationAndSortDTO } from '../../utils/dto/global.dto';
-
-const usernameRegex = /^(?=[a-z0-9._]{8,20}$)(?!.*[_.]{2})[^_.].*[^_.]$/g;
 
 export class CreateBusinessDTO {
   @IsString()
@@ -78,4 +72,24 @@ export class DeleteBusinessParam {
   @IsString()
   @IsNotEmpty()
   id: string;
+}
+
+export class AssociateProfessional {
+  @IsString()
+  @IsNotEmpty()
+  businessId: string;
+
+  @IsString()
+  @IsNotEmpty()
+  professionalId: string;
+}
+
+export class DisassociateProfessional {
+  @IsString()
+  @IsNotEmpty()
+  businessId: string;
+
+  @IsString()
+  @IsNotEmpty()
+  professionalId: string;
 }

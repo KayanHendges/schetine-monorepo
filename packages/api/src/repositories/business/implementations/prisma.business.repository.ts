@@ -30,8 +30,8 @@ export class PrismaBusinessRepository
   async diassociateProfessional(
     businessId: string,
     professionalId: string,
-  ): Promise<void> {
-    await this._prisma.businessProfessional.deleteMany({
+  ): Promise<{ count: number }> {
+    return this._prisma.businessProfessional.deleteMany({
       where: {
         businessId,
         professionalId,

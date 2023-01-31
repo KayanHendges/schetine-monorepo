@@ -10,8 +10,10 @@ import {
   Delete,
 } from '@nestjs/common';
 import {
+  AssociateProfessional,
   CreateBusinessDTO,
   DeleteBusinessParam,
+  DisassociateProfessional,
   FindBusinessDTO,
   ListBusinessDTO,
   UpdateBusinessDTO,
@@ -29,6 +31,11 @@ export class BusinessController {
   @Post()
   async create(@Body() body: CreateBusinessDTO) {
     return this.businessService.create(body);
+  }
+
+  @Post(':businessId/associate/professional/:professionalId')
+  async associateProfessional(@Param() params: AssociateProfessional) {
+    return this.businessService.associateProfessional(params);
   }
 
   @Get()
@@ -52,5 +59,10 @@ export class BusinessController {
   @Delete(':id')
   async delete(@Param() param: DeleteBusinessParam) {
     return this.businessService.delete(param);
+  }
+
+  @Delete(':businessId/associate/professional/:professionalId')
+  async disassociateProfessional(@Param() params: DisassociateProfessional) {
+    return this.businessService.disassociateProfessional(params);
   }
 }

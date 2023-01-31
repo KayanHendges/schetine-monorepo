@@ -1,8 +1,10 @@
 import { Business } from 'src/entities/business';
 import { ResponseList } from '../../types';
 import {
+  AssociateProfessional,
   CreateBusinessDTO,
   DeleteBusinessParam,
+  DisassociateProfessional,
   FindBusinessDTO,
   ListBusinessDTO,
   UpdateBusinessDTO,
@@ -22,4 +24,12 @@ export interface IBusinessService {
   ): Promise<Business>;
 
   delete(params: DeleteBusinessParam): Promise<Business>;
+
+  associateProfessional(
+    params: AssociateProfessional,
+  ): Promise<{ associateId: string }>;
+
+  disassociateProfessional(
+    params: DisassociateProfessional,
+  ): Promise<{ message: string }>;
 }

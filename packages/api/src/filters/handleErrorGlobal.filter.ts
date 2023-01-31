@@ -45,11 +45,23 @@ export class HttpExceptionFilter implements ExceptionFilter {
     }
 
     if (exceptionObj?.code === 'P2003') {
-      const field_name = exceptionObj?.meta?.field_name;
+      let field_name = exceptionObj?.meta?.field_name;
       status = 400;
+
+      if (
+        typeof field_name === 'string' &&
+        field_name.match(/^business_professionals_+([\w]+_)+fkey \(index\)$/g)
+      ) {
+        field_name = field_name.replace(
+          /business_professionals_|_id_fkey \(index\)/g,
+          '',
+        );
+        status = 404;
+      }
+
       message = `${
         field_name || 'unknown'
-      } field does not exist or is not valid`;
+      } field does not exist or is not valid.`;
     }
 
     if (exceptionObj?.code === 'P2025') {

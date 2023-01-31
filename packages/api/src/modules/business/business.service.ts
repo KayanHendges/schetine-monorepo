@@ -1,8 +1,10 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { IBusinessRepository } from '../../repositories/business/business.repository.interface';
 import {
+  AssociateProfessional,
   CreateBusinessDTO,
   DeleteBusinessParam,
+  DisassociateProfessional,
   FindBusinessDTO,
   ListBusinessDTO,
   UpdateBusinessDTO,
@@ -58,5 +60,34 @@ export class BusinessService implements IBusinessService {
 
   async delete(where: DeleteBusinessParam): Promise<Business> {
     return await this.businessRepository.delete(where);
+  }
+
+  async associateProfessional({
+    businessId,
+    professionalId,
+  }: AssociateProfessional): Promise<{ associateId: string }> {
+    const { id } = await this.businessRepository.associateProfessional(
+      businessId,
+      professionalId,
+    );
+
+    return { associateId: id };
+  }
+
+  async disassociateProfessional({
+    businessId,
+    professionalId,
+  }: DisassociateProfessional): Promise<{ message: string }> {
+    const { count } = await this.businessRepository.diassociateProfessional(
+      businessId,
+      professionalId,
+    );
+
+    if (!count)
+      throw new Error(
+        'Association between this business and professional not found',
+      );
+
+    return { message: 'Association removed with success.' };
   }
 }

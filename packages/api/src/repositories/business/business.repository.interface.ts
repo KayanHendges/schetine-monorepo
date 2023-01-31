@@ -26,5 +26,5 @@ export interface IBusinessRepository
   diassociateProfessional(
     businessId: string,
     professionalId: string,
-  ): Promise<void>;
+  ): Promise<{ count: number }>;
 }
