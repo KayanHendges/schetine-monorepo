@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { ProfessionalService } from './professional.service';
-import { ProfessionalController } from './professional.controller';
+import { ClientService } from './client.service';
+import { ClientlController } from './client.controller';
 import { PrismaService } from '../../providers/db/prisma.service';
 import { RepositoryModule } from '../../repositories/repository.module';
 @Module({
@@ -11,10 +11,10 @@ import { RepositoryModule } from '../../repositories/repository.module';
       useClass: PrismaService,
     },
     {
-      provide: 'IProfessionalService',
-      useClass: ProfessionalService,
+      provide: 'IClientService',
+      useClass: ClientService,
     },
   ],
-  controllers: [ProfessionalController],
+  controllers: [ClientlController],
 })
-export class ProfessionalModule {}
+export class ClientModule {}

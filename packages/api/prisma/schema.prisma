@@ -34,6 +34,7 @@ model Business {
   businessProfessional BusinessProfessional[]
   modified             DateTime               @updatedAt
   created              DateTime               @default(now())
+  Client               Client[]
 
   @@map("business")
 }
@@ -51,11 +52,13 @@ model BusinessProfessional {
 model Client {
   id          String        @unique @default(uuid())
   name        String
+  businessId  String        @map("business_id")
+  business    Business      @relation(fields: [businessId], references: [id])
   phone       String?
   cpf         String?
   birth       DateTime?
   email       String?
-  comment     String
+  comment     String?
   Appointment Appointment[]
   modified    DateTime      @updatedAt
   created     DateTime      @default(now())
