@@ -1,6 +1,6 @@
 version: '3'
 services:
-  db: 
+  db:
     container_name: postgres_database
     image: postgres:14.3-alpine
     restart: always
@@ -9,9 +9,22 @@ services:
       POSTGRES_DB: schetine
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-    ports: 
+    ports:
       - 5432:5432
-    volumes: 
+    volumes:
       - ./data/postgres:/var/lib/postgresql/data
-    networks: 
+    networks:
       - default
+  mongodb:
+    image: prismagraphql/mongo-single-replica:4.4.3-bionic
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+      MONGO_INITDB_DATABASE: ${MONGO_DB}
+      INIT_WAIT_SEC: 3
+    ports:
+      - 27017:27017
+
+networks:
+  mongo-network:
+    driver: bridge

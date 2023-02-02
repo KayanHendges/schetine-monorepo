@@ -1827,6 +1827,11 @@
     tslib "2.4.0"
     uuid "9.0.0"
 
+"@nestjs/mongoose@^9.2.1":
+  version "9.2.1"
+  resolved "https://registry.yarnpkg.com/@nestjs/mongoose/-/mongoose-9.2.1.tgz#b880feb7ce52a081e81374ddf3c3ed0eff1224f4"
+  integrity sha512-tMK5kKFjQnNVhqJDw1wa352z+VsODOFznTn74xSzrziof03qS+O6rLU4q1kMx0B4AmFbADf03GOdpvBc9bMWqw==
+
 "@nestjs/platform-express@^9.0.0":
   version "9.1.2"
   resolved "https://registry.npmjs.org/@nestjs/platform-express/-/platform-express-9.1.2.tgz"
