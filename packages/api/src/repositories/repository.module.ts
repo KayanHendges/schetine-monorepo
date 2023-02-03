@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { PrismaService } from '../providers/db/prisma.service';
+import { PrismaService } from '../providers/db/prisma/prisma.service';
 import { PrismaBusinessRepository } from './business/implementations/prisma.business.repository';
 import { PrismaClientsRepository } from './clients/implementations/prisma.clients.repository';
 import { PrismaProfessionalsRepository } from './professionals/implementations/prisma.professionals.repository';
