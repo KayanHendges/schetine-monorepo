@@ -67,10 +67,17 @@ export class ClientService implements IAppointmentService {
     return await this.appointmentRepository.create(appointment);
   }
 
-  async find({ id }: FindAppointmentDTO): Promise<Appointment> {
+  async find(
+    professionalId: string,
+    { id }: FindAppointmentDTO,
+  ): Promise<Appointment> {
     const appointment = await this.appointmentRepository.find(id);
 
     if (!appointment) throw new Error(`Appointment not found`);
+    if (appointment.professionalId !== professionalId)
+      throw new Error(
+        "Permission denied. You aren't assigned to this appointment.",
+      );
 
     return appointment;
   }

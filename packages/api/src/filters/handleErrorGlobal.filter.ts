@@ -36,6 +36,11 @@ export class HttpExceptionFilter implements ExceptionFilter {
       message = exception.message;
     }
 
+    if (exception?.message.includes('Permission denied')) {
+      status = 403;
+      message = exception.message;
+    }
+
     if (exceptionObj?.code === 'P2002') {
       const targets = exceptionObj?.meta?.target;
       status = 400;
