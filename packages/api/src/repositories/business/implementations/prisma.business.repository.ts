@@ -2,7 +2,10 @@ import { Injectable, Inject } from '@nestjs/common';
 import { Business, BusinessProfessional } from '@prisma/client';
 import { PrismaService } from '../../../providers/db/prisma/prisma.service';
 import { PrismaAbstractRepository } from '../../base/prisma/prisma.abstract.repository';
-import { IBusinessRepository } from '../business.repository.interface';
+import {
+  IBusinessRepository,
+  IListProfessionalAssociations,
+} from '../business.repository.interface';
 
 @Injectable()
 export class PrismaBusinessRepository
@@ -15,6 +18,13 @@ export class PrismaBusinessRepository
     super(prisma.business);
     this._prisma = prisma;
   }
+
+  async listProfessionalAssociations(
+    params: IListProfessionalAssociations,
+  ): Promise<BusinessProfessional[]> {
+    return this._prisma.businessProfessional.findMany({ where: params });
+  }
+
   async associateProfessional(
     businessId: string,
     professionalId: string,

@@ -17,7 +17,6 @@ model Professional {
   email                String                 @unique
   password             String
   businessProfessional BusinessProfessional[]
-  appointments         Appointment[]
   business             Business[]
   modified             DateTime               @updatedAt
   created              DateTime               @default(now())
@@ -30,7 +29,6 @@ model Business {
   name                 String
   ownerId              String                 @map("owner_id")
   onwer                Professional           @relation(fields: [ownerId], references: [id])
-  appointments         Appointment[]
   businessProfessional BusinessProfessional[]
   modified             DateTime               @updatedAt
   created              DateTime               @default(now())
@@ -50,37 +48,17 @@ model BusinessProfessional {
 }
 
 model Client {
-  id          String        @unique @default(uuid())
-  name        String
-  businessId  String        @map("business_id")
-  business    Business      @relation(fields: [businessId], references: [id])
-  phone       String?
-  cpf         String?
-  birth       DateTime?
-  email       String?
-  comment     String?
-  Appointment Appointment[]
-  modified    DateTime      @updatedAt
-  created     DateTime      @default(now())
+  id         String    @unique @default(uuid())
+  name       String
+  businessId String    @map("business_id")
+  business   Business  @relation(fields: [businessId], references: [id])
+  phone      String?
+  cpf        String?
+  birth      DateTime?
+  email      String?
+  comment    String?
+  modified   DateTime  @updatedAt
+  created    DateTime  @default(now())
 
   @@map("clients")
-}
-
-model Appointment {
-  id             String       @unique @default(uuid())
-  number         Int
-  businessId     String       @map("business_id")
-  business       Business     @relation(fields: [businessId], references: [id])
-  professionalId String       @map("professional_id")
-  professional   Professional @relation(fields: [professionalId], references: [id])
-  clientId       String       @map("client_id")
-  client         Client       @relation(fields: [clientId], references: [id])
-  price          Float        @default(0)
-  start          DateTime
-  end            DateTime
-  duration       Int
-  modified       DateTime     @updatedAt
-  created        DateTime     @default(now())
-
-  @@map("appointments")
 }

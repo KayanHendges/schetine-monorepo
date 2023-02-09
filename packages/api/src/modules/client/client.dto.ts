@@ -29,6 +29,7 @@ export class CreateClientDTO {
 
   @IsDate()
   @IsOptional()
+  @Type(() => Date)
   birth: Date | null = null;
 
   @IsString()
@@ -57,17 +58,17 @@ export class ListClientDTO extends PaginationAndSortDTO<Client> {
   @IsString()
   @IsNotEmpty()
   @IsOptional()
-  id: string;
+  id?: string;
 
   @IsString()
   @IsNotEmpty()
   @IsOptional()
-  name: string;
+  name?: string;
 
   @IsString()
   @IsNotEmpty()
   @IsOptional()
-  businessId: string;
+  businessId?: string;
 
   @IsPhoneNumber('BR')
   @IsString()
@@ -91,12 +92,12 @@ export class ListClientDTO extends PaginationAndSortDTO<Client> {
   @IsDate()
   @IsOptional()
   @Type(() => Date)
-  created: Date;
+  created?: Date;
 
   @IsDate()
   @IsOptional()
   @Type(() => Date)
-  modified: Date;
+  modified?: Date;
 }
 
 export class UpdateClientParam {
