@@ -10,7 +10,7 @@ import {
   UpdateBusinessDTO,
   UpdateBusinessParam,
 } from './business.dto';
-import { IBusinessService } from './business.service.interface';
+import { IBusinessService, OwnerId } from './business.service.interface';
 import { Business } from '../../entities/business';
 import { ResponseList } from '../../types';
 
@@ -20,9 +20,19 @@ export class BusinessService implements IBusinessService {
     @Inject('IBusinessRepository')
     private readonly businessRepository: IBusinessRepository,
   ) {}
-  async create(createBusiness: CreateBusinessDTO): Promise<Business> {
-    const business = new Business(createBusiness);
-    return await this.businessRepository.create(business);
+  async create(
+    ownerId: OwnerId,
+    createBusiness: CreateBusinessDTO,
+  ): Promise<Business> {
+    const business = new Business({ ...createBusiness, ownerId });
+    const createdBusiness = await this.businessRepository.create(business);
+
+    await this.businessRepository.associateProfessional(
+      createdBusiness.id,
+      ownerId,
+    );
+
+    return createdBusiness;
   }
 
   async find(param: FindBusinessDTO): Promise<Business> {
@@ -51,21 +61,34 @@ export class BusinessService implements IBusinessService {
   }
 
   async update(
+    ownerId: OwnerId,
     where: UpdateBusinessParam,
     business: UpdateBusinessDTO,
   ): Promise<Business> {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    return await this.businessRepository.update(where, business);
+    return await this.businessRepository.update(
+      { ...where, ownerId },
+      business,
+    );
   }
 
-  async delete(where: DeleteBusinessParam): Promise<Business> {
+  async delete(
+    ownerId: OwnerId,
+    where: DeleteBusinessParam,
+  ): Promise<Business> {
+    const business = await this.businessRepository.find(where);
+
+    if (!business) throw Error('Bussiness not found');
+    if (business.ownerId !== ownerId)
+      throw Error("Permission denied. You aren't the owner of this business");
+
     return await this.businessRepository.delete(where);
   }
 
-  async associateProfessional({
-    businessId,
-    professionalId,
-  }: AssociateProfessional): Promise<{ associateId: string }> {
+  async associateProfessional(
+    ownerId: OwnerId,
+    { businessId, professionalId }: AssociateProfessional,
+  ): Promise<{ associateId: string }> {
     const { id } = await this.businessRepository.associateProfessional(
       businessId,
       professionalId,
@@ -74,10 +97,10 @@ export class BusinessService implements IBusinessService {
     return { associateId: id };
   }
 
-  async disassociateProfessional({
-    businessId,
-    professionalId,
-  }: DisassociateProfessional): Promise<{ message: string }> {
+  async disassociateProfessional(
+    ownerId: OwnerId,
+    { businessId, professionalId }: DisassociateProfessional,
+  ): Promise<{ message: string }> {
     const { count } = await this.businessRepository.diassociateProfessional(
       businessId,
       professionalId,

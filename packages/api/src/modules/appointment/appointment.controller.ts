@@ -10,47 +10,58 @@ import {
   Delete,
 } from '@nestjs/common';
 import {
-  CreateClientDTO,
-  DeleteClientParam,
-  FindClientDTO,
-  ListClientDTO,
-  UpdateClientDTO,
-  UpdateClientParam,
+  CurrentProfessional,
+  CurrentProfessionalPayload,
+} from '../../decorators/current.professional.decorator';
+import {
+  CreateAppointmentDTO,
+  DeleteAppointmentParam,
+  FindAppointmentDTO,
+  ListAppointmentDTO,
+  UpdateAppointmentDTO,
+  UpdateAppointmentParam,
 } from './appointment.dto';
-import { IClientService } from './appointment.service.interface';
+import { IAppointmentService } from './appointment.service.interface';
 
-@Controller('client')
-export class ClientlController {
+@Controller('appointments')
+export class AppointmentController {
   constructor(
-    @Inject('IClientService')
-    private readonly clientService: IClientService,
+    @Inject('IAppointmentService')
+    private readonly appointmentService: IAppointmentService,
   ) {}
 
   @Post()
-  async create(@Body() body: CreateClientDTO) {
-    return this.clientService.create(body);
+  async create(
+    @CurrentProfessional() professional: CurrentProfessionalPayload,
+    @Body() body: CreateAppointmentDTO,
+  ) {
+    return this.appointmentService.create(professional.id, body);
+  }
+
+  @Get(':id')
+  async find(@Param() params: FindAppointmentDTO) {
+    return this.appointmentService.find(params);
   }
 
   @Get()
-  async find(@Query() params: FindClientDTO) {
-    return this.clientService.find(params);
-  }
-
-  @Get('list')
-  async list(@Query() params: ListClientDTO) {
-    return this.clientService.list(params);
+  async list(@Query() params: ListAppointmentDTO) {
+    return this.appointmentService.list(params);
   }
 
   @Patch(':id')
   async update(
-    @Param() param: UpdateClientParam,
-    @Body() client: UpdateClientDTO,
+    @CurrentProfessional() professional: CurrentProfessionalPayload,
+    @Param() param: UpdateAppointmentParam,
+    @Body() client: UpdateAppointmentDTO,
   ) {
-    return this.clientService.update(param, client);
+    return this.appointmentService.update(professional.id, param, client);
   }
 
   @Delete(':id')
-  async delete(@Param() param: DeleteClientParam) {
-    return this.clientService.delete(param);
+  async delete(
+    @CurrentProfessional() professional: CurrentProfessionalPayload,
+    @Param() param: DeleteAppointmentParam,
+  ) {
+    return this.appointmentService.delete(professional.id, param);
   }
 }

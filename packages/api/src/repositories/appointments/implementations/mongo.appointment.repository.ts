@@ -1,5 +1,5 @@
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, SortOrder } from 'mongoose';
+import mongoose, { Model, SortOrder } from 'mongoose';
 import {
   Appointment,
   AppointmentDocument,
@@ -13,6 +13,7 @@ import {
 } from '../appointment.repository.interface';
 
 interface MongoAppointment extends Appointment {
+  __v: any;
   _id: string;
 }
 
@@ -24,9 +25,17 @@ export class MongoAppointmentRepository implements IAppointmentRepository {
     @InjectModel(Appointment.name)
     private appointmentModel: Model<AppointmentDocument>,
   ) {
-    this.mapAppointment = ({ _id, ...appointment }: MongoAppointment) => {
+    this.mapAppointment = ({
+      _id,
+      ...appointment
+    }: MongoAppointment): AppointmentRepository => {
+      delete appointment.__v;
       return { ...appointment, id: _id };
     };
+  }
+
+  async generateId(): Promise<string> {
+    return new mongoose.Types.ObjectId().toString();
   }
 
   async create({
@@ -38,11 +47,16 @@ export class MongoAppointmentRepository implements IAppointmentRepository {
       _id: id,
     });
 
-    return this.mapAppointment(createdAppointment);
+    return this.mapAppointment(createdAppointment.toObject());
   }
 
-  async find(appointmentId: string): Promise<AppointmentRepository> {
-    const appointment = await this.appointmentModel.findById(appointmentId);
+  async find(appointmentId: string): Promise<AppointmentRepository | null> {
+    const appointment = await this.appointmentModel
+      .findById(appointmentId)
+      .lean();
+
+    if (!appointment) return null;
+
     return this.mapAppointment(appointment);
   }
 
@@ -55,7 +69,7 @@ export class MongoAppointmentRepository implements IAppointmentRepository {
   }: ListParams<AppointmentRepository>): Promise<AppointmentRepository[]> {
     const sort: Partial<Record<keyof AppointmentRepository, SortOrder>> = {};
 
-    Object.entries(orderBy).forEach(([key, value]) => {
+    Object.entries(orderBy || {}).forEach(([key, value]) => {
       const sortKey = key === 'id' ? '_id' : key;
       if (value === 'asc') sort[sortKey] = 1;
       if (value === 'desc') sort[sortKey] = -1;
@@ -67,6 +81,7 @@ export class MongoAppointmentRepository implements IAppointmentRepository {
         ...(pageSize && page ? { skip: (page - 1) * pageSize } : {}),
       })
       .sort(sort)
+      .lean()
       .exec()) as Appointment[];
 
     return appointments.map(this.mapAppointment);
@@ -80,13 +95,20 @@ export class MongoAppointmentRepository implements IAppointmentRepository {
     appointmentId: string,
     appointment: UpdateAppointmentPayload,
   ): Promise<AppointmentRepository> {
-    return await this.appointmentModel.findByIdAndUpdate(
+    const updatedAppointment = await this.appointmentModel.findByIdAndUpdate(
       appointmentId,
       appointment,
+      { new: true },
     );
+
+    return this.mapAppointment(updatedAppointment.toObject());
   }
 
   async delete(appointmentId: any): Promise<AppointmentRepository> {
-    return this.appointmentModel.findByIdAndDelete(appointmentId);
+    const deleted = await this.appointmentModel.findByIdAndDelete(
+      appointmentId,
+    );
+
+    return this.mapAppointment(deleted.toObject());
   }
 }

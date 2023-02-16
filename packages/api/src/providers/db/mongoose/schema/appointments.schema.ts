@@ -61,13 +61,13 @@ export class Appointment {
 
   @Prop({
     type: mongooseDate,
-    required: true,
+    required: false,
   })
   modified: Date;
 
   @Prop({
     type: mongooseDate,
-    required: true,
+    required: false,
   })
   created: Date;
 }

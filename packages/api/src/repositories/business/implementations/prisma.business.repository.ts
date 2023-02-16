@@ -3,7 +3,9 @@ import { Business, BusinessProfessional } from '@prisma/client';
 import { PrismaService } from '../../../providers/db/prisma/prisma.service';
 import { PrismaAbstractRepository } from '../../base/prisma/prisma.abstract.repository';
 import {
+  BusinessRepository,
   IBusinessRepository,
+  IDeleteBusinessParams,
   IListProfessionalAssociations,
 } from '../business.repository.interface';
 
@@ -17,6 +19,18 @@ export class PrismaBusinessRepository
   constructor(@Inject('PrismaService') prisma: PrismaService) {
     super(prisma.business);
     this._prisma = prisma;
+  }
+
+  async delete(where: IDeleteBusinessParams): Promise<BusinessRepository> {
+    await this._prisma.businessProfessional.deleteMany({
+      where: { businessId: where.id },
+    });
+
+    await this._prisma.client.deleteMany({
+      where: { businessId: where.id },
+    });
+
+    return this._prisma.business.delete({ where });
   }
 
   async listProfessionalAssociations(

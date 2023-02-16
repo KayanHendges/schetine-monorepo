@@ -9,7 +9,6 @@ import {
 } from './appointment.dto';
 import { IAppointmentService } from './appointment.service.interface';
 import { ResponseList } from '../../types';
-import { Client } from '../../entities/client';
 import { IClientRepository } from '../../repositories/clients/clients.repository.interface';
 import { IBusinessRepository } from '../../repositories/business/business.repository.interface';
 import { Appointment } from '../../entities/appointment';
@@ -17,7 +16,7 @@ import { IAppointmentRepository } from '../../repositories/appointments/appointm
 import { IProfessionalRepository } from '../../repositories/professionals/professionals.repository.interface';
 
 @Injectable()
-export class ClientService implements IAppointmentService {
+export class AppointmentService implements IAppointmentService {
   constructor(
     @Inject('IAppointmentRepository')
     private readonly appointmentRepository: IAppointmentRepository,
@@ -32,16 +31,19 @@ export class ClientService implements IAppointmentService {
     professionalId: string,
     dto: CreateAppointmentDTO,
   ): Promise<Appointment> {
-    const associatedBusiness =
+    const getAssociatedBusiness =
       this.businessRepository.listProfessionalAssociations({
         businessId: dto.businessId,
         professionalId,
       });
-    const client = this.clientRepository.find({
+    const getClient = this.clientRepository.find({
       id: dto.clientId,
     });
 
-    await Promise.all([associatedBusiness, client]);
+    const [associatedBusiness, client] = await Promise.all([
+      getAssociatedBusiness,
+      getClient,
+    ]);
 
     if (!associatedBusiness[0])
       throw new Error(
@@ -62,32 +64,22 @@ export class ClientService implements IAppointmentService {
 
     const code = lastAppointment.length ? lastAppointment[0].code + 1 : 1;
 
-    const appointment = new Appointment({ ...dto, professionalId, code });
+    const id = await this.appointmentRepository.generateId();
+    const appointment = new Appointment({ ...dto, professionalId, code, id });
 
     return await this.appointmentRepository.create(appointment);
   }
 
-  async find(
-    professionalId: string,
-    { id }: FindAppointmentDTO,
-  ): Promise<Appointment> {
+  async find({ id }: FindAppointmentDTO): Promise<Appointment> {
     const appointment = await this.appointmentRepository.find(id);
 
     if (!appointment) throw new Error(`Appointment not found`);
-    if (appointment.professionalId !== professionalId)
-      throw new Error(
-        "Permission denied. You aren't assigned to this appointment.",
-      );
 
     return appointment;
   }
 
-  async list(
-    professionalId: string,
-    params: ListAppointmentDTO,
-  ): Promise<ResponseList<Appointment>> {
-    const { page, pageSize, orderBy, ...whereDTO } = params;
-    const where = { ...whereDTO, professionalId };
+  async list(params: ListAppointmentDTO): Promise<ResponseList<Appointment>> {
+    const { page, pageSize, orderBy, ...where } = params;
     const repositoryParams = {
       where,
       page,

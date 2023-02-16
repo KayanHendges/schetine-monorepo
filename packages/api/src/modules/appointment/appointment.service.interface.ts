@@ -15,15 +15,9 @@ export interface IAppointmentService {
     appointment: CreateAppointmentDTO,
   ): Promise<Appointment>;
 
-  find(
-    professionalId: string,
-    params: FindAppointmentDTO,
-  ): Promise<Appointment>;
+  find(params: FindAppointmentDTO): Promise<Appointment>;
 
-  list(
-    professionalId: string,
-    params: ListAppointmentDTO,
-  ): Promise<ResponseList<Appointment>>;
+  list(params: ListAppointmentDTO): Promise<ResponseList<Appointment>>;
 
   update(
     professionalId: string,

@@ -16,6 +16,7 @@ import {
   ListProfessionalDTO,
   UpdateProfessionalDTO,
   UpdateProfessionalParam,
+  usernameRegex,
 } from './professional.dto';
 import { IProfessionalService } from './professional.service.interface';
 
@@ -31,12 +32,14 @@ export class ProfessionalController {
     return this.professionalService.create(body);
   }
 
-  @Get()
-  async find(@Query() params: FindProfessionalDTO) {
-    return this.professionalService.find(params);
+  @Get(':id')
+  async find(@Param() { id }: FindProfessionalDTO) {
+    const param = id.match(usernameRegex) ? { username: id } : { id };
+
+    return this.professionalService.find(param);
   }
 
-  @Get('list')
+  @Get()
   async list(@Query() params: ListProfessionalDTO) {
     return this.professionalService.list(params);
   }

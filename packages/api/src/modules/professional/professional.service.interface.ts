@@ -12,7 +12,11 @@ import {
 export interface IProfessionalService {
   create(professional: CreateProfessionalDTO): Promise<Professional>;
 
-  find(params: FindProfessionalDTO): Promise<Professional>;
+  find(
+    params:
+      | Pick<FindProfessionalDTO, 'id'>
+      | Pick<FindProfessionalDTO, 'username'>,
+  ): Promise<Professional>;
 
   list(params: ListProfessionalDTO): Promise<ResponseList<Professional>>;
 

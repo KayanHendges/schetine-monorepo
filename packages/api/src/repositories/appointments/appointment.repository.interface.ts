@@ -19,9 +19,11 @@ export interface UpdateAppointmentPayload
   extends Partial<AppointmentRepository> {}
 
 export interface IAppointmentRepository {
+  generateId(): Promise<string>;
+
   create(appointment: CreateAppointmentPayload): Promise<AppointmentRepository>;
 
-  find(appointmentId: string): Promise<AppointmentRepository>;
+  find(appointmentId: string): Promise<AppointmentRepository | null>;
 
   list(
     params: ListParams<AppointmentRepository>,

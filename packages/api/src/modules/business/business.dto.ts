@@ -13,10 +13,6 @@ export class CreateBusinessDTO {
   @IsString()
   @IsNotEmpty()
   name: string;
-
-  @IsString()
-  @IsNotEmpty()
-  ownerId: string;
 }
 
 export class FindBusinessDTO {

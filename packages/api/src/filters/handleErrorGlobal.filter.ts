@@ -61,9 +61,9 @@ export class HttpExceptionFilter implements ExceptionFilter {
           /business_professionals_|_id_fkey \(index\)/g,
           '',
         );
-        status = 404;
       }
 
+      status = 404;
       message = `${
         field_name || 'unknown'
       } field does not exist or is not valid.`;

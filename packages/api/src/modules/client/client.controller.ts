@@ -31,12 +31,12 @@ export class ClientlController {
     return this.clientService.create(body);
   }
 
-  @Get()
-  async find(@Query() params: FindClientDTO) {
+  @Get(':id')
+  async find(@Param() params: FindClientDTO) {
     return this.clientService.find(params);
   }
 
-  @Get('list')
+  @Get()
   async list(@Query() params: ListClientDTO) {
     return this.clientService.list(params);
   }

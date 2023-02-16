@@ -5,7 +5,6 @@ import {
   IsNotEmpty,
   IsOptional,
   IsString,
-  IsUUID,
   Matches,
   MaxLength,
   MinLength,
@@ -13,7 +12,8 @@ import {
 import { Professional } from '../../entities/professional';
 import { PaginationAndSortDTO } from '../../utils/dto/global.dto';
 
-const usernameRegex = /^(?=[a-z0-9._]{8,20}$)(?!.*[_.]{2})[^_.].*[^_.]$/g;
+export const usernameRegex =
+  /^(?=[a-z0-9._]{8,20}$)(?!.*[_.]{2})[^_.].*[^_.]$/g;
 
 export class CreateProfessionalDTO {
   @IsString()
@@ -38,7 +38,6 @@ export class CreateProfessionalDTO {
 export class FindProfessionalDTO {
   @IsString()
   @IsNotEmpty()
-  @IsUUID()
   @IsOptional()
   id: string;
 
@@ -46,10 +45,6 @@ export class FindProfessionalDTO {
   @IsNotEmpty()
   @IsOptional()
   username: string;
-
-  @IsEmail()
-  @IsOptional()
-  email: string;
 }
 
 export class ListProfessionalDTO extends PaginationAndSortDTO<Professional> {
@@ -86,7 +81,6 @@ export class ListProfessionalDTO extends PaginationAndSortDTO<Professional> {
 export class UpdateProfessionalParam {
   @IsString()
   @IsNotEmpty()
-  @IsUUID()
   id: string;
 }
 
