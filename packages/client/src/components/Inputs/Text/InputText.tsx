@@ -1,5 +1,6 @@
 import { InputHTMLAttributes, ReactNode } from "react";
 import { Slot } from "@radix-ui/react-slot";
+import { UseFormRegister, UseFormRegisterReturn } from "react-hook-form";
 
 export interface TextInputRootProps {
   children: ReactNode;
@@ -7,7 +8,7 @@ export interface TextInputRootProps {
 
 function TextInputRoot(props: TextInputRootProps) {
   return (
-    <div className="flex items-center gap-3 h-12 py-4 px-3 rounded bg-gray-800 w-full focus-within:ring-2 ring-cyan-300">
+    <div className="group flex items-center gap-3 h-12 py-4 px-3 rounded bg-gray-800 w-full focus-within:ring-2 ring-indigo-400 transition">
       {props.children}
     </div>
   );
@@ -20,19 +21,26 @@ export interface TextInputIconProps {
 }
 
 function TextInputIcon(props: TextInputIconProps) {
-  return <Slot className="w-6 h-6 text-gray-400">{props.children}</Slot>;
+  return (
+    <Slot className="w-6 h-6 text-gray-400 group-focus-within:text-white transition">
+      {props.children}
+    </Slot>
+  );
 }
 
 TextInputIcon.displayName = "TextInput.Icon";
 
 export interface TextInputInputProps
-  extends InputHTMLAttributes<HTMLInputElement> {}
+  extends InputHTMLAttributes<HTMLInputElement> {
+  register?: UseFormRegisterReturn;
+}
 
 function TextInputInput(props: TextInputInputProps) {
   return (
     <input
-      className="bg-transparent flex-1 text-gray-100 text-xs placeholder:text-gray-400 outline-none"
+      className="bg-transparent flex-1 text-white text-xs focus:text-white placeholder:text-gray-500 outline-none"
       {...props}
+      {...(props.register ? { ...props.register } : {})}
     />
   );
 }

@@ -8,7 +8,7 @@
     "packages": ["packages/*"]
   },
   "scripts": {
-    "dev": "concurrently \"yarn workspace schetine-api dev\"",
+    "dev": "concurrently \"yarn workspace schetine-api dev\" \"yarn workspace client dev\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
