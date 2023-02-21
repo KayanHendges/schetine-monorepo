@@ -16,16 +16,27 @@ export class AuthService implements IAuthService {
     email,
     password,
   }: LoginDTO): Promise<LoginResponse> {
-    const professional = await this.professionalRepository.find({
-      email,
-    });
+    try {
+      const professional = await this.professionalRepository.find({
+        email,
+      });
 
-    const passwordMach = bcrypt.compare(professional.password, password);
+      if (!professional) throw new Error('Invalid credentials');
 
-    if (!passwordMach) throw new Error('Invalid credentials');
+      const passwordMach = bcrypt.compare(professional.password, password);
 
-    const accessToken = this.jwtService.sign({ id: professional.id });
+      if (!passwordMach) throw new Error('Invalid credentials');
 
-    return { accessToken };
+      const expiresIn = Number(process.env.JWT_EXPIRES_IN) || 60 * 60 * 24; // 24 hours
+      const accessToken = this.jwtService.sign(
+        { id: professional.id },
+        { expiresIn },
+      );
+
+      return { accessToken, expiresIn };
+    } catch (error) {
+      console.log({ error });
+      throw Error(error);
+    }
   }
 }

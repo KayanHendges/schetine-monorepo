@@ -8,6 +8,8 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { RepositoryModule } from '../../repositories/repository.module';
 
+const expiresIn = Number(process.env.JWT_EXPIRES_IN) || 60 * 60 * 24; // 24 hours
+
 @Module({
   controllers: [AuthController],
   imports: [
@@ -15,7 +17,7 @@ import { RepositoryModule } from '../../repositories/repository.module';
     PassportModule,
     JwtModule.register({
       secret: process.env.JWT_SECRET,
-      signOptions: { expiresIn: '24h' },
+      signOptions: { expiresIn },
     }),
   ],
   providers: [

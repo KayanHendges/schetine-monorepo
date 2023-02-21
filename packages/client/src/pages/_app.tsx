@@ -1,11 +1,14 @@
+import { AuthProvider } from "@contexts/authContext";
 import { ContainerApp } from "../components/Containers/ContainerApp";
 import "../styles/global.css";
 
 function MyApp({ Component, pageProps }) {
   return (
-    <ContainerApp>
-      <Component {...pageProps} />
-    </ContainerApp>
+    <AuthProvider>
+      <ContainerApp>
+        <Component {...pageProps} />
+      </ContainerApp>
+    </AuthProvider>
   );
 }
 

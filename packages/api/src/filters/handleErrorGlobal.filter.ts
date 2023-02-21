@@ -31,6 +31,11 @@ export class HttpExceptionFilter implements ExceptionFilter {
 
     const exceptionObj = JSON.parse(JSON.stringify(exception));
 
+    if (exception?.message.includes('Invalid credentials')) {
+      status = 401;
+      message = exception.message;
+    }
+
     if (exception?.message.includes('not found')) {
       status = 404;
       message = exception.message;
