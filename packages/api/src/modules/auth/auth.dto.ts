@@ -8,3 +8,7 @@ export class LoginDTO {
   @IsNotEmpty()
   password: string;
 }
+
+export class GetLoggedProfessionalDTO {
+  id: string;
+}

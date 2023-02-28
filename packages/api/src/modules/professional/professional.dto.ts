@@ -12,8 +12,10 @@ import {
 import { Professional } from '../../entities/professional';
 import { PaginationAndSortDTO } from '../../utils/dto/global.dto';
 
+export const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
+
 export const usernameRegex =
-  /^(?=[a-z0-9._]{8,20}$)(?!.*[_.]{2})[^_.].*[^_.]$/g;
+  /^(?=[a-z0-9._]{4,20}$)(?!.*[_.]{2})[^_.].*[^_.]$/g;
 
 export class CreateProfessionalDTO {
   @IsString()
@@ -40,6 +42,10 @@ export class FindProfessionalDTO {
   @IsNotEmpty()
   @IsOptional()
   id: string;
+
+  @IsEmail()
+  @IsOptional()
+  email: string;
 
   @IsString()
   @IsNotEmpty()

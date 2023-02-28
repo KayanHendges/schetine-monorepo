@@ -15,6 +15,7 @@ export interface IProfessionalService {
   find(
     params:
       | Pick<FindProfessionalDTO, 'id'>
+      | Pick<FindProfessionalDTO, 'email'>
       | Pick<FindProfessionalDTO, 'username'>,
   ): Promise<Professional>;
 

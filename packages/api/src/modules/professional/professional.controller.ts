@@ -9,9 +9,11 @@ import {
   Patch,
   Delete,
 } from '@nestjs/common';
+import { Public } from '../../decorators/public.route.decoratos';
 import {
   CreateProfessionalDTO,
   DeleteProfessionalParam,
+  emailRegex,
   FindProfessionalDTO,
   ListProfessionalDTO,
   UpdateProfessionalDTO,
@@ -27,14 +29,20 @@ export class ProfessionalController {
     private readonly professionalService: IProfessionalService,
   ) {}
 
+  @Public()
   @Post()
   async create(@Body() body: CreateProfessionalDTO) {
     return this.professionalService.create(body);
   }
 
+  @Public()
   @Get(':id')
   async find(@Param() { id }: FindProfessionalDTO) {
-    const param = id.match(usernameRegex) ? { username: id } : { id };
+    const param = id.match(emailRegex)
+      ? { email: id }
+      : id.match(usernameRegex)
+      ? { username: id }
+      : { id };
 
     return this.professionalService.find(param);
   }

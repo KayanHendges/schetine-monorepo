@@ -2,8 +2,9 @@ import * as bcrypt from 'bcrypt';
 import { Inject } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { IProfessionalRepository } from '../../repositories/professionals/professionals.repository.interface';
-import { LoginDTO } from './auth.dto';
+import { GetLoggedProfessionalDTO, LoginDTO } from './auth.dto';
 import { IAuthService, LoginResponse } from './auth.service.interface';
+import { Professional } from 'src/entities/professional';
 
 export class AuthService implements IAuthService {
   constructor(
@@ -38,5 +39,16 @@ export class AuthService implements IAuthService {
       console.log({ error });
       throw Error(error);
     }
+  }
+
+  async getLoggedProfessional({
+    id,
+  }: GetLoggedProfessionalDTO): Promise<Professional> {
+    const { password, ...professional } =
+      await this.professionalRepository.find({ id });
+
+    if (!professional) throw new Error('Professional not found.');
+
+    return professional;
   }
 }

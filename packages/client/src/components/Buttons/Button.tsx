@@ -7,12 +7,14 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLElement> {
   children: ReactNode;
   asChild?: boolean;
   isLoading?: boolean;
+  isEnabled?: boolean;
 }
 
 export function Button({
   children,
   asChild,
   isLoading,
+  isEnabled = true,
   ...props
 }: ButtonProps) {
   const Component = asChild ? Slot : "button";
@@ -21,10 +23,18 @@ export function Button({
     <Component
       className={clsx(
         "w-full px-1 py-3 gap-3 rounded",
-        "bg-indigo-400 transition-colors hover:bg-indigo-300",
+        "bg-indigo-400 transition-colors",
         "focus:ring-2 ring-white",
-        "text-black font-semibold"
+        "text-black font-semibold",
+        {
+          "hover:bg-indigo-300": isEnabled,
+          "bg-indigo-500": !isEnabled,
+          "cursor-not-allowed": !isEnabled,
+        }
       )}
+      {...(!isEnabled
+        ? { onSubmit: () => {}, onClick: () => {}, disabled: true }
+        : [{}])}
       {...props}
     >
       {isLoading ? <CircularLoader /> : children}

@@ -42,7 +42,7 @@ export class ProfessionalService implements IProfessionalService {
     const professionalFound = await this.professionalRepository.find(param);
 
     if (!professionalFound) {
-      throw new Error(`professional not found`);
+      throw new Error(`Professional not found`);
     }
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { password, ...professional } = professionalFound;

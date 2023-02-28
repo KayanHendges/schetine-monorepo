@@ -1,4 +1,5 @@
 import { api } from "@providers/api";
+import { AxiosResponse } from "axios";
 import { parseCookies } from "nookies";
 
 api.interceptors.request.use((success) => {
@@ -10,6 +11,8 @@ api.interceptors.request.use((success) => {
   return success;
 });
 
-export const loginProfessional = (params: LoginParams) => {
+export const loginProfessional = (
+  params: LoginPayload
+): Promise<AxiosResponse<LoginResponse>> => {
   return api.post<LoginResponse>("login/professional", params);
 };

@@ -2,7 +2,7 @@ import { HTMLAttributes, InputHTMLAttributes, ReactNode } from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { UseFormRegister, UseFormRegisterReturn } from "react-hook-form";
 import clsx from "clsx";
-import { IconProps } from "phosphor-react";
+import { Check, X } from "phosphor-react";
 
 export interface TextInputRootProps {
   children: ReactNode;
@@ -47,6 +47,35 @@ function TextInputIcon({ children, className, ...props }: TextInputIconProps) {
 
 TextInputIcon.displayName = "TextInput.Icon";
 
+export interface TextInputValidatedIconProps
+  extends HTMLAttributes<HTMLOrSVGElement> {
+  isValid: boolean;
+}
+
+function TextInputValidatedIcon({
+  isValid,
+  className,
+  ...props
+}: TextInputValidatedIconProps) {
+  return (
+    <Slot
+      {...props}
+      className={clsx(
+        "w-6 h-6",
+        {
+          "text-green-500": isValid,
+          "text-red-500": !isValid,
+        },
+        className
+      )}
+    >
+      {isValid ? <Check /> : <X />}
+    </Slot>
+  );
+}
+
+TextInputIcon.displayName = "TextInput.ValidatedIcon";
+
 export interface TextInputInputProps
   extends InputHTMLAttributes<HTMLInputElement> {
   register?: UseFormRegisterReturn;
@@ -56,8 +85,8 @@ function TextInputInput(props: TextInputInputProps) {
   return (
     <input
       className="bg-transparent flex-1 text-white text-xs focus:text-white placeholder:text-gray-500 outline-none autofill:bg-red-400 autofill:text-red-500"
-      {...props}
       {...(props.register ? { ...props.register } : {})}
+      {...props}
     />
   );
 }
@@ -68,4 +97,5 @@ export const TextInput = {
   Root: TextInputRoot,
   Input: TextInputInput,
   Icon: TextInputIcon,
+  ValidatedIcon: TextInputValidatedIcon,
 };

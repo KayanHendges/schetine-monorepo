@@ -1,4 +1,5 @@
-import { LoginDTO } from './auth.dto';
+import { Professional } from 'src/entities/professional';
+import { GetLoggedProfessionalDTO, LoginDTO } from './auth.dto';
 
 export interface LoginResponse {
   accessToken: string;
@@ -6,5 +7,9 @@ export interface LoginResponse {
 }
 
 export interface IAuthService {
-  loginProfessional(dto: LoginDTO): Promise<LoginResponse>;
+  loginProfessional(payload: LoginDTO): Promise<LoginResponse>;
+
+  getLoggedProfessional(
+    params: GetLoggedProfessionalDTO,
+  ): Promise<Professional>;
 }

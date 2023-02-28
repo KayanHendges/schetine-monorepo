@@ -1,38 +1,39 @@
 import { FieldProps } from "@components/Fields/types";
 import { TextInput } from "@components/Inputs/Text/InputText";
+import CircularLoader from "@components/Loaders/CircularLoader";
 import { Text } from "@components/Texts/Text";
-import { Lock, EyeClosed, Eye } from "phosphor-react";
-import { useState } from "react";
+import { Envelope } from "phosphor-react";
 
-interface Props extends FieldProps {}
+interface Props extends FieldProps {
+  isValid?: boolean;
+  isLoading?: boolean;
+  icon: JSX.Element;
+}
 
-export default function PassowordField({
-  label = "Senha",
-  placeholder = "",
-  formHook: { name = "password", register, formState },
+export default function IconTextField({
+  label,
+  icon,
+  placeholder,
+  isLoading,
+  isValid,
+  formHook: { name, register, formState },
 }: Props) {
-  const [hidePassword, setHidePassword] = useState<boolean>(true);
-
   const error = formState.errors[name];
   return (
     <div className="flex flex-col gap-3">
       <Text className="text-gray-300">{label}</Text>
       <div>
         <TextInput.Root validation={error && "error"}>
-          <TextInput.Icon>
-            <Lock />
-          </TextInput.Icon>
+          <TextInput.Icon>{icon && icon}</TextInput.Icon>
           <TextInput.Input
-            type={hidePassword ? "password" : "text"}
+            type="text"
             placeholder={placeholder}
             register={register(name)}
           />
-          <TextInput.Icon
-            className="hover:text-indigo-400 cursor-pointer"
-            onClick={() => setHidePassword(!hidePassword)}
-          >
-            {hidePassword ? <EyeClosed /> : <Eye />}
-          </TextInput.Icon>
+          {!isLoading && isValid !== undefined && (
+            <TextInput.ValidatedIcon isValid={isValid} />
+          )}
+          {isLoading && <CircularLoader />}
         </TextInput.Root>
         {error?.message && (
           <Text size="sm" className="text-red-400">

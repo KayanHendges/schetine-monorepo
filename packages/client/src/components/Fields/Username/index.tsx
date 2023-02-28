@@ -1,30 +1,42 @@
 import { FieldProps } from "@components/Fields/types";
 import { TextInput } from "@components/Inputs/Text/InputText";
+import CircularLoader from "@components/Loaders/CircularLoader";
 import { Text } from "@components/Texts/Text";
-import { Envelope } from "phosphor-react";
+import { At } from "phosphor-react";
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { debounce } from "lodash";
-import { UseFormTrigger } from "react-hook-form";
 import { findProfessional } from "@providers/api/professional";
+import { usernameRegex } from "@components/Forms/Register/registerFormSchema";
+import { UseFormTrigger, UseFormWatch } from "react-hook-form";
 
 interface Props extends FieldProps {
   validate?: boolean;
+  icon?: JSX.Element;
 }
 
-export default function EmailField({
-  label = "Endereço de email",
-  placeholder = "Email",
+export default function Username({
+  label = "Nome do usuário",
+  icon = <At />,
+  placeholder,
   validate,
-  formHook: { name = "email", register, formState, trigger, setError, watch },
+  formHook: {
+    name = "username",
+    register,
+    formState,
+    watch,
+    setError,
+    trigger,
+    setValue,
+  },
 }: Props) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isUnique, setIsUnique] = useState<boolean | null>(null);
   const error = formState.errors[name];
 
-  const validateUniqueEmail = useRef(
+  const validateUniqueUsername = useRef(
     debounce(
       async (
-        email: string,
+        username: string,
         name: string,
         trigger: UseFormTrigger<any>,
         setIsUnique: Dispatch<SetStateAction<boolean | null>>
@@ -34,8 +46,8 @@ export default function EmailField({
         if (!isValid) return setIsUnique(null);
         setIsLoading(true);
         try {
-          const { data } = await findProfessional({ email });
-          if (data.email === email) {
+          const { data } = await findProfessional({ username });
+          if (data.username === username) {
             setIsUnique(false);
             setError(name, { message: "Usuário já existente" });
           }
@@ -48,6 +60,14 @@ export default function EmailField({
     )
   );
 
+  const validateOnChange = (value: string) => {
+    const cleanValue = value
+      .replace(" ", "_")
+      .replace(/[Çç]/g, "c")
+      .replaceAll(/([^a-z0-9._])|((?<=[_.])[_.])/g, "");
+    setValue(name, cleanValue);
+  };
+
   const typedValue = watch(name);
   useEffect(() => {
     if (!validate || !typedValue?.length) {
@@ -55,7 +75,7 @@ export default function EmailField({
       return;
     }
 
-    validateUniqueEmail.current(typedValue, name, trigger, setIsUnique);
+    validateUniqueUsername.current(typedValue, name, trigger, setIsUnique);
   }, [name, trigger, typedValue, validate]);
 
   return (
@@ -63,17 +83,17 @@ export default function EmailField({
       <Text className="text-gray-300">{label}</Text>
       <div>
         <TextInput.Root validation={error && "error"}>
-          <TextInput.Icon>
-            <Envelope />
-          </TextInput.Icon>
+          <TextInput.Icon>{icon && icon}</TextInput.Icon>
           <TextInput.Input
-            type="email"
+            type="text"
             placeholder={placeholder}
             register={register(name)}
+            onChange={({ target }) => validateOnChange(target.value)}
           />
           {!isLoading && isUnique !== null && (
             <TextInput.ValidatedIcon isValid={isUnique} />
           )}
+          {isLoading && <CircularLoader />}
         </TextInput.Root>
         {error?.message && (
           <Text size="sm" className="text-red-400">
