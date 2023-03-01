@@ -11,8 +11,11 @@ api.interceptors.request.use((success) => {
   return success;
 });
 
-export const loginProfessional = (
+export const loginProfessional = async (
   params: LoginPayload
 ): Promise<AxiosResponse<LoginResponse>> => {
   return api.post<LoginResponse>("login/professional", params);
 };
+
+export const getLoggedPofessional = (): Promise<AxiosResponse<Professional>> =>
+  api.get<Professional>("auth/professional");

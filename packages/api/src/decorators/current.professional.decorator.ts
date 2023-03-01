@@ -9,9 +9,6 @@ export const CurrentProfessional = createParamDecorator(
     const request = context.switchToHttp().getRequest();
     const user = request.user;
 
-    console.log('aoba');
-    console.log({ request });
-
     if (!user) throw new Error('Professional not found');
 
     return user;
