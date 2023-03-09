@@ -5,7 +5,7 @@ module.exports = {
     colors: {
       transparent: "transparent",
       white: "#F5F5F5",
-      black: "##171717",
+      black: "#171717",
       container: {
         black: "#171717",
       },
@@ -13,7 +13,11 @@ module.exports = {
         300: "#D4D4D4",
         400: "#A3A3A3",
         500: "#737373",
+        600: "#525252",
+        700: "#404040",
+        750: "#333333",
         800: "#262626",
+        900: "#1F1F1F",
       },
       indigo: {
         300: "#A5B4FC",
@@ -41,6 +45,11 @@ module.exports = {
     extend: {
       fontFamily: {
         sans: "Inter, sans-serif",
+      },
+      maxWidth: {
+        "1/3": "33.33%",
+        "2/3": "66.66%",
+        "1/2": "50%",
       },
     },
   },

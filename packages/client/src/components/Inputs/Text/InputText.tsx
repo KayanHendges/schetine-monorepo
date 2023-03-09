@@ -36,7 +36,7 @@ function TextInputIcon({ children, className, ...props }: TextInputIconProps) {
     <Slot
       {...props}
       className={clsx(
-        "w-6 h-6 text-gray-400 group-focus-within:text-white transition",
+        "w-6 h-6 text-gray-500 group-focus-within:text-white transition",
         className
       )}
     >

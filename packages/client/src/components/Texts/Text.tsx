@@ -15,7 +15,7 @@ export function Text({ size = "md", children, asChild, className }: TextProps) {
   return (
     <Component
       className={clsx(
-        "text-gray-400 font-sans",
+        "text-gray-400 font-sans truncate",
         {
           "text-xs": size === "sm",
           "text-sm": size === "md",
