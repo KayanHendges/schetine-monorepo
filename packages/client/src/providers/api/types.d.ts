@@ -7,3 +7,10 @@ interface ApiPagination<T> {
   page?: number;
   pageSize?: number;
 }
+
+interface ApiListResponse<T> {
+  page: number;
+  pageSize: number;
+  count: number;
+  list: T[];
+}

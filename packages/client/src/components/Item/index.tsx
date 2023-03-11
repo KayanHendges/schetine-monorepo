@@ -6,14 +6,17 @@ import { Check, X } from "phosphor-react";
 
 export interface ItemRootProps {
   children: ReactNode;
+  selected?: boolean;
   className?: string;
 }
 
-function ItemRoot({ children, className }: ItemRootProps) {
+function ItemRoot({ children, className, selected }: ItemRootProps) {
   return (
     <div
       className={clsx(
-        "group flex flex-1 h-12 gap-3 justify-start items-center p-3 rounded-lg",
+        "group flex w-full h-12 gap-3 justify-start items-center p-3 rounded-lg",
+        "cursor-pointer transition-all",
+        selected ? "bg-gray-600" : "hover:bg-gray-700",
         className
       )}
     >

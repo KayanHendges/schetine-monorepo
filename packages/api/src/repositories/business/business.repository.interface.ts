@@ -1,4 +1,5 @@
 import { Business, BusinessProfessional, Professional } from '@prisma/client';
+import { ListParams, WhereParams } from 'src/types';
 import { IBaseRepository } from '../base/base.interface.repository';
 
 export interface BusinessRepository
@@ -6,6 +7,13 @@ export interface BusinessRepository
     Business,
     'appointments' | 'business' | 'businessProfessional'
   > {}
+
+export interface WhereBusinessParams extends WhereParams<BusinessRepository> {
+  associatedProfessional?: Partial<BusinessRepository>;
+}
+export interface ListBusinessParams extends ListParams<BusinessRepository> {
+  where?: WhereBusinessParams;
+}
 
 export interface CreateBusinessData
   extends Omit<Business, 'modified' | 'created'> {}
@@ -21,6 +29,10 @@ export interface IListProfessionalAssociations {
 
 export interface IBusinessRepository
   extends IBaseRepository<BusinessRepository> {
+  list(params: ListBusinessParams): Promise<BusinessRepository[]>;
+
+  count(params: ListBusinessParams): Promise<number>;
+
   find(unique: IFindUniqueParams): Promise<BusinessRepository | null>;
 
   delete(where: IDeleteBusinessParams): Promise<BusinessRepository>;

@@ -1,5 +1,8 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { IBusinessRepository } from '../../repositories/business/business.repository.interface';
+import {
+  IBusinessRepository,
+  ListBusinessParams,
+} from '../../repositories/business/business.repository.interface';
 import {
   AssociateProfessional,
   CreateBusinessDTO,
@@ -46,16 +49,24 @@ export class BusinessService implements IBusinessService {
   }
 
   async list(params: ListBusinessDTO): Promise<ResponseList<Business>> {
-    const { page, pageSize, orderBy, ...where } = params;
-    const repositoryParams = {
-      where,
+    const { page, pageSize, orderBy, associatedProfessionalId, ...where } =
+      params;
+    const repositoryParams: ListBusinessParams = {
+      where: {
+        ...where,
+        associatedProfessional: associatedProfessionalId
+          ? { id: associatedProfessionalId }
+          : undefined,
+      },
       page,
       pageSize,
       orderBy,
     };
 
-    const count = await this.businessRepository.count(repositoryParams);
     const list = await this.businessRepository.list(repositoryParams);
+    const count = await this.businessRepository.count({
+      where: repositoryParams?.where,
+    });
 
     return { page, pageSize, list, count };
   }

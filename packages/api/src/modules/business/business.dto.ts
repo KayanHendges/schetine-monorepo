@@ -27,27 +27,32 @@ export class ListBusinessDTO extends PaginationAndSortDTO<Business> {
   @IsString()
   @IsNotEmpty()
   @IsOptional()
-  id: string;
+  id?: string;
 
   @IsString()
   @IsNotEmpty()
   @IsOptional()
-  name: string;
+  name?: string;
 
   @IsString()
   @IsNotEmpty()
   @IsOptional()
-  ownerId: string;
+  ownerId?: string;
 
   @IsDate()
   @IsOptional()
   @Type(() => Date)
-  created: Date;
+  created?: Date;
 
   @IsDate()
   @IsOptional()
   @Type(() => Date)
-  modified: Date;
+  modified?: Date;
+
+  @IsString()
+  @IsNotEmpty()
+  @IsOptional()
+  associatedProfessionalId?: string;
 }
 
 export class UpdateBusinessParam {

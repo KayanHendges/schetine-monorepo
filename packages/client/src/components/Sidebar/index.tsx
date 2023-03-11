@@ -1,12 +1,10 @@
-import { SelectInput } from "@components/Inputs/Select";
 import Avatar from "@components/Sidebar/Avatar";
 import { fullNameInitials } from "@components/Sidebar/helpers";
 import { Text } from "@components/Texts/Text";
 import { ProfessionalContext } from "@contexts/professionalContext";
 import clsx from "clsx";
 import { useContext, useState } from "react";
-import { Storefront } from "phosphor-react";
-import { Item } from "@components/Item";
+import SelectBusiness from "@components/Selects/Business/Index";
 
 export default function SideBar() {
   const [retract, setRetract] = useState<boolean>(true);
@@ -14,7 +12,8 @@ export default function SideBar() {
   const onSideBarTransition = retract !== retractEnd;
   const transitionMs = 300;
 
-  const { professional } = useContext(ProfessionalContext);
+  const { professional, currentBusinessForm } = useContext(ProfessionalContext);
+  const currentBusiness = currentBusinessForm.getValues();
 
   const openSidebar = () => {
     setRetract(false);
@@ -24,9 +23,9 @@ export default function SideBar() {
   };
 
   const retractSidebar = () => {
-    setRetract(true);
+    setRetract(false);
     setTimeout(() => {
-      setRetractEnd(true);
+      setRetractEnd(false);
     }, transitionMs);
   };
 
@@ -50,7 +49,7 @@ export default function SideBar() {
       onMouseLeave={() => retractSidebar()}
     >
       {professional && (
-        <div className="w-full flex flex-col gap-4">
+        <div className="w-full flex flex-col items-center gap-4">
           <div
             className={clsx("w-full flex items-center justify-center gap-2")}
           >
@@ -70,15 +69,15 @@ export default function SideBar() {
               </Text>
             )}
           </div>
-          {retract ? (
-            <Item.Root className="justify-center">
-              <Text size="xl" className="text-white">
-                {fullNameInitials(professional.name)}
-              </Text>
-            </Item.Root>
-          ) : (
-            <SelectInput leftIcon={<Storefront />} />
+          {retract && (
+            <Text
+              size="xl"
+              className="h-12 w-12 flex justify-center text-center items-center text-white"
+            >
+              {fullNameInitials(currentBusiness?.name || "")}
+            </Text>
           )}
+          {!retract && <SelectBusiness formHook={currentBusinessForm} />}
         </div>
       )}
       {line}

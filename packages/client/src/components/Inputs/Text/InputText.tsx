@@ -4,12 +4,12 @@ import { UseFormRegister, UseFormRegisterReturn } from "react-hook-form";
 import clsx from "clsx";
 import { Check, X } from "phosphor-react";
 
-export interface TextInputRootProps {
+export interface TextInputRootProps extends HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
   validation?: string | "error";
 }
 
-function TextInputRoot({ children, validation }: TextInputRootProps) {
+function TextInputRoot({ children, validation, ...props }: TextInputRootProps) {
   return (
     <div
       className={clsx(
@@ -19,6 +19,7 @@ function TextInputRoot({ children, validation }: TextInputRootProps) {
           "focus-within:ring-2 ring-indigo-400 transition": !validation,
         }
       )}
+      {...props}
     >
       {children}
     </div>
@@ -34,11 +35,11 @@ export interface TextInputIconProps extends HTMLAttributes<HTMLOrSVGElement> {
 function TextInputIcon({ children, className, ...props }: TextInputIconProps) {
   return (
     <Slot
-      {...props}
       className={clsx(
         "w-6 h-6 text-gray-500 group-focus-within:text-white transition",
         className
       )}
+      {...props}
     >
       {children}
     </Slot>
