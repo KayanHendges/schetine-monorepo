@@ -1,6 +1,6 @@
 import { loginProfessional } from "@providers/api/auth";
 import { useRouter } from "next/router";
-import { parseCookies, setCookie } from "nookies";
+import { destroyCookie, parseCookies, setCookie } from "nookies";
 import { createContext, useEffect, useState } from "react";
 
 export const AuthContext = createContext({} as IAuthContext);
@@ -29,6 +29,12 @@ export function AuthProvider({ children }) {
     });
   };
 
+  const logOut = async (params?: ILogOut) => {
+    const redirectPush = params?.redirect || "/login";
+    destroyCookie(undefined, "auth.token");
+    router.push(redirectPush);
+  };
+
   const authCheck = () => {
     const { "auth.token": token } = parseCookies();
     setToken(token || null);
@@ -40,7 +46,7 @@ export function AuthProvider({ children }) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ token, login }}>
+    <AuthContext.Provider value={{ token, login, logOut }}>
       {children}
     </AuthContext.Provider>
   );

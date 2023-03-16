@@ -1,4 +1,13 @@
-import { KeyboardEvent, useEffect, useState } from "react";
+import {
+  BaseSyntheticEvent,
+  KeyboardEvent,
+  MouseEvent,
+  SyntheticEvent,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import clsx from "clsx";
 import { CaretDown } from "phosphor-react";
 import { Item } from "@components/Item";
@@ -26,8 +35,11 @@ export function SelectInput<T = any>({
   const [open, setOpen] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<string>("");
   const [hoverIndex, setHoverIndex] = useState<number | null>(null);
+  const matchOptions = options.filter((opt) =>
+    renderLabel(opt.value).includes(inputValue)
+  );
   const selectedIndex =
-    options.findIndex(
+    matchOptions.findIndex(
       (opt) => opt.value[optionKey] === selectedOption[optionKey]
     ) ?? null;
 
@@ -49,9 +61,30 @@ export function SelectInput<T = any>({
         optionsLength: options.length,
         open,
         setOpen,
-        setSelectedOption: () =>
-          handleSelectedOption(options[hoverIndex]?.value || null),
+        setSelectedOption: () => {
+          const option = options[hoverIndex || selectedIndex];
+          handleSelectedOption(option?.value || null);
+          setInputValue(renderLabel(option?.value) || "");
+        },
       });
+    else {
+      setHoverIndex(0);
+      setOpen(true);
+    }
+  };
+
+  const handleRootClick = (
+    event: MouseEvent<HTMLDivElement, globalThis.MouseEvent>
+  ) => {
+    const target = event.target as ChildNode;
+    if (target?.nodeName === "INPUT") return setOpen(true);
+    const children = target.childNodes;
+    children.forEach((child) => {
+      if (child.nodeName === "INPUT") {
+        const input = child as HTMLInputElement;
+        input.focus();
+      }
+    });
   };
 
   useEffect(() => {
@@ -60,6 +93,7 @@ export function SelectInput<T = any>({
 
   return (
     <TextInput.Root
+      onClick={(e) => handleRootClick(e)}
       onFocus={() => setOpen(true)}
       className={clsx(
         "group flex items-center gap-3 h-12 py-4 px-3 rounded  bg-gray-800 w-full relative",
@@ -88,9 +122,7 @@ export function SelectInput<T = any>({
           handleSelectOption={handleSelectedOption}
           hoverIndex={hoverIndex}
           selectedIndex={selectedIndex}
-          options={options.filter((opt) =>
-            renderLabel(opt.value).includes(inputValue)
-          )}
+          options={matchOptions}
           renderLabel={renderLabel}
         />
       )}
@@ -107,15 +139,38 @@ function Menu<T>({
   open,
   setOpen,
 }: InputMenuProps<T>) {
+  const [canClose, setCanClose] = useState<boolean>(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+  const onClickMouseEvent = useCallback(
+    (event: globalThis.MouseEvent) => {
+      if (!canClose) return setCanClose(true);
+      const { target } = event;
+      const contains = target && menuRef.current?.contains(target as Node);
+      !contains && open && setOpen(false);
+    },
+    [canClose, open, setOpen]
+  );
+
+  useEffect(() => {
+    if (!menuRef.current) return;
+
+    window.addEventListener("click", onClickMouseEvent);
+
+    return () => window.removeEventListener("click", onClickMouseEvent);
+  }, [menuRef, onClickMouseEvent, open]);
+
   return (
     <div
+      ref={menuRef}
       onBlur={() => setOpen(false)}
       className={clsx(
         "w-full flex flex-col justify-start items-center absolute",
-        "top-14 left-0 bg-gray-900 ring-1 ring-indigo-300 rounded"
+        "p-1 top-14 left-0 bg-gray-900 rounded"
       )}
     >
       {options.map(({ key, value, element }, index) => {
+        const hover = index === hoverIndex;
+        const selected = index === selectedIndex;
         return (
           <div
             key={key}
@@ -123,12 +178,14 @@ function Menu<T>({
             onClick={() => handleSelectOption(value)}
           >
             {element || (
-              <MenuItem
-                selected={index === selectedIndex}
-                hover={index === hoverIndex}
+              <Item.Root
+                selected={selected}
+                className={clsx({
+                  "bg-gray-700": hover && !selected,
+                })}
               >
-                {renderLabel(value)}
-              </MenuItem>
+                <Item.Text selected={selected}>{renderLabel(value)}</Item.Text>
+              </Item.Root>
             )}
           </div>
         );
