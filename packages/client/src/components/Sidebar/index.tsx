@@ -82,9 +82,9 @@ export default function SideBar() {
   };
 
   const retractSidebar = () => {
-    setRetract(false);
+    setRetract(true);
     setTimeout(() => {
-      setRetractEnd(false);
+      setRetractEnd(true);
     }, transitionMs);
   };
 
