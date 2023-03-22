@@ -8,4 +8,5 @@ interface IProfessionalContext {
   setProfessional: Dispatch<SetStateAction<Professional | null>>;
   currentBusinessForm: UseFormReturn<Business | null>;
   assignedBusiness: Business[];
+  fetchingAssignedBusiness: boolean;
 }

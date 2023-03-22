@@ -3,7 +3,6 @@ import { joiResolver } from "@hookform/resolvers/joi";
 import { handleSubmit } from "@utils/form";
 import { useContext, useState } from "react";
 import { AuthContext } from "@contexts/authContext";
-import { useRouter } from "next/router";
 import RegisterForm from "@components/Forms/Register";
 import {
   IRegisterFormSchema,
@@ -12,10 +11,10 @@ import {
 import { registerProfessional } from "@providers/api/professional";
 
 export default function Register() {
+  const { login } = useContext(AuthContext);
   const form = useForm<IRegisterFormSchema>({
     resolver: joiResolver(registerFormSchema),
   });
-  const router = useRouter();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [errorMessage, setErroMessage] = useState<string | null>(null);
@@ -25,8 +24,8 @@ export default function Register() {
     setErroMessage(null);
     try {
       const payload = await handleSubmit(form.handleSubmit);
-      await registerProfessional(payload);
-      router.push("/");
+      const { id } = await registerProfessional(payload);
+      if (id) login({ email: payload.email, password: payload.password });
     } catch (error) {
       setErroMessage("Houve algum problema com o seu login. Tente novamente.");
       setIsLoading(false);

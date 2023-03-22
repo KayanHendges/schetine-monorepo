@@ -1,10 +1,10 @@
 import { api } from "@providers/api";
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 
 export const getBusiness = async (businessId: string) =>
   (await axios.get<Business>(`business/${businessId}`)).data;
 
-export const listBusinesss = async ({
+export const listBusiness = async ({
   page = 1,
   pageSize = 20,
   ...params

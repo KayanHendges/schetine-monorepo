@@ -13,9 +13,8 @@ api.interceptors.request.use((success) => {
 
 export const loginProfessional = async (
   params: LoginPayload
-): Promise<AxiosResponse<LoginResponse>> => {
-  return api.post<LoginResponse>("login/professional", params);
-};
+): Promise<LoginResponse> =>
+  (await api.post<LoginResponse>("login/professional", params)).data;
 
-export const getLoggedPofessional = (): Promise<AxiosResponse<Professional>> =>
-  api.get<Professional>("auth/professional");
+export const getLoggedPofessional = async (): Promise<Professional> =>
+  (await api.get<Professional>("auth/professional")).data;

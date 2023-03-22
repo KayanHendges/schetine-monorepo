@@ -12,9 +12,11 @@ export function AuthProvider({ children }) {
 
   const login = async (payload: ILoginPayload): Promise<void> => {
     try {
-      const { data } = await loginProfessional(payload);
-      storeAuth(data);
-      setToken(data.accessToken);
+      const redirectPush = payload?.redirect || "/";
+      const jwtPayload = await loginProfessional(payload);
+      storeAuth(jwtPayload);
+      setToken(jwtPayload.accessToken);
+      router.push(redirectPush);
     } catch (error) {
       // implement toast
       setToken(null);
@@ -32,6 +34,7 @@ export function AuthProvider({ children }) {
   const logOut = async (params?: ILogOut) => {
     const redirectPush = params?.redirect || "/login";
     destroyCookie(undefined, "auth.token");
+    setToken(null);
     router.push(redirectPush);
   };
 

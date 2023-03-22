@@ -1,8 +1,6 @@
 import {
-  BaseSyntheticEvent,
   KeyboardEvent,
   MouseEvent,
-  SyntheticEvent,
   useCallback,
   useEffect,
   useRef,
@@ -13,11 +11,7 @@ import { CaretDown } from "phosphor-react";
 import { Item } from "@components/Item";
 import { Text } from "@components/Texts/Text";
 import { keyboardMapFunctions } from "@components/Inputs/Select/helpers";
-import {
-  InputMenuProps,
-  MenuItem,
-  SelectProps,
-} from "@components/Inputs/Select/types";
+import { InputMenuProps, SelectProps } from "@components/Inputs/Select/types";
 import { TextInput } from "@components/Inputs/Text/InputText";
 
 export function SelectInput<T = any>({
@@ -29,8 +23,10 @@ export function SelectInput<T = any>({
   renderLabel,
   selectedOption,
   onSelectOption,
+  placeholder = "",
   optionKey,
   allowNull = true,
+  emptyListMessage = "Nenhum resultado encontrado.",
 }: SelectProps<T>) {
   const [open, setOpen] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<string>("");
@@ -106,6 +102,7 @@ export function SelectInput<T = any>({
       {leftIcon && <TextInput.Icon>{leftIcon}</TextInput.Icon>}
       <TextInput.Input
         onKeyDown={handleKeyboardEvent}
+        placeholder={placeholder}
         register={register}
         onChange={({ target }) => setInputValue(target.value)}
         value={
@@ -124,6 +121,7 @@ export function SelectInput<T = any>({
           selectedIndex={selectedIndex}
           options={matchOptions}
           renderLabel={renderLabel}
+          emptyListMessage={emptyListMessage}
         />
       )}
     </TextInput.Root>
@@ -138,6 +136,7 @@ function Menu<T>({
   selectedIndex,
   open,
   setOpen,
+  emptyListMessage,
 }: InputMenuProps<T>) {
   const [canClose, setCanClose] = useState<boolean>(false);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -150,6 +149,8 @@ function Menu<T>({
     },
     [canClose, open, setOpen]
   );
+
+  const isEmptyList = !options.length;
 
   useEffect(() => {
     if (!menuRef.current) return;
@@ -168,46 +169,36 @@ function Menu<T>({
         "p-1 top-14 left-0 bg-gray-900 rounded"
       )}
     >
-      {options.map(({ key, value, element }, index) => {
-        const hover = index === hoverIndex;
-        const selected = index === selectedIndex;
-        return (
-          <div
-            key={key}
-            className="flex w-full flex-1"
-            onClick={() => handleSelectOption(value)}
-          >
-            {element || (
-              <Item.Root
-                selected={selected}
-                className={clsx({
-                  "bg-gray-700": hover && !selected,
-                })}
-              >
-                <Item.Text selected={selected}>{renderLabel(value)}</Item.Text>
-              </Item.Root>
-            )}
-          </div>
-        );
-      })}
+      {isEmptyList && (
+        <Text className="flex items-center h-8" size="sm">
+          {emptyListMessage}
+        </Text>
+      )}
+      {!isEmptyList &&
+        options.map(({ key, value, element }, index) => {
+          const hover = index === hoverIndex;
+          const selected = index === selectedIndex;
+          return (
+            <div
+              key={key}
+              className="flex w-full flex-1"
+              onClick={() => handleSelectOption(value)}
+            >
+              {element || (
+                <Item.Root
+                  selected={selected}
+                  className={clsx({
+                    "bg-gray-700": hover && !selected,
+                  })}
+                >
+                  <Item.Text selected={selected}>
+                    {renderLabel(value)}
+                  </Item.Text>
+                </Item.Root>
+              )}
+            </div>
+          );
+        })}
     </div>
-  );
-}
-
-function MenuItem({ children, hover, selected }: MenuItem) {
-  return (
-    <Item.Root
-      className={clsx({
-        "bg-gray-700": hover && !selected,
-        "bg-gray-600 hover:bg-gray-600": selected,
-      })}
-    >
-      <Text
-        size="sm"
-        className={clsx({ "text-white": selected }, "transition-all")}
-      >
-        {children}
-      </Text>
-    </Item.Root>
   );
 }

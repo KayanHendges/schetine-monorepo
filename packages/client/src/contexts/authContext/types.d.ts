@@ -1,4 +1,6 @@
-interface ILoginPayload extends LoginPayload {}
+interface ILoginPayload extends LoginPayload {
+  redirect?: string;
+}
 
 interface ILogOut {
   redirect?: string;

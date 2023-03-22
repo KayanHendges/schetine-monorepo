@@ -9,6 +9,7 @@ interface SelectOption<T> {
 interface SelectProps<T> {
   leftIcon?: JSX.Element;
   validation?: string | "error";
+  placeholder?: string;
   isDropdownOpen?: boolean;
   register?: UseFormRegisterReturn;
   renderLabel: (option: T) => string;
@@ -17,6 +18,7 @@ interface SelectProps<T> {
   onSelectOption: (option: T | null) => void;
   optionKey: keyof T;
   allowNull?: boolean;
+  emptyListMessage?: string;
 }
 
 interface InputMenuProps<T> {
@@ -27,12 +29,7 @@ interface InputMenuProps<T> {
   handleSelectOption: (option: T) => void;
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
-}
-
-interface MenuItem {
-  selected?: boolean;
-  hover?: boolean;
-  children: JSX.Element | string | number;
+  emptyListMessage: string;
 }
 
 interface keyboardMenuHandler {

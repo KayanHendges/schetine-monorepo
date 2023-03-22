@@ -32,6 +32,7 @@ export default function SelectBusiness({ formHook }: Props) {
       selectedOption={getValues()}
       onSelectOption={(option) => handleSelected(option)}
       optionKey={"id"}
+      placeholder={"Escolha um espaço"}
       allowNull={false}
     />
   );

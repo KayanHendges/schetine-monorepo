@@ -18,5 +18,5 @@ export const useFindProfessional = (params?: FindProfessionalParams) =>
 
 export const registerProfessional = async (
   payload: RegisterProfessionalPayload
-): Promise<AxiosResponse<Professional>> =>
-  api.post<Professional>("/professional", payload);
+): Promise<Professional> =>
+  (await api.post<Professional>("/professional", payload)).data;

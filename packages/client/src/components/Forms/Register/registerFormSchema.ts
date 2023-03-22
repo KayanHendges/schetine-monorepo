@@ -12,7 +12,7 @@ export interface IRegisterFormSchema {
 
 const registerFormSchema = Joi.object<IRegisterFormSchema>({
   name: Joi.string()
-    .regex(/^([a-zA-Z]+ )+[a-zA-Z]+$/)
+    .regex(/^([a-zA-Z^ãõ´]+ )+[a-zA-Z^ãõ´]+$/)
     .messages({
       "string.pattern.base":
         "Formato inválido. É preciso conter seu nome e sobrenome.",
