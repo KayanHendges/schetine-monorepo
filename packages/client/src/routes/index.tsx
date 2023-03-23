@@ -54,7 +54,7 @@ export default function useCientRoutes() {
   ];
 
   const currentRoute = routerItems.find((route) =>
-    route.path.startsWith(router.pathname)
+    route?.path?.startsWith(router.pathname)
   );
 
   return { routerItems, currentRoute };

@@ -13,7 +13,7 @@ function TextInputRoot({ children, validation, ...props }: TextInputRootProps) {
   return (
     <div
       className={clsx(
-        "group flex items-center gap-3 h-12 py-4 px-3 rounded  bg-gray-800 w-full",
+        "group flex items-center gap-3 h-12 py-4 px-3 rounded  bg-gray-900 w-full",
         {
           "ring-2 ring-red-500": validation === "error",
           "focus-within:ring-2 ring-indigo-400 transition": !validation,

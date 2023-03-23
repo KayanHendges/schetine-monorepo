@@ -2,15 +2,15 @@ import { FieldProps } from "@components/Fields/types";
 import { TextInput } from "@components/Inputs/Text/InputText";
 import CircularLoader from "@components/Loaders/CircularLoader";
 import { Text } from "@components/Texts/Text";
-import { Envelope } from "phosphor-react";
 
 interface Props extends FieldProps {
   isValid?: boolean;
   isLoading?: boolean;
-  icon: JSX.Element;
+  icon?: JSX.Element;
+  inputRootClassName?: string;
 }
 
-export default function IconTextField({
+export default function TextField({
   label,
   icon,
   placeholder,
@@ -21,10 +21,10 @@ export default function IconTextField({
   const error = formState.errors[name];
   return (
     <div className="flex flex-col gap-3">
-      <Text className="text-gray-300">{label}</Text>
+      {label && <Text className="text-gray-300">{label}</Text>}
       <div>
         <TextInput.Root validation={error && "error"}>
-          <TextInput.Icon>{icon && icon}</TextInput.Icon>
+          {icon && <TextInput.Icon>{icon}</TextInput.Icon>}
           <TextInput.Input
             type="text"
             placeholder={placeholder}

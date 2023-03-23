@@ -15,6 +15,7 @@ export function Button({
   asChild,
   isLoading,
   isEnabled = true,
+  className,
   ...props
 }: ButtonProps) {
   const Component = asChild ? Slot : "button";
@@ -22,15 +23,17 @@ export function Button({
   return (
     <Component
       className={clsx(
-        "w-full px-1 py-3 gap-3 rounded",
+        "w-full px-4 py-3 gap-3 rounded",
         "bg-indigo-400 transition-colors",
         "focus:ring-2 ring-white",
         "text-black font-semibold",
+        "truncate",
         {
           "hover:bg-indigo-300": isEnabled,
           "bg-indigo-500": !isEnabled,
           "cursor-not-allowed": !isEnabled,
-        }
+        },
+        className
       )}
       {...(!isEnabled
         ? { onSubmit: () => {}, onClick: () => {}, disabled: true }

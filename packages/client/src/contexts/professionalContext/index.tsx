@@ -26,7 +26,7 @@ export function ProfessionalProvider({ children }) {
   } = useQuery<Business[]>("assigned_business", (ctx) =>
     fetchAssignedBusiness(professional?.id)
   );
-  const { token } = useContext(AuthContext);
+  const { token, logOut } = useContext(AuthContext);
 
   const currentBusinessForm = useForm<Business | null>({
     resolver: joiResolver(businessFormSchema.allow(null)),
@@ -40,6 +40,7 @@ export function ProfessionalProvider({ children }) {
         return data;
       } catch (error) {
         setProfessional(null);
+        logOut();
         return null;
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps

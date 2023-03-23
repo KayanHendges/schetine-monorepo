@@ -1,6 +1,6 @@
 import { Button } from "@components/Buttons/Button";
 import EmailField from "@components/Fields/Email";
-import IconTextField from "@components/Fields/IconTextField";
+import TextField from "@components/Fields/TextField";
 import PassowordField from "@components/Fields/Password";
 import Logo from "@components/Logo";
 import { Text } from "@components/Texts/Text";
@@ -42,7 +42,7 @@ export default function RegisterForm({
         <Text>Faça seu login e comece a usar</Text>
       </div>
       <div className="flex flex-col gap-4">
-        <IconTextField
+        <TextField
           formHook={{ ...formRef, name: "name" }}
           label={"Nome completo"}
           icon={<User />}
