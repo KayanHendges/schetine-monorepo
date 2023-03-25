@@ -2,12 +2,15 @@ import { FieldProps } from "@components/Fields/types";
 import { TextInput } from "@components/Inputs/Text/InputText";
 import CircularLoader from "@components/Loaders/CircularLoader";
 import { Text } from "@components/Texts/Text";
+import { useRef } from "react";
+import { debounce } from "lodash";
 
 interface Props extends FieldProps {
   isValid?: boolean;
   isLoading?: boolean;
   icon?: JSX.Element;
   inputRootClassName?: string;
+  onStopTypingFuncion?: (...args: any) => any;
 }
 
 export default function TextField({
@@ -16,8 +19,13 @@ export default function TextField({
   placeholder,
   isLoading,
   isValid,
+  onStopTypingFuncion,
   formHook: { name, register, formState },
 }: Props) {
+  // Todo: debounce typing function
+
+  const onStopTyping = useRef(onStopTypingFuncion ? debounce(debounce) : null);
+
   const error = formState.errors[name];
   return (
     <div className="flex flex-col gap-3">

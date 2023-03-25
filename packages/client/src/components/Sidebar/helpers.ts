@@ -1,3 +1,4 @@
+
 export const fullNameInitials = (fullName: string) => {
   const names = fullName.split(" ");
   const firstName = names.shift();

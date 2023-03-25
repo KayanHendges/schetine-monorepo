@@ -21,7 +21,8 @@
       "@providers/*": ["src/providers/*"],
       "@contexts/*": ["src/contexts/*"],
       "@hooks/*": ["src/hooks/*"],
-      "@routes/*": ["src/routes/*"],      
+      "@routes/*": ["src/routes/*"],
+      "@types": ["src/types.d.ts"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

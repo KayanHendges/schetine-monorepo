@@ -1,3 +1,3 @@
 export default function Appointments() {
-  return <div>agendamentos</div>;
+  return <div></div>;
 }

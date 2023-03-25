@@ -1,10 +1,10 @@
 import { LanguageMessages } from "joi";
 
-const requiredFieldMessage = "Campo obrigatório";
+const requiredFieldMessage = "{{#key}} é obrigatório";
 
 export const customMessages: LanguageMessages = {
   "any.required": requiredFieldMessage,
-  "any.unknown": "Esse campo não é parte do formulário",
+  "any.unknown": "'{{#key}}' não faz parte do formulário",
   "object.base": requiredFieldMessage,
   "object.min": "Esse campo deve ter no mínimo {{#limit}} propriedades",
   "object.max": "Esse campo deve ter no máximo {{#limit}} propriedades",

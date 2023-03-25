@@ -38,7 +38,7 @@ export default function LoginForm({
         <PassowordField formHook={formRef} />
       </div>
       {errorMessage && (
-        <Text className="text-red-500 text-center" size="md">
+        <Text className="text-red-500 text-center whitespace-normal" size="md">
           {errorMessage}
         </Text>
       )}

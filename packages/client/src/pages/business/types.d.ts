@@ -1,3 +1,0 @@
-interface IBusinessSearchForm {
-  name: string;
-}

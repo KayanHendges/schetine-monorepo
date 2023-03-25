@@ -7,9 +7,15 @@ import { Check, X } from "phosphor-react";
 export interface TextInputRootProps extends HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
   validation?: string | "error";
+  className?: string;
 }
 
-function TextInputRoot({ children, validation, ...props }: TextInputRootProps) {
+function TextInputRoot({
+  children,
+  validation,
+  className,
+  ...props
+}: TextInputRootProps) {
   return (
     <div
       className={clsx(
@@ -17,7 +23,8 @@ function TextInputRoot({ children, validation, ...props }: TextInputRootProps) {
         {
           "ring-2 ring-red-500": validation === "error",
           "focus-within:ring-2 ring-indigo-400 transition": !validation,
-        }
+        },
+        className
       )}
       {...props}
     >

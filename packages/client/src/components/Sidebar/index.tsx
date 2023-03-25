@@ -1,15 +1,20 @@
 import Avatar from "@components/Sidebar/Avatar";
 import { fullNameInitials } from "@components/Sidebar/helpers";
 import { Text } from "@components/Texts/Text";
-import { ProfessionalContext } from "@contexts/professionalContext";
 import clsx from "clsx";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import SelectBusiness from "@components/Selects/Business/Index";
 import { Item } from "@components/Item";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { Slot } from "@radix-ui/react-slot";
 import useRoutes from "@routes/index";
+import { BusinessContext } from "@contexts/businessContext";
+import { ProfessionalContext } from "@contexts/professionalContext";
+import { businessFormSchema } from "@components/Selects/Business/businessFormSchema";
+import { joiResolver } from "@hookform/resolvers/joi";
+import { useForm } from "react-hook-form";
+import { handleSubmit } from "@utils/form";
 
 export default function SideBar() {
   const [retract, setRetract] = useState<boolean>(true);
@@ -20,8 +25,9 @@ export default function SideBar() {
   const { routerItems } = useRoutes();
 
   const router = useRouter();
-  const { professional, currentBusinessForm } = useContext(ProfessionalContext);
-  const currentBusiness = currentBusinessForm.getValues();
+
+  const { professional } = useContext(ProfessionalContext);
+  const { currentBusiness } = useContext(BusinessContext);
 
   const openSidebar = () => {
     setRetract(false);
@@ -85,7 +91,7 @@ export default function SideBar() {
               {fullNameInitials(currentBusiness?.name || "")}
             </Text>
           )}
-          {!retract && <SelectBusiness formHook={currentBusinessForm} />}
+          {!retract && <SelectBusiness />}
         </div>
       )}
       {line}

@@ -1,3 +1,4 @@
+import { objectErrorToArray } from "@utils/objects";
 import { FieldValues, UseFormHandleSubmit } from "react-hook-form";
 
 export const handleSubmit = <T extends FieldValues>(
@@ -8,7 +9,10 @@ export const handleSubmit = <T extends FieldValues>(
       (data) => {
         resolve(data);
       },
-      (err) => reject(err)
+      (err) => {
+        const messages = objectErrorToArray(err);
+        reject({ ...err, messages });
+      }
     )();
   });
 };

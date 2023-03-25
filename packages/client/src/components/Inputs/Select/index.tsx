@@ -34,10 +34,11 @@ export function SelectInput<T = any>({
   const matchOptions = options.filter((opt) =>
     renderLabel(opt.value).includes(inputValue)
   );
-  const selectedIndex =
-    matchOptions.findIndex(
-      (opt) => opt.value[optionKey] === selectedOption[optionKey]
-    ) ?? null;
+  const selectedIndex = selectedOption
+    ? matchOptions.findIndex(
+        (opt) => opt.value[optionKey] === selectedOption[optionKey]
+      ) ?? null
+    : null;
 
   const handleSelectedOption = (option: T | null) => {
     const alreadySelected = selectedOption[optionKey] === option[optionKey];
@@ -91,12 +92,9 @@ export function SelectInput<T = any>({
     <TextInput.Root
       onClick={(e) => handleRootClick(e)}
       onFocus={() => setOpen(true)}
+      validation={validation}
       className={clsx(
-        "group flex items-center gap-3 h-12 py-4 px-3 rounded  bg-gray-800 w-full relative",
-        {
-          "ring-2 ring-red-500": validation === "error",
-          "focus-within:ring-2 ring-indigo-400 transition": !validation,
-        }
+        "group flex items-center gap-3 h-12 py-4 px-3 rounded  bg-gray-800 w-full relative"
       )}
     >
       {leftIcon && <TextInput.Icon>{leftIcon}</TextInput.Icon>}
@@ -106,7 +104,9 @@ export function SelectInput<T = any>({
         register={register}
         onChange={({ target }) => setInputValue(target.value)}
         value={
-          !open && selectedOption ? renderLabel(selectedOption) : inputValue
+          (!open && selectedOption
+            ? renderLabel(selectedOption)
+            : inputValue) || ""
         }
       />
       <TextInput.Icon className={open ? "rotate-180 text-white" : ""}>
