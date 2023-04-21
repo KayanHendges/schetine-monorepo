@@ -8,11 +8,20 @@ export interface BusinessRepository
     'appointments' | 'business' | 'businessProfessional'
   > {}
 
+export enum BusinessInclude {
+  'owner',
+  'client',
+  'businessProfessional',
+}
+
+export type BusinessIncludeOption = keyof typeof BusinessInclude;
+
 export interface WhereBusinessParams extends WhereParams<BusinessRepository> {
   associatedProfessional?: Partial<BusinessRepository>;
 }
 export interface ListBusinessParams extends ListParams<BusinessRepository> {
   where?: WhereBusinessParams;
+  include?: BusinessIncludeOption[];
 }
 
 export interface CreateBusinessData

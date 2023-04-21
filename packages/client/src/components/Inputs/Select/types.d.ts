@@ -1,4 +1,5 @@
 import { HTMLAttributes, InputHTMLAttributes } from "react";
+import { FormRef } from "types";
 
 interface SelectOption<T> {
   key: string | number;
@@ -11,8 +12,8 @@ interface SelectProps<T> {
   validation?: string | "error";
   placeholder?: string;
   isDropdownOpen?: boolean;
-  register?: UseFormRegisterReturn;
-  renderLabel: (option: T) => string;
+  formRef?: FormRef;
+  renderLabel: (option: T | null) => string;
   options: SelectOption<T>[];
   selectedOption: T | null;
   onSelectOption: (option: T | null) => void;

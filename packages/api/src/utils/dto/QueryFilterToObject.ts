@@ -11,7 +11,6 @@ export function queryFilterToObject<T>(
   type: string,
 ): WhereParams<T> {
   try {
-    console.log(filter, type);
     const splited = filter.split('_');
     let value: string | number | boolean | Date =
       splited.length === 1 ? splited[0] : splited[1];
@@ -20,8 +19,6 @@ export function queryFilterToObject<T>(
     if (type === 'number') value = Number(value);
     if (type === 'boolean') value = Boolean(value);
     if (type === 'date' && typeof value === 'string') value = new Date(value);
-
-    console.log(value, typeof value);
 
     if (operator?.length) {
       if (type === 'string') return { [operator]: value } as WhereStringParams;
@@ -33,7 +30,6 @@ export function queryFilterToObject<T>(
 
     return value;
   } catch (error) {
-    console.log({ error });
     return filter;
   }
 }

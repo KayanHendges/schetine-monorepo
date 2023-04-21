@@ -17,7 +17,6 @@ import { TextInput } from "@components/Inputs/Text/InputText";
 export function SelectInput<T = any>({
   leftIcon,
   validation,
-  register,
   isDropdownOpen,
   options,
   renderLabel,
@@ -27,12 +26,15 @@ export function SelectInput<T = any>({
   optionKey,
   allowNull = true,
   emptyListMessage = "Nenhum resultado encontrado.",
+  formRef,
 }: SelectProps<T>) {
   const [open, setOpen] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<string>("");
   const [hoverIndex, setHoverIndex] = useState<number | null>(null);
   const matchOptions = options.filter((opt) =>
-    renderLabel(opt.value).includes(inputValue)
+    renderLabel(opt.value)
+      .toLowerCase()
+      .includes(inputValue.toLocaleLowerCase())
   );
   const selectedIndex = selectedOption
     ? matchOptions.findIndex(
@@ -41,8 +43,14 @@ export function SelectInput<T = any>({
     : null;
 
   const handleSelectedOption = (option: T | null) => {
-    const alreadySelected = selectedOption[optionKey] === option[optionKey];
-    onSelectOption(allowNull && alreadySelected ? null : option);
+    const alreadySelected =
+      option && selectedOption[optionKey] === option[optionKey];
+
+    const optionToSave = !option && !allowNull ? selectedOption : option;
+    onSelectOption(allowNull && alreadySelected ? null : optionToSave);
+    setInputValue(
+      allowNull && alreadySelected ? "" : renderLabel(optionToSave)
+    );
     setOpen(false);
     setHoverIndex(null);
   };
@@ -59,9 +67,8 @@ export function SelectInput<T = any>({
         open,
         setOpen,
         setSelectedOption: () => {
-          const option = options[hoverIndex || selectedIndex];
+          const option = matchOptions[hoverIndex ?? selectedIndex];
           handleSelectedOption(option?.value || null);
-          setInputValue(renderLabel(option?.value) || "");
         },
       });
     else {
@@ -101,7 +108,9 @@ export function SelectInput<T = any>({
       <TextInput.Input
         onKeyDown={handleKeyboardEvent}
         placeholder={placeholder}
-        register={register}
+        register={
+          formRef?.register ? formRef.register(formRef.name) : undefined
+        }
         onChange={({ target }) => setInputValue(target.value)}
         value={
           (!open && selectedOption

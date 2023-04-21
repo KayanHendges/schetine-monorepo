@@ -7,6 +7,7 @@ import { ProfessionalProvider } from "@contexts/professionalContext";
 import { useRouter } from "next/router";
 import { publicRoutes } from "src/config/routes";
 import "../styles/global.css";
+import { HelperBarProvider } from "@contexts/helperBarContext";
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
   const isPublicRoute = publicRoutes.includes(router.pathname);

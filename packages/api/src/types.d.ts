@@ -51,3 +51,5 @@ interface ResponseList<T> {
   page: number;
   pageSize: number;
 }
+
+export type SearchIncludeOptions<T> = Partial<Record<T, boolean>>;

@@ -50,8 +50,12 @@ module.exports = {
         "1/3": "33.33%",
         "2/3": "66.66%",
         "1/2": "50%",
+        16: "16rem",
+      },
+      flex: {
+        0: "2 0 0%",
       },
     },
   },
-  plugins: [],
+  plugins: [require("tailwind-scrollbar")],
 };

@@ -36,7 +36,6 @@ export class AuthService implements IAuthService {
 
       return { accessToken, expiresIn };
     } catch (error) {
-      console.log({ error });
       throw Error(error);
     }
   }

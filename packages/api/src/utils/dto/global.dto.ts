@@ -9,6 +9,7 @@ import {
   IsPositive,
   IsString,
   Max,
+  ValidationArguments,
 } from 'class-validator';
 import { OrderParam } from '../../types';
 import { orderByFromString } from './orderByFromString';
@@ -159,3 +160,26 @@ export class DateTimeFilter {
   @IsDate()
   not?: Date;
 }
+
+export const handleEnumErrorMessage = ({
+  constraints,
+  value,
+  property,
+}: ValidationArguments): string => {
+  const allowedOptions = constraints.flatMap((constraint) =>
+    Object.keys(constraint).filter((c) => isNaN(Number(c))),
+  );
+
+  const values =
+    typeof value === 'string' || typeof value === 'number'
+      ? [value]
+      : (value as (string | number)[]);
+
+  const wrongValue = values.filter(
+    (option) => !allowedOptions.find((opt) => opt === option),
+  );
+
+  return `The ${property} field has following invalid properties: ${wrongValue.join(
+    ', ',
+  )}. The allowed options are: ${allowedOptions.join(', ')}.`;
+};

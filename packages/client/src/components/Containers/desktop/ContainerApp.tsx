@@ -6,6 +6,7 @@ import { ArrowRight, House } from "phosphor-react";
 import useClientRoutes from "@routes/index";
 import { Text } from "@components/Texts/Text";
 import Link from "next/link";
+import { HelperBarProvider } from "@contexts/helperBarContext";
 
 export interface BaseComponentProps {
   children: ReactNode;
@@ -25,24 +26,38 @@ export function ContainerApp({ children, asChild }: BaseComponentProps) {
   return (
     <Component
       className={clsx(
-        "w-screen h-screen bg-black flex items-start justify-start pt-3"
+        "w-screen h-screen bg-black flex items-start justify-start pt-3 overflow-hidden"
       )}
     >
-      <SideBar />
-      <div className="flex-1 h-full bg-gray-800 rounded-tl-2xl">
-        <div className="w-full h-12 flex justify-start items-center bg-gray-900 rounded-tl-2xl px-4">
-          <div className="flex justify-center items-center gap-3">
-            <Link href={"/"}>
-              <div className="text-gray-500 cursor-pointer hover:text-gray-400 transition-colors">
-                <House size={24} weight="fill" />
-              </div>
-            </Link>
-            {Arrow}
-            {currentRoute && <Text>{currentRoute.label}</Text>}
+      <HelperBarProvider>
+        <SideBar />
+        <div
+          className={clsx(
+            "flex-1 h-full overflow-hidden",
+            "bg-gray-800 rounded-t-2xl mr-3"
+          )}
+        >
+          <div className="w-full h-12 flex justify-start items-center bg-gray-900 rounded-t-2xl px-4">
+            <div className="flex justify-center items-center gap-3">
+              <Link href={"/"}>
+                <div className="text-gray-500 cursor-pointer hover:text-gray-400 transition-colors">
+                  <House size={24} weight="fill" />
+                </div>
+              </Link>
+              {Arrow}
+              {currentRoute && <Text>{currentRoute.label}</Text>}
+            </div>
+          </div>
+          <div
+            className={clsx(
+              "flex-1 h-full overflow-auto",
+              "scrollbar-thin scrollbar-track-transparent scrollbar-thumb-gray-700"
+            )}
+          >
+            {children}
           </div>
         </div>
-        {children}
-      </div>
+      </HelperBarProvider>
     </Component>
   );
 }

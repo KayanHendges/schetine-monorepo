@@ -28,11 +28,11 @@ model Business {
   id                   String                 @unique @default(uuid())
   name                 String
   ownerId              String                 @map("owner_id")
-  onwer                Professional           @relation(fields: [ownerId], references: [id])
+  owner                Professional           @relation(fields: [ownerId], references: [id])
   businessProfessional BusinessProfessional[]
   modified             DateTime               @updatedAt
   created              DateTime               @default(now())
-  Client               Client[]
+  client               Client[]
 
   @@map("business")
 }

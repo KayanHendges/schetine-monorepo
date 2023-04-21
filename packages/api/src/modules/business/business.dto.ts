@@ -1,13 +1,22 @@
-import { Type } from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
 import {
+  IsArray,
   IsDate,
+  IsEnum,
   IsNotEmpty,
   IsOptional,
   IsString,
   IsUUID,
 } from 'class-validator';
+import {
+  BusinessInclude,
+  BusinessIncludeOption,
+} from '../../repositories/business/business.repository.interface';
 import { Business } from '../../entities/business';
-import { PaginationAndSortDTO } from '../../utils/dto/global.dto';
+import {
+  handleEnumErrorMessage,
+  PaginationAndSortDTO,
+} from '../../utils/dto/global.dto';
 
 export class CreateBusinessDTO {
   @IsString()
@@ -53,6 +62,17 @@ export class ListBusinessDTO extends PaginationAndSortDTO<Business> {
   @IsNotEmpty()
   @IsOptional()
   associatedProfessionalId?: string;
+
+  @IsArray()
+  @IsEnum(BusinessInclude, {
+    each: true,
+    message: handleEnumErrorMessage,
+  })
+  @IsOptional()
+  @Transform(({ value }) =>
+    typeof value === 'string' ? value.replace(' ', '').split(',') : value,
+  )
+  include: BusinessIncludeOption[];
 }
 
 export class UpdateBusinessParam {

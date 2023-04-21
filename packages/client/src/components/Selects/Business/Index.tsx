@@ -7,7 +7,6 @@ import { handleSubmit } from "@utils/form";
 import Joi from "joi";
 import { Storefront } from "phosphor-react";
 import { useContext, useEffect } from "react";
-import { UseFormReturn } from "react-hook-form";
 import { useForm } from "react-hook-form";
 
 interface Props {}
@@ -55,7 +54,7 @@ export default function SelectBusiness({}: Props) {
   return (
     <SelectInput<Business>
       leftIcon={<Storefront />}
-      renderLabel={(option) => option.name}
+      renderLabel={(option) => option?.name || ""}
       options={renderOptions()}
       selectedOption={getValues().business}
       onSelectOption={handleSelected}

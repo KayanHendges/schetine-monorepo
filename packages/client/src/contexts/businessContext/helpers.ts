@@ -8,6 +8,7 @@ export const fetchAssignedBusiness = async (
   try {
     const { list } = await listBusiness({
       associatedProfessionalId: professionalId,
+      include: ["owner"]
     });
     return list;
   } catch (error) {

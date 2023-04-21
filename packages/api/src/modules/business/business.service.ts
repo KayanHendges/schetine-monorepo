@@ -49,8 +49,15 @@ export class BusinessService implements IBusinessService {
   }
 
   async list(params: ListBusinessDTO): Promise<ResponseList<Business>> {
-    const { page, pageSize, orderBy, associatedProfessionalId, ...where } =
-      params;
+    const {
+      page,
+      pageSize,
+      orderBy,
+      associatedProfessionalId,
+      include,
+      ...where
+    } = params;
+
     const repositoryParams: ListBusinessParams = {
       where: {
         ...where,
@@ -58,6 +65,7 @@ export class BusinessService implements IBusinessService {
           ? { id: associatedProfessionalId }
           : undefined,
       },
+      include,
       page,
       pageSize,
       orderBy,

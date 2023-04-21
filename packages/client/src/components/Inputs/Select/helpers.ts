@@ -13,8 +13,8 @@ export const keyboardMapFunctions: Record<
     else if (hoverIndex === optionsLength - 1) setHoverIndex(0);
     else setHoverIndex(hoverIndex + 1);
   },
-  Enter: ({ hoverIndex, setSelectedOption }) => {
-    setSelectedOption();
+  Enter: ({ setSelectedOption, open }) => {
+    open && setSelectedOption();
   },
   Tab: ({ open, setOpen }) => {
     if (open) setOpen(false);

@@ -1,0 +1,3 @@
+interface ICreateBusinessForm {
+  name: string;
+}

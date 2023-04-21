@@ -16,7 +16,7 @@ export default function Login() {
   const form = useForm<ILoginFormSchema>({
     resolver: joiResolver(loginFormSchema),
   });
-  const router = useRouter()
+  const router = useRouter();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [errorMessage, setErroMessage] = useState<string | null>(null);
@@ -27,7 +27,7 @@ export default function Login() {
     try {
       const payload = await handleSubmit(form.handleSubmit);
       await login(payload);
-      router.push('/')
+      router.push("/");
     } catch (error) {
       setIsLoading(false);
       if (error?.message?.includes("Invalid credentials"))

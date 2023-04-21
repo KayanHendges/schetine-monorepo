@@ -1,9 +1,10 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { Business, BusinessProfessional, Prisma } from '@prisma/client';
-import { ListParams } from 'src/types';
+import { formatIncludeArray } from '../../helpers';
 import { PrismaService } from '../../../providers/db/prisma/prisma.service';
 import { PrismaAbstractRepository } from '../../base/prisma/prisma.abstract.repository';
 import {
+  BusinessIncludeOption,
   BusinessRepository,
   IBusinessRepository,
   IDeleteBusinessParams,
@@ -25,6 +26,7 @@ export class PrismaBusinessRepository
 
   async list({
     where: { associatedProfessional, ...params },
+    include,
     orderBy,
     page,
     pageSize,
@@ -41,6 +43,7 @@ export class PrismaBusinessRepository
 
     return this._prisma.business.findMany({
       where: whereParams,
+      include: formatIncludeArray<BusinessIncludeOption>(include || []),
       orderBy,
       take,
       skip,
