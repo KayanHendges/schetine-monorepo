@@ -8,6 +8,8 @@ import { UseFormReturn } from "react-hook-form/";
 import { User } from "phosphor-react";
 import { IRegisterFormSchema } from "@components/Forms/Register/registerFormSchema";
 import Username from "@components/Fields/Username";
+import Form from "@components/Containers/Form";
+import useFormContainer from "@components/Containers/Form";
 
 interface Props {
   onSubmit: () => void;
@@ -22,21 +24,14 @@ export default function RegisterForm({
   isLoading,
   errorMessage,
 }: Props) {
-  const { formState } = formRef;
+  const { formState, trigger } = formRef;
+  const { Form } = useFormContainer();
 
   const errorState = formState.errors;
   const hasError = !!Object.keys(errorState).length;
 
-  const handleSubmit = () => {
-    if (isLoading || hasError) return;
-    onSubmit();
-  };
-
   return (
-    <div
-      className="flex flex-col gap-9"
-      onKeyDownCapture={({ key }) => (key === "Enter" ? handleSubmit() : null)}
-    >
+    <Form onSubmit={onSubmit} isLoading={isLoading} disabled={hasError}>
       <div className="flex flex-col items-center gap-3">
         <Logo />
         <Text>Faça seu login e comece a usar</Text>
@@ -64,13 +59,9 @@ export default function RegisterForm({
           {errorMessage}
         </Text>
       )}
-      <Button
-        isLoading={isLoading}
-        isEnabled={!hasError}
-        onClick={() => handleSubmit()}
-      >
+      <Button isLoading={isLoading} isEnabled={!hasError}>
         Criar conta
       </Button>
-    </div>
+    </Form>
   );
 }

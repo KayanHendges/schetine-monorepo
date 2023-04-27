@@ -23,7 +23,7 @@ export default function Register() {
     setIsLoading(true);
     setErroMessage(null);
     try {
-      const payload = await handleSubmit(form.handleSubmit);
+      const payload = await handleSubmit(form);
       const { id } = await registerProfessional(payload);
       if (id) login({ email: payload.email, password: payload.password });
     } catch (error) {

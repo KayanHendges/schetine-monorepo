@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { useQuery } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 import { IBusinessContext } from "@contexts/businessContext/types";
 import { ProfessionalContext } from "@contexts/professionalContext";
 import {
@@ -13,18 +13,32 @@ export const BusinessContext = createContext({} as IBusinessContext);
 export function BusinessProvider({ children }) {
   const { professional } = useContext(ProfessionalContext);
   const [currentBusiness, setCurrentBusiness] = useState<Business | null>(null);
+  const queryClient = useQueryClient();
 
   const {
     data: assignedBusiness,
     isLoading: fetchingAssignedBusiness,
     refetch: refetchAssignedBusiness,
-  } = useQuery<Business[]>("assigned_business", (ctx) =>
-    fetchAssignedBusiness(professional?.id)
+  } = useQuery<Business[]>(
+    "assigned_business",
+    (ctx) => {
+      console.log("revalidating");
+      return fetchAssignedBusiness(professional?.id);
+    },
+    { refetchOnWindowFocus: "always" }
   );
 
   const handleCurrentBusiness = (business: Business) => {
     setCurrentBusiness(business);
     saveCurrentBusinessCookie(business);
+  };
+
+  const includeBusiness = (business: Omit<Business, "owner">) => {
+    const businessWithOwner: Business = { ...business, owner: professional };
+    const newList = [businessWithOwner, ...assignedBusiness];
+    queryClient.setQueryData("assigned_business", newList);
+    refetchAssignedBusiness();
+    if (!currentBusiness) handleCurrentBusiness(business);
   };
 
   useEffect(() => {
@@ -49,6 +63,7 @@ export function BusinessProvider({ children }) {
       value={{
         assignedBusiness,
         currentBusiness,
+        includeBusiness,
         handleCurrentBusiness,
         fetchingAssignedBusiness,
       }}

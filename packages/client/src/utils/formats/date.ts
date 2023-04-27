@@ -14,3 +14,10 @@ export const handleDates = (body: any) => {
     else if (typeof value === "object") handleDates(value);
   }
 };
+
+export const normalizeDate = (date: any): DateTime => {
+  if (typeof date === "number") return DateTime.fromMillis(date);
+  else if (typeof date === "string")
+    return DateTime.fromISO(date);
+  else return DateTime.fromJSDate(date);
+};

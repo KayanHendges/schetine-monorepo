@@ -8,7 +8,7 @@ interface TableColum<T> {
   width?: string;
   className?: HTMLAttributes<HTMLDivElement>["className"];
   justify?: "start" | "center" | "end" | "between" | "around" | "evenly";
-  formatDate?: boolean
+  dateFormat?: string;
 }
 
 interface TableRootProps extends HTMLAttributes<HTMLDivElement> {

@@ -6,6 +6,7 @@ export const HelperBarContext = createContext({} as IHelperBarContex);
 
 export function HelperBarProvider({ children }) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [renderListBar, setRenderListBar] = useState<boolean>(false);
 
   const [customHelper, setCustomHelper] = useState<JSX.Element | null>(null);
   const [isCustomHelperOpen, setIsCustomHelperOpen] =
@@ -20,6 +21,7 @@ export function HelperBarProvider({ children }) {
       await sleep(transitionMs);
     }
     setIsCustomHelperOpen(true);
+    setRenderListBar(true);
   };
 
   const closeCustomHelper = () => {
@@ -27,16 +29,20 @@ export function HelperBarProvider({ children }) {
     setCustomHelper(null);
   };
 
-  const open = () => {
+  const open = async () => {
     setIsOpen(true);
+    await sleep(transitionMs);
+    setRenderListBar(true);
   };
 
   const close = async () => {
-    if (customHelper) {
+    if (customHelper || renderListBar) {
       setIsCustomHelperOpen(false);
+      setRenderListBar(false);
       await sleep(transitionMs);
       setCustomHelper(null);
     }
+
     setIsOpen(false);
   };
 
@@ -53,6 +59,8 @@ export function HelperBarProvider({ children }) {
       {children}
       <HelperBar
         customHelper={customHelper}
+        renderListBar={renderListBar}
+        setRenderListBar={setRenderListBar}
         isCustomHelperOpen={isCustomHelperOpen}
         setIsCustomHelperOpen={setIsCustomHelperOpen}
       />

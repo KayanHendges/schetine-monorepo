@@ -42,7 +42,7 @@ export default function Appointments() {
       dataKey: "name",
     },
     { label: "dono", render: handleOwnerName },
-    { label: "criado", dataKey: "created", formatDate: true },
+    { label: "criado", dataKey: "created" },
     {
       label: "",
       dataKey: "id",

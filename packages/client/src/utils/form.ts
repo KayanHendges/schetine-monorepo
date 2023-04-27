@@ -1,11 +1,11 @@
 import { objectErrorToArray } from "@utils/objects";
-import { FieldValues, UseFormHandleSubmit } from "react-hook-form";
+import { FieldValues, UseFormReturn } from "react-hook-form";
 
 export const handleSubmit = <T extends FieldValues>(
-  submit: UseFormHandleSubmit<T>
+  form: UseFormReturn<T>
 ): Promise<T> => {
   return new Promise((resolve, reject) => {
-    submit(
+    form.handleSubmit(
       (data) => {
         resolve(data);
       },

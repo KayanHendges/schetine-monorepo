@@ -8,6 +8,7 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLElement> {
   asChild?: boolean;
   isLoading?: boolean;
   isEnabled?: boolean;
+  buttonStyle?: "primary" | "secondary";
 }
 
 export function Button({
@@ -16,6 +17,7 @@ export function Button({
   isLoading,
   isEnabled = true,
   className,
+  buttonStyle = "primary",
   ...props
 }: ButtonProps) {
   const Component = asChild ? Slot : "button";
@@ -24,12 +26,14 @@ export function Button({
     <Component
       className={clsx(
         "w-full px-4 py-3 gap-3 rounded",
-        "bg-indigo-400 transition-colors",
-        "focus:ring-2 ring-white",
-        "text-black font-semibold",
-        "truncate",
+        "transition-colors font-semibold truncate",
+        buttonStyle === "primary"
+          ? "bg-indigo-400 focus:ring-2 ring-white text-black"
+          : "bg-transparent ring-inset ring-2 ring-indigo-400 text-indigo-400 focus:ring-white focus:ring-offset-0",
         {
-          "hover:bg-indigo-300": isEnabled,
+          "hover:bg-indigo-300": isEnabled && buttonStyle === "primary",
+          "hover:bg-indigo-300 hover:ring-indigo-300 hover:text-black":
+            isEnabled && buttonStyle === "secondary",
           "bg-indigo-500": !isEnabled,
           "cursor-not-allowed": !isEnabled,
         },

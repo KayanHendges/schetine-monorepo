@@ -16,12 +16,12 @@ export const listBusiness = async ({
   ).data;
 
 export const createBusiness = async (dto: CreateBusinessDTO) =>
-  (await axios.post<Business>("business", dto)).data;
+  (await api.post<Omit<Business, "owner">>("business", dto)).data;
 
 export const updateBusiness = async (
   businessId: string,
   dto: CreateBusinessDTO
-) => (await axios.patch<Business>(`business/${businessId}`, dto)).data;
+) => (await api.patch<Business>(`business/${businessId}`, dto)).data;
 
 export const deleteBusiness = async (businessId: string) =>
-  (await axios.delete<Business>(`business/${businessId}`)).data;
+  (await api.delete<Business>(`business/${businessId}`)).data;

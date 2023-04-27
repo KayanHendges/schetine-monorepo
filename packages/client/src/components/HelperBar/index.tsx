@@ -1,14 +1,21 @@
+import ListBar from "@components/HelperBar/ListBar";
 import { HelperBarContext } from "@contexts/helperBarContext";
 import clsx from "clsx";
 import { Dispatch, SetStateAction, useContext, useState } from "react";
 
 interface Props {
   customHelper?: JSX.Element;
+  renderListBar: boolean;
+  setRenderListBar: Dispatch<SetStateAction<boolean>>;
   isCustomHelperOpen: boolean;
   setIsCustomHelperOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-export default function HelperBar({ customHelper, isCustomHelperOpen }: Props) {
+export default function HelperBar({
+  customHelper,
+  isCustomHelperOpen,
+  renderListBar,
+}: Props) {
   const { isOpen } = useContext(HelperBarContext);
 
   return (
@@ -18,22 +25,19 @@ export default function HelperBar({ customHelper, isCustomHelperOpen }: Props) {
         isOpen ? "flex-1 min-w-fit mr-3" : "flex-none"
       )}
     >
-      {/* {!customHelper && (
+      {(isOpen || renderListBar) && (
         <div
-          className={clsx(
-            "h-full max-w-md",
-            isOpen ? "flex-1 min-w-fit" : "flex-none",
-            "flex flex-col bg-gray-800",
-            "rounded-t-2xl mr-3 transition-all"
-          )}
+          className={clsx("w-full h-full absolute z-0 transition-all", {
+            "translate-y-full": isOpen && !renderListBar,
+          })}
         >
-          <div className={clsx("w-full h-12 rounded-t-2xl bg-gray-900")}></div>
+          <ListBar />
         </div>
-      )} */}
+      )}
       {(customHelper || isCustomHelperOpen) && (
         <div
           className={clsx(
-            "flex w-full h-full flex-col",
+            "flex w-full h-full flex-col z-10",
             "absolute overflow-auto",
             "bg-gray-750 rounded-t-2xl mr-3 transition-all",
             { "translate-y-full": isOpen && !isCustomHelperOpen }

@@ -2,7 +2,7 @@ import { FieldProps } from "@components/Fields/types";
 import { TextInput } from "@components/Inputs/Text/InputText";
 import CircularLoader from "@components/Loaders/CircularLoader";
 import { Text } from "@components/Texts/Text";
-import { useEffect, useRef, useState } from "react";
+import { HTMLAttributes, useEffect, useRef, useState } from "react";
 import { debounce } from "lodash";
 
 interface Props extends FieldProps {
@@ -12,6 +12,7 @@ interface Props extends FieldProps {
   onChange?: (value: string) => void;
   inputRootClassName?: string;
   onStopTypingFuncion?: (...args: any) => any;
+  inputAttributes?: HTMLAttributes<HTMLInputElement>;
 }
 
 export default function TextField({
@@ -22,7 +23,8 @@ export default function TextField({
   isValid,
   onStopTypingFuncion,
   onChange,
-  formHook: { name, register, formState, getValues, setValue },
+  inputAttributes = {},
+  formHook: { name, register, formState, getValues, setValue, trigger },
 }: Props) {
   // Todo: debounce typing function
   const [text, setText] = useState<string>(
@@ -50,6 +52,8 @@ export default function TextField({
             register={register(name)}
             value={text}
             onChange={({ target }) => onHandleChanges(target.value)}
+            onBlur={async () => await trigger()}
+            {...inputAttributes}
           />
           {!isLoading && isValid !== undefined && (
             <TextInput.ValidatedIcon isValid={isValid} />

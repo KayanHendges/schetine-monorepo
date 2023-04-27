@@ -25,7 +25,7 @@ export default function Login() {
     setIsLoading(true);
     setErroMessage(null);
     try {
-      const payload = await handleSubmit(form.handleSubmit);
+      const payload = await handleSubmit(form);
       await login(payload);
       router.push("/");
     } catch (error) {

@@ -4,9 +4,10 @@ import {
   TableRootProps,
 } from "@components/Tables/Table/types";
 import { Text } from "@components/Texts/Text";
+import { normalizeDate } from "@utils/formats/date";
 import clsx from "clsx";
 import _ from "lodash";
-import { DateTime } from "luxon";
+import { DateTime, DurationUnit } from "luxon";
 
 function TableRoot({ children, className, ...props }: TableRootProps) {
   return (
@@ -46,12 +47,15 @@ function TableHeader<T>({ columns, className, ...props }: TableHeaderProps<T>) {
 
 TableHeader.displayName = "Table.Header";
 
-const handleFormatDate = (date: any) => {
-  console.log(typeof date, date);
-  if (typeof date === "number")
-    return DateTime.fromMillis(date).toFormat("yyyy");
-  else if (typeof date === "string") return DateTime.fromISO(date).toFormat("yyyy");
-  else return DateTime.fromJSDate(date).toFormat("yyyy");
+const handleFormatDate = (
+  date: any,
+  format = "hh:mm:ss dd/MM/yyyy"
+): string => {
+  const unitsAgo = (unit: DurationUnit) =>
+    Math.abs(Number(dateTime.diffNow(unit)[unit]));
+
+  const dateTime = normalizeDate(date);
+  return dateTime.toFormat(format);
 };
 
 function TableBody<T>({
@@ -86,7 +90,7 @@ function TableBody<T>({
                 render,
                 label,
                 justify = "center",
-                formatDate,
+                dateFormat,
               }) => {
                 const labelKey = typeof label === "string" ? label : label.key;
                 const key = `${String(data[identifierKey])}-${labelKey}`;
@@ -97,13 +101,12 @@ function TableBody<T>({
                   ? render(data)
                   : valueType === "string" || valueType === "number"
                   ? String(dataValue)
+                  : DateTime.fromJSDate(dataValue as Date).isValid
+                  ? handleFormatDate(dataValue, dateFormat)
                   : JSON.stringify(dataValue);
+
                 const children =
-                  typeof value !== "string" ? (
-                    value
-                  ) : (
-                    <Text>{formatDate ? handleFormatDate(value) : value}</Text>
-                  );
+                  typeof value !== "string" ? value : <Text>{value}</Text>;
 
                 return (
                   <div

@@ -1,4 +1,4 @@
-import { ContainerApp } from "@components/Containers/desktop/ContainerApp";
+import { ContainerApp } from "@components/Containers/Desktop/ContainerApp";
 import { ContainerPublicRoutes } from "@components/Containers/ContainerPublicRoutes";
 import { AuthProvider } from "@contexts/authContext";
 import { BusinessProvider } from "@contexts/businessContext";

@@ -1,4 +1,5 @@
 import { Button } from "@components/Buttons/Button";
+import useFormContainer from "@components/Containers/Form";
 import EmailField from "@components/Fields/Email";
 import PassowordField from "@components/Fields/Password";
 import { ILoginFormSchema } from "@components/Forms/Login/loginFormSchema";
@@ -19,16 +20,10 @@ export default function LoginForm({
   isLoading,
   errorMessage,
 }: Props) {
-  const handleSubmit = () => {
-    if (isLoading) return;
-    onSubmit();
-  };
+  const { Form } = useFormContainer();
 
   return (
-    <div
-      className="flex flex-col gap-9"
-      onKeyDownCapture={({ key }) => (key === "Enter" ? handleSubmit() : null)}
-    >
+    <Form onSubmit={onSubmit} isLoading={isLoading}>
       <div className="flex flex-col items-center gap-3">
         <Logo />
         <Text>Faça seu login e comece a usar</Text>
@@ -43,9 +38,7 @@ export default function LoginForm({
         </Text>
       )}
       <div className="flex flex-col items-center gap-6">
-        <Button isLoading={isLoading} onClick={() => handleSubmit()}>
-          Entrar na plataforma
-        </Button>
+        <Button isLoading={isLoading}>Entrar na plataforma</Button>
         <div className="flex flex-col items-center gap-4">
           <Text asChild size="sm">
             <a className="underline" href="forgot-password">
@@ -61,6 +54,6 @@ export default function LoginForm({
           </Text>
         </div>
       </div>
-    </div>
+    </Form>
   );
 }
