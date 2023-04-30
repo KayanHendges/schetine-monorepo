@@ -18,18 +18,15 @@ export default function Login() {
   });
   const router = useRouter();
 
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [errorMessage, setErroMessage] = useState<string | null>(null);
 
   const handleLogin = async () => {
-    setIsLoading(true);
     setErroMessage(null);
     try {
       const payload = await handleSubmit(form);
       await login(payload);
       router.push("/");
     } catch (error) {
-      setIsLoading(false);
       if (error?.message?.includes("Invalid credentials"))
         setErroMessage("Email ou senha incorreta");
       else
@@ -45,7 +42,6 @@ export default function Login() {
         <LoginForm
           formRef={form}
           onSubmit={handleLogin}
-          isLoading={isLoading}
           errorMessage={errorMessage}
         />
       </div>

@@ -1,7 +1,6 @@
 import {  HTMLAttributes } from "react";
 
-interface FormProps<T = Record<string, any>> extends HTMLAttributes<HTMLFormElement> {
-    formHook: UseFormReturn<T>;
+interface FormProps extends HTMLAttributes<HTMLFormElement> {
     handleSubmit?: () => void;
     isLoading?: boolean;
 }

@@ -74,7 +74,7 @@ function TableBody<T>({
       )}
       {...props}
     >
-      {dataSource?.map((data) => {
+      {dataSource?.map((data, rowIndex) => {
         return (
           <div
             key={String(data[identifierKey])}
@@ -98,7 +98,7 @@ function TableBody<T>({
                 const dataValue = _.get(data, dataKey, "");
                 const valueType = typeof dataValue;
                 const value = render
-                  ? render(data)
+                  ? render(data, rowIndex)
                   : valueType === "string" || valueType === "number"
                   ? String(dataValue)
                   : DateTime.fromJSDate(dataValue as Date).isValid
@@ -112,7 +112,7 @@ function TableBody<T>({
                   <div
                     key={key}
                     className={clsx(
-                      `flex w-full justify-${justify} items-center truncate`,
+                      `flex w-full justify-${justify} items-center`,
                       className
                     )}
                   >

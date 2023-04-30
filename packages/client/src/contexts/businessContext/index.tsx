@@ -19,13 +19,8 @@ export function BusinessProvider({ children }) {
     data: assignedBusiness,
     isLoading: fetchingAssignedBusiness,
     refetch: refetchAssignedBusiness,
-  } = useQuery<Business[]>(
-    "assigned_business",
-    (ctx) => {
-      console.log("revalidating");
-      return fetchAssignedBusiness(professional?.id);
-    },
-    { refetchOnWindowFocus: "always" }
+  } = useQuery<Business[]>("assigned_business", (ctx) =>
+    fetchAssignedBusiness(professional?.id)
   );
 
   const handleCurrentBusiness = (business: Business) => {

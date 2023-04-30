@@ -1,4 +1,4 @@
-import { Button } from "@components/Buttons/Button";
+import { Button } from "@components/Buttons/Default";
 import EmailField from "@components/Fields/Email";
 import TextField from "@components/Fields/TextField";
 import PassowordField from "@components/Fields/Password";
@@ -10,47 +10,45 @@ import { IRegisterFormSchema } from "@components/Forms/Register/registerFormSche
 import Username from "@components/Fields/Username";
 import Form from "@components/Containers/Form";
 import useFormContainer from "@components/Containers/Form";
+import { FormProps } from "@components/Forms/types";
 
-interface Props {
-  onSubmit: () => void;
-  formRef: UseFormReturn<IRegisterFormSchema>;
-  isLoading?: boolean;
+interface Props extends FormProps {
+  formHook: UseFormReturn<IRegisterFormSchema>;
   errorMessage?: string | null;
 }
 
 export default function RegisterForm({
-  formRef,
+  formHook,
   onSubmit,
-  isLoading,
   errorMessage,
 }: Props) {
-  const { formState, trigger } = formRef;
-  const { Form } = useFormContainer();
+  const { formState } = formHook;
+  const { Form, isFormLoading } = useFormContainer();
 
   const errorState = formState.errors;
   const hasError = !!Object.keys(errorState).length;
 
   return (
-    <Form onSubmit={onSubmit} isLoading={isLoading} disabled={hasError}>
+    <Form onSubmit={onSubmit} isLoading={isFormLoading} disabled={hasError}>
       <div className="flex flex-col items-center gap-3">
         <Logo />
         <Text>Faça seu login e comece a usar</Text>
       </div>
       <div className="flex flex-col gap-4">
         <TextField
-          formHook={{ ...formRef, name: "name" }}
+          formHook={{ ...formHook, name: "name" }}
           label={"Nome completo"}
           icon={<User />}
           placeholder={"Ex: João Silva"}
         />
-        <Username formHook={formRef} placeholder="Ex: joao_silva" validate />
+        <Username formHook={formHook} placeholder="Ex: joao_silva" validate />
         <EmailField
-          formHook={formRef}
+          formHook={formHook}
           placeholder="Ex: joao.silva@email.com"
           validate
         />
         <PassowordField
-          formHook={formRef}
+          formHook={formHook}
           placeholder="Mínimo de 8 caracteres"
         />
       </div>
@@ -59,7 +57,7 @@ export default function RegisterForm({
           {errorMessage}
         </Text>
       )}
-      <Button isLoading={isLoading} isEnabled={!hasError}>
+      <Button isLoading={isFormLoading} isEnabled={!hasError}>
         Criar conta
       </Button>
     </Form>

@@ -21,12 +21,15 @@ export function HelperBarProvider({ children }) {
       await sleep(transitionMs);
     }
     setIsCustomHelperOpen(true);
-    setRenderListBar(true);
   };
 
-  const closeCustomHelper = () => {
+  const closeCustomHelper = async () => {
     setIsCustomHelperOpen(false);
     setCustomHelper(null);
+    if (!renderListBar) {
+      await sleep(transitionMs);
+      setIsOpen(false);
+    }
   };
 
   const open = async () => {

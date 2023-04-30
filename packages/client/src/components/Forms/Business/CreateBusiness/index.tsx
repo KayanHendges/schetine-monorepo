@@ -1,4 +1,4 @@
-import { Button } from "@components/Buttons/Button";
+import { Button } from "@components/Buttons/Default";
 import useFormContainer from "@components/Containers/Form";
 import Form from "@components/Containers/Form";
 import TextField from "@components/Fields/TextField";

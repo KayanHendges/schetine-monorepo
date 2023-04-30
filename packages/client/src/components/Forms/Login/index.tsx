@@ -1,29 +1,23 @@
-import { Button } from "@components/Buttons/Button";
+import { Button } from "@components/Buttons/Default";
 import useFormContainer from "@components/Containers/Form";
 import EmailField from "@components/Fields/Email";
 import PassowordField from "@components/Fields/Password";
 import { ILoginFormSchema } from "@components/Forms/Login/loginFormSchema";
+import { FormProps } from "@components/Forms/types";
 import Logo from "@components/Logo";
 import { Text } from "@components/Texts/Text";
 import { UseFormReturn } from "react-hook-form/";
 
-interface Props {
-  onSubmit: () => void;
+interface Props extends FormProps {
   formRef: UseFormReturn<ILoginFormSchema>;
-  isLoading?: boolean;
   errorMessage?: string | null;
 }
 
-export default function LoginForm({
-  formRef,
-  onSubmit,
-  isLoading,
-  errorMessage,
-}: Props) {
-  const { Form } = useFormContainer();
+export default function LoginForm({ formRef, onSubmit, errorMessage }: Props) {
+  const { Form, isFormLoading } = useFormContainer();
 
   return (
-    <Form onSubmit={onSubmit} isLoading={isLoading}>
+    <Form onSubmit={onSubmit} isLoading={isFormLoading}>
       <div className="flex flex-col items-center gap-3">
         <Logo />
         <Text>Faça seu login e comece a usar</Text>
@@ -38,7 +32,7 @@ export default function LoginForm({
         </Text>
       )}
       <div className="flex flex-col items-center gap-6">
-        <Button isLoading={isLoading}>Entrar na plataforma</Button>
+        <Button isLoading={isFormLoading}>Entrar na plataforma</Button>
         <div className="flex flex-col items-center gap-4">
           <Text asChild size="sm">
             <a className="underline" href="forgot-password">

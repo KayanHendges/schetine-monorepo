@@ -2,19 +2,15 @@ import Avatar from "@components/Sidebar/Avatar";
 import { fullNameInitials } from "@components/Sidebar/helpers";
 import { Text } from "@components/Texts/Text";
 import clsx from "clsx";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import SelectBusiness from "@components/Selects/Business/Index";
-import { Item } from "@components/Item";
+import { Item } from "@components/Items/Default";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { Slot } from "@radix-ui/react-slot";
 import useRoutes from "@routes/index";
 import { BusinessContext } from "@contexts/businessContext";
 import { ProfessionalContext } from "@contexts/professionalContext";
-import { businessFormSchema } from "@components/Selects/Business/businessFormSchema";
-import { joiResolver } from "@hookform/resolvers/joi";
-import { useForm } from "react-hook-form";
-import { handleSubmit } from "@utils/form";
 
 export default function SideBar() {
   const [retract, setRetract] = useState<boolean>(true);

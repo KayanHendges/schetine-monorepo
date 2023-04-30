@@ -1,4 +1,4 @@
-import { Button } from "@components/Buttons/Button";
+import { Button } from "@components/Buttons/Default";
 import TextField from "@components/Fields/TextField";
 import CreateBusinessForm from "@components/Forms/Business/CreateBusiness";
 import { createBusinessFormSchema } from "@components/Forms/Business/CreateBusiness/CreateBusinessForm";

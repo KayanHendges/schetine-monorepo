@@ -16,11 +16,9 @@ export default function Register() {
     resolver: joiResolver(registerFormSchema),
   });
 
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [errorMessage, setErroMessage] = useState<string | null>(null);
 
   const handleLogin = async () => {
-    setIsLoading(true);
     setErroMessage(null);
     try {
       const payload = await handleSubmit(form);
@@ -28,7 +26,6 @@ export default function Register() {
       if (id) login({ email: payload.email, password: payload.password });
     } catch (error) {
       setErroMessage("Houve algum problema com o seu login. Tente novamente.");
-      setIsLoading(false);
     }
   };
 
@@ -36,9 +33,8 @@ export default function Register() {
     <div className="w-full h-full flex items-center justify-center">
       <div className="w-96">
         <RegisterForm
-          formRef={form}
+          formHook={form}
           onSubmit={handleLogin}
-          isLoading={isLoading}
           errorMessage={errorMessage}
         />
       </div>

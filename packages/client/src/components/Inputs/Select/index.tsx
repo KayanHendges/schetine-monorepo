@@ -8,7 +8,7 @@ import {
 } from "react";
 import clsx from "clsx";
 import { CaretDown } from "phosphor-react";
-import { Item } from "@components/Item";
+import { Item } from "@components/Items/Default";
 import { Text } from "@components/Texts/Text";
 import { keyboardMapFunctions } from "@components/Inputs/Select/helpers";
 import { InputMenuProps, SelectProps } from "@components/Inputs/Select/types";
