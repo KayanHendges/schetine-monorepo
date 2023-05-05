@@ -2,32 +2,43 @@ import { FieldProps } from "@components/Fields/types";
 import { TextInput } from "@components/Inputs/Text/InputText";
 import { Text } from "@components/Texts/Text";
 import { Envelope } from "phosphor-react";
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { debounce } from "lodash";
-import { UseFormTrigger } from "react-hook-form";
+import { Path, PathValue, UseFormTrigger } from "react-hook-form";
 import { findProfessional } from "@providers/api/professional";
 
-interface Props extends FieldProps {
+interface Props<T> extends FieldProps<T> {
   validate?: boolean;
 }
 
-export default function EmailField({
+export default function EmailField<T>({
   label = "Endereço de email",
   placeholder = "Email",
   validate,
-  formHook: { name = "email", register, formState, trigger, setError, watch },
-}: Props) {
+  onChange,
+  formHook: { name, register, formState, trigger, setError, watch, setValue },
+}: Props<T>) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isUnique, setIsUnique] = useState<boolean | null>(null);
-  const error = formState.errors[name];
+  const error = formState.errors[name as string];
+
+  const onHandleChanges = (value: string) => {
+    if (onChange) onChange(value);
+    setValue(name, value as PathValue<T, Path<T>>);
+  };
+
+  useEffect(() => {
+    console.log("mounting email");
+    return () => console.log("unmounting email");
+  }, []);
 
   const validateUniqueEmail = useRef(
     debounce(
       async (
         email: string,
-        name: string,
+        name: Path<T>,
         trigger: UseFormTrigger<any>,
-        setIsUnique: Dispatch<SetStateAction<boolean | null>>
+        setIsUnique: SetState<boolean | null>
       ) => {
         const isValid = await trigger(name, { shouldFocus: true });
 
@@ -48,7 +59,9 @@ export default function EmailField({
     )
   );
 
-  const typedValue = watch(name);
+  const watchedValue = watch(name)
+  const typedValue = typeof watchedValue === "string" ? watchedValue : "";
+  
   useEffect(() => {
     if (!validate || !typedValue?.length) {
       setIsUnique(null);
@@ -69,7 +82,8 @@ export default function EmailField({
           <TextInput.Input
             type="email"
             placeholder={placeholder}
-            register={register(name)}
+            {...register(name)}
+            onChange={({ target }) => onHandleChanges(target.value)}
           />
           {!isLoading && isUnique !== null && (
             <TextInput.ValidatedIcon isValid={isUnique} />

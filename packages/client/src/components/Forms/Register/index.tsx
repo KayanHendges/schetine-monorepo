@@ -41,14 +41,14 @@ export default function RegisterForm({
           icon={<User />}
           placeholder={"Ex: João Silva"}
         />
-        <Username formHook={formHook} placeholder="Ex: joao_silva" validate />
+        <Username formHook={{...formHook, name: "username" }} placeholder="Ex: joao_silva" validate />
         <EmailField
-          formHook={formHook}
+          formHook={{...formHook, name: "email"}}
           placeholder="Ex: joao.silva@email.com"
           validate
         />
         <PassowordField
-          formHook={formHook}
+          formHook={{...formHook, name: "password"}}
           placeholder="Mínimo de 8 caracteres"
         />
       </div>

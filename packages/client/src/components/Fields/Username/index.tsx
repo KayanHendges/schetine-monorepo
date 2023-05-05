@@ -3,24 +3,24 @@ import { TextInput } from "@components/Inputs/Text/InputText";
 import CircularLoader from "@components/Loaders/CircularLoader";
 import { Text } from "@components/Texts/Text";
 import { At } from "phosphor-react";
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { debounce } from "lodash";
 import { findProfessional } from "@providers/api/professional";
 import { usernameRegex } from "@components/Forms/Register/registerFormSchema";
-import { UseFormTrigger, UseFormWatch } from "react-hook-form";
+import { Path, PathValue, UseFormTrigger, UseFormWatch } from "react-hook-form";
 
-interface Props extends FieldProps {
+interface Props<T> extends FieldProps<T> {
   validate?: boolean;
   icon?: JSX.Element;
 }
 
-export default function Username({
+export default function Username<T extends Record<string, any>>({
   label = "Nome do usuário",
   icon = <At />,
   placeholder,
   validate,
   formHook: {
-    name = "username",
+    name,
     register,
     formState,
     watch,
@@ -28,7 +28,7 @@ export default function Username({
     trigger,
     setValue,
   },
-}: Props) {
+}: Props<T>) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isUnique, setIsUnique] = useState<boolean | null>(null);
   const error = formState.errors[name];
@@ -37,9 +37,9 @@ export default function Username({
     debounce(
       async (
         username: string,
-        name: string,
+        name: Path<T>,
         trigger: UseFormTrigger<any>,
-        setIsUnique: Dispatch<SetStateAction<boolean | null>>
+        setIsUnique: SetState<boolean | null>
       ) => {
         const isValid = await trigger(name, { shouldFocus: true });
 
@@ -65,7 +65,7 @@ export default function Username({
       .replace(" ", "_")
       .replace(/[Çç]/g, "c")
       .replaceAll(/([^a-z0-9._])|((?<=[_.])[_.])/g, "");
-    setValue(name, cleanValue);
+    setValue(name, cleanValue as PathValue<T, Path<T>>);
   };
 
   const typedValue = watch(name);
@@ -87,7 +87,7 @@ export default function Username({
           <TextInput.Input
             type="text"
             placeholder={placeholder}
-            register={register(name)}
+            {...register(name)}
             onChange={({ target }) => validateOnChange(target.value)}
           />
           {!isLoading && isUnique !== null && (
@@ -97,7 +97,7 @@ export default function Username({
         </TextInput.Root>
         {error?.message && (
           <Text size="sm" className="text-red-400">
-            {error.message.toString()}
+            {String(error.message)}
           </Text>
         )}
       </div>

@@ -4,18 +4,18 @@ import CircularLoader from "@components/Loaders/CircularLoader";
 import { Text } from "@components/Texts/Text";
 import { HTMLAttributes, useEffect, useRef, useState } from "react";
 import { debounce } from "lodash";
+import { Path, PathValue } from "react-hook-form";
 
-interface Props extends FieldProps {
+interface Props<T> extends FieldProps<T> {
   isValid?: boolean;
   isLoading?: boolean;
   icon?: JSX.Element;
-  onChange?: (value: string) => void;
   inputRootClassName?: string;
   onStopTypingFuncion?: (...args: any) => any;
   inputAttributes?: HTMLAttributes<HTMLInputElement>;
 }
 
-export default function TextField({
+export default function TextField<T extends Record<string, any>>({
   label,
   icon,
   placeholder,
@@ -25,17 +25,17 @@ export default function TextField({
   onChange,
   inputAttributes = {},
   formHook: { name, register, formState, getValues, setValue, trigger },
-}: Props) {
+}: Props<T>) {
   // Todo: debounce typing function
   const [text, setText] = useState<string>(
-    () => (name ? getValues(name) : getValues()) || ""
+    (() => getValues(name)) || ""
   );
 
   const onStopTyping = useRef(onStopTypingFuncion ? debounce(debounce) : null);
 
   const onHandleChanges = (value: string) => {
     if (onChange) onChange(value);
-    setValue(name, value);
+    setValue(name, value as PathValue<T, Path<T>>);
     setText(value);
   };
 
@@ -49,7 +49,7 @@ export default function TextField({
           <TextInput.Input
             type="text"
             placeholder={placeholder}
-            register={register(name)}
+            {...register(name)}
             value={text}
             onChange={({ target }) => onHandleChanges(target.value)}
             onBlur={async () => await trigger()}
@@ -62,7 +62,7 @@ export default function TextField({
         </TextInput.Root>
         {error?.message && (
           <Text size="sm" className="text-red-400">
-            {error.message.toString()}
+            {String(error.message)}
           </Text>
         )}
       </div>

@@ -1,35 +1,34 @@
+import {
+  FormContainerProps,
+  IFormContainerContext,
+} from "@components/Containers/Form/types";
 import clsx from "clsx";
-import { FormEvent, HTMLAttributes, useState } from "react";
+import { FormEvent, createContext, useState } from "react";
 
-interface Props extends HTMLAttributes<HTMLFormElement> {
-  children: JSX.Element | JSX.Element[];
-  onSubmit?: (event?: FormEvent<HTMLFormElement>) => Promise<void> | void;
-  disabled?: boolean;
-  isLoading?: boolean;
-}
+export const FormContainerContext = createContext({} as IFormContainerContext);
 
-export default function useFormContainer() {
+export function FormContainerProvider({
+  children,
+  className,
+  onSubmit,
+  isLoading,
+  disabled,
+  ...props
+}: FormContainerProps) {
   const [isFormLoading, setIsFormLoading] = useState<boolean>(false);
 
-  function Form({
-    children,
-    className,
-    onSubmit,
-    isLoading,
-    disabled,
-    ...props
-  }: Props) {
-    const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-      event.preventDefault();
-      if (isLoading || isFormLoading || disabled) return;
-      if (onSubmit) {
-        setIsFormLoading(true);
-        await onSubmit(event);
-        setIsFormLoading(false);
-      }
-    };
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (isLoading || isFormLoading || disabled) return;
+    if (onSubmit) {
+      setIsFormLoading(true);
+      await onSubmit(event);
+      setIsFormLoading(false);
+    }
+  };
 
-    return (
+  return (
+    <FormContainerContext.Provider value={{ isFormLoading, setIsFormLoading }}>
       <form
         className={clsx("flex flex-col gap-8", className)}
         onSubmit={handleSubmit}
@@ -37,11 +36,6 @@ export default function useFormContainer() {
       >
         {children}
       </form>
-    );
-  }
-
-  return {
-    isFormLoading,
-    Form,
-  };
+    </FormContainerContext.Provider>
+  );
 }

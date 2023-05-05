@@ -1,7 +1,9 @@
 import { UseFormReturn } from "react-hook-form";
+import { FormRef } from "types";
 
-interface FieldProps {
+interface FieldProps<T = Record<string, any>> {
   label?: string;
   placeholder?: string;
-  formHook: FormRef<any>;
+  onChange?: (value: string) => void;
+  formHook: FormRef<T>;
 }

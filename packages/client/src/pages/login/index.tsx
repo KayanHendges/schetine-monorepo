@@ -10,6 +10,7 @@ import { loginProfessional } from "@providers/api/auth";
 import { useContext, useState } from "react";
 import { AuthContext } from "@contexts/authContext";
 import { useRouter } from "next/router";
+import { FormContainerProvider } from "@components/Containers/Form";
 
 export default function Login() {
   const { login } = useContext(AuthContext);
@@ -21,6 +22,7 @@ export default function Login() {
   const [errorMessage, setErroMessage] = useState<string | null>(null);
 
   const handleLogin = async () => {
+    console.log("handleLogin");
     setErroMessage(null);
     try {
       const payload = await handleSubmit(form);
@@ -38,13 +40,13 @@ export default function Login() {
 
   return (
     <div className="w-full h-full flex items-center justify-center">
-      <div className="w-96">
+      <FormContainerProvider onSubmit={handleLogin} className="w-96">
         <LoginForm
           formRef={form}
           onSubmit={handleLogin}
           errorMessage={errorMessage}
         />
-      </div>
+      </FormContainerProvider>
     </div>
   );
 }

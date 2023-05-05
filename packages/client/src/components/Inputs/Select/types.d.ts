@@ -29,7 +29,7 @@ interface InputMenuProps<T> {
   selectedIndex: number | null;
   handleSelectOption: (option: T) => void;
   open: boolean;
-  setOpen: Dispatch<SetStateAction<boolean>>;
+  setOpen: SetState<boolean>;
   emptyListMessage: string;
 }
 

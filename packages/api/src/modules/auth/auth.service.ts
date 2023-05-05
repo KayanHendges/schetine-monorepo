@@ -24,9 +24,12 @@ export class AuthService implements IAuthService {
 
       if (!professional) throw new Error('Invalid credentials');
 
-      const passwordMach = bcrypt.compare(professional.password, password);
+      const passwordMatch = await bcrypt.compare(
+        professional.password,
+        password,
+      );
 
-      if (!passwordMach) throw new Error('Invalid credentials');
+      if (!passwordMatch) throw new Error('Invalid credentials');
 
       const expiresIn = Number(process.env.JWT_EXPIRES_IN) || 60 * 60 * 24; // 24 hours
       const accessToken = this.jwtService.sign(

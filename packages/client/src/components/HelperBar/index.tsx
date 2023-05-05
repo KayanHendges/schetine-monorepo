@@ -1,14 +1,14 @@
 import ListBar from "@components/HelperBar/ListBar";
 import { HelperBarContext } from "@contexts/helperBarContext";
 import clsx from "clsx";
-import { Dispatch, SetStateAction, useContext, useState } from "react";
+import { useContext } from "react";
 
 interface Props {
   customHelper?: JSX.Element;
   renderListBar: boolean;
-  setRenderListBar: Dispatch<SetStateAction<boolean>>;
+  setRenderListBar: SetState<boolean>;
   isCustomHelperOpen: boolean;
-  setIsCustomHelperOpen: Dispatch<SetStateAction<boolean>>;
+  setIsCustomHelperOpen: SetState<boolean>;
 }
 
 export default function HelperBar({

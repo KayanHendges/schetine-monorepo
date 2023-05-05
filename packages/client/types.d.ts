@@ -7,5 +7,5 @@ type NestedKeyOf<ObjectType extends object> =
 }[keyof ObjectType & (string | number)];
 
 interface FormRef<T = Record<string, any>> extends UseFormReturn<T> {
-  name: keyof T;
+  name: Path<T>;
 }

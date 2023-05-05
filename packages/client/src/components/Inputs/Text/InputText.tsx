@@ -86,14 +86,12 @@ TextInputIcon.displayName = "TextInput.ValidatedIcon";
 
 export interface TextInputInputProps
   extends InputHTMLAttributes<HTMLInputElement> {
-  register?: UseFormRegisterReturn;
 }
 
 function TextInputInput(props: TextInputInputProps) {
   return (
     <input
       className="bg-transparent flex-1 text-white text-xs focus:text-white placeholder:text-gray-500 outline-none autofill:bg-red-400 autofill:text-red-500"
-      {...(props.register ? { ...props.register } : {})}
       {...props}
     />
   );

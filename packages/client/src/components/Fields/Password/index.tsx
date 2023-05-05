@@ -2,16 +2,28 @@ import { FieldProps } from "@components/Fields/types";
 import { TextInput } from "@components/Inputs/Text/InputText";
 import { Text } from "@components/Texts/Text";
 import { Lock, EyeClosed, Eye } from "phosphor-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { PathValue, Path } from "react-hook-form";
 
-interface Props extends FieldProps {}
+interface Props<T> extends FieldProps<T> {}
 
-export default function PassowordField({
+export default function PassowordField<T extends Record<string, any>>({
   label = "Senha",
   placeholder = "",
-  formHook: { name = "password", register, formState },
-}: Props) {
+  onChange,
+  formHook: { name, register, formState, setValue },
+}: Props<T>) {
   const [hidePassword, setHidePassword] = useState<boolean>(true);
+
+  const onHandleChanges = (value: string) => {
+    if (onChange) onChange(value);
+    setValue(name, value as PathValue<T, Path<T>>);
+  };
+
+  useEffect(() => {
+    console.log("mounting password");
+    return () => console.log("unmounting password");
+  }, []);
 
   const error = formState.errors[name];
   return (
@@ -25,7 +37,8 @@ export default function PassowordField({
           <TextInput.Input
             type={hidePassword ? "password" : "text"}
             placeholder={placeholder}
-            register={register(name)}
+            {...register(name)}
+            onChange={({ target }) => onHandleChanges(target.value)}
           />
           <TextInput.Icon
             className="hover:text-indigo-400 cursor-pointer"
@@ -36,7 +49,7 @@ export default function PassowordField({
         </TextInput.Root>
         {error?.message && (
           <Text size="sm" className="text-red-400">
-            {error.message.toString()}
+            {String(error.message)}
           </Text>
         )}
       </div>
