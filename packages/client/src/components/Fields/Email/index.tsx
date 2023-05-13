@@ -27,11 +27,6 @@ export default function EmailField<T>({
     setValue(name, value as PathValue<T, Path<T>>);
   };
 
-  useEffect(() => {
-    console.log("mounting email");
-    return () => console.log("unmounting email");
-  }, []);
-
   const validateUniqueEmail = useRef(
     debounce(
       async (
@@ -59,9 +54,9 @@ export default function EmailField<T>({
     )
   );
 
-  const watchedValue = watch(name)
+  const watchedValue = watch(name);
   const typedValue = typeof watchedValue === "string" ? watchedValue : "";
-  
+
   useEffect(() => {
     if (!validate || !typedValue?.length) {
       setIsUnique(null);

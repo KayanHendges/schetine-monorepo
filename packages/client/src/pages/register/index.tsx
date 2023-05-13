@@ -3,12 +3,12 @@ import { joiResolver } from "@hookform/resolvers/joi";
 import { handleSubmit } from "@utils/form";
 import { useContext, useState } from "react";
 import { AuthContext } from "@contexts/authContext";
-import RegisterForm from "@components/Forms/Register";
 import {
   IRegisterFormSchema,
   registerFormSchema,
 } from "@components/Forms/Register/registerFormSchema";
 import { registerProfessional } from "@providers/api/professional";
+import { RegisterForm } from "@components/Forms/Register";
 
 export default function Register() {
   const { login } = useContext(AuthContext);
@@ -31,13 +31,12 @@ export default function Register() {
 
   return (
     <div className="w-full h-full flex items-center justify-center">
-      <div className="w-96">
-        <RegisterForm
-          formHook={form}
-          onSubmit={handleLogin}
-          errorMessage={errorMessage}
-        />
-      </div>
+      <RegisterForm
+        onSubmit={handleLogin}
+        className="w-96"
+        formHook={form}
+        errorMessage={errorMessage}
+      />
     </div>
   );
 }

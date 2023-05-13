@@ -24,20 +24,10 @@ export default function TextField<T extends Record<string, any>>({
   onStopTypingFuncion,
   onChange,
   inputAttributes = {},
-  formHook: { name, register, formState, getValues, setValue, trigger },
+  formHook: { name, register, formState, getValues, setValue },
 }: Props<T>) {
   // Todo: debounce typing function
-  const [text, setText] = useState<string>(
-    (() => getValues(name)) || ""
-  );
-
   const onStopTyping = useRef(onStopTypingFuncion ? debounce(debounce) : null);
-
-  const onHandleChanges = (value: string) => {
-    if (onChange) onChange(value);
-    setValue(name, value as PathValue<T, Path<T>>);
-    setText(value);
-  };
 
   const error = formState.errors[name];
   return (
@@ -50,9 +40,6 @@ export default function TextField<T extends Record<string, any>>({
             type="text"
             placeholder={placeholder}
             {...register(name)}
-            value={text}
-            onChange={({ target }) => onHandleChanges(target.value)}
-            onBlur={async () => await trigger()}
             {...inputAttributes}
           />
           {!isLoading && isValid !== undefined && (

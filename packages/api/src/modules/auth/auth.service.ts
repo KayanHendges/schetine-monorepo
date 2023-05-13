@@ -25,8 +25,8 @@ export class AuthService implements IAuthService {
       if (!professional) throw new Error('Invalid credentials');
 
       const passwordMatch = await bcrypt.compare(
-        professional.password,
         password,
+        professional.password,
       );
 
       if (!passwordMatch) throw new Error('Invalid credentials');

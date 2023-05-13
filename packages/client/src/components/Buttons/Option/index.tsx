@@ -1,7 +1,7 @@
 import { Slot } from "@radix-ui/react-slot";
 import clsx from "clsx";
 import { DotsThreeVertical } from "phosphor-react";
-import { ButtonHTMLAttributes, ReactNode } from "react";
+import { ButtonHTMLAttributes } from "react";
 
 export interface OptionButtonProps extends ButtonHTMLAttributes<HTMLElement> {
   asChild?: boolean;
@@ -26,7 +26,7 @@ export default function OptionButton({
       )}
       {...(!isEnabled
         ? { onSubmit: () => {}, onClick: () => {}, disabled: true }
-        : [{}])}
+        : {})}
       onClick={() => console.log("opa")}
       {...props}
     >

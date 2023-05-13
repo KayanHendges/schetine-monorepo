@@ -1,4 +1,3 @@
-import AssignedBusinessSearchForm from "@components/Forms/Business/AssignedBusinessSearch";
 import { businessFormSchema } from "@components/Selects/Business/businessFormSchema";
 import { joiResolver } from "@hookform/resolvers/joi";
 import { useForm } from "react-hook-form";
@@ -10,6 +9,7 @@ import { TableColum } from "@components/Tables/Table/types";
 import { ProfessionalContext } from "@contexts/professionalContext";
 import OptionButton from "@components/Buttons/Option";
 import PopUpOptions from "@components/PopUps/PopUpOptions";
+import { AssignedBusinessSearchForm } from "@components/Forms/Business/AssignedBusinessSearch";
 
 export default function Appointments() {
   const { assignedBusiness } = useContext(BusinessContext);
@@ -22,6 +22,7 @@ export default function Appointments() {
   const filters = searchForm.watch();
 
   const filterBusiness = useCallback((): Business[] => {
+    console.log({ filters });
     const { name } = filters;
 
     return (
@@ -35,9 +36,11 @@ export default function Appointments() {
 
   const filteredBusiness = filterBusiness();
 
+  console.log("render", filters.name);
+
   const handleOwnerName = (business: Business) => {
-    const isOnwer = professional.id === business?.owner.id;
-    return isOnwer ? "você" : business?.owner.name;
+    const isOnwer = professional?.id === business?.owner?.id;
+    return isOnwer ? "você" : business?.owner?.name;
   };
 
   const columns: TableColum<Business>[] = [
@@ -60,6 +63,7 @@ export default function Appointments() {
             />
             {matchIndex && (
               <PopUpOptions
+                close={() => setOpenOptionIndex(null)}
                 options={[
                   {
                     label: "editar",

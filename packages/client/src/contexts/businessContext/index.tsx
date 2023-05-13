@@ -28,9 +28,10 @@ export function BusinessProvider({ children }) {
     saveCurrentBusinessCookie(business);
   };
 
-  const includeBusiness = (business: Omit<Business, "owner">) => {
-    const businessWithOwner: Business = { ...business, owner: professional };
-    const newList = [businessWithOwner, ...assignedBusiness];
+  const includeBusiness = (business: Business) => {
+    if (professional) business.owner = professional;
+    const newList = [business];
+    if (assignedBusiness) newList.push(...assignedBusiness);
     queryClient.setQueryData("assigned_business", newList);
     refetchAssignedBusiness();
     if (!currentBusiness) handleCurrentBusiness(business);
@@ -56,7 +57,7 @@ export function BusinessProvider({ children }) {
   return (
     <BusinessContext.Provider
       value={{
-        assignedBusiness,
+        assignedBusiness: assignedBusiness || [],
         currentBusiness,
         includeBusiness,
         handleCurrentBusiness,

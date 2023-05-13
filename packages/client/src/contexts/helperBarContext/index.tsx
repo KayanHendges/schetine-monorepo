@@ -9,8 +9,7 @@ export function HelperBarProvider({ children }) {
   const [renderListBar, setRenderListBar] = useState<boolean>(false);
 
   const [customHelper, setCustomHelper] = useState<JSX.Element | null>(null);
-  const [isCustomHelperOpen, setIsCustomHelperOpen] =
-    useState<boolean | null>(false);
+  const [isCustomHelperOpen, setIsCustomHelperOpen] = useState<boolean>(false);
 
   const transitionMs = 150;
 

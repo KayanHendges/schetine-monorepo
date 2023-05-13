@@ -36,7 +36,7 @@ export default function SelectBusiness({}: Props) {
   const handleSelected = async (option: Business) => {
     try {
       setValue("business", option);
-      const { business } = await handleSubmit(currentBusinessForm.handleSubmit);
+      const { business } = await handleSubmit(currentBusinessForm);
       handleCurrentBusiness(business);
       setValue("business", business);
     } catch (error) {

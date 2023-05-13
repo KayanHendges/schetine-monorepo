@@ -8,7 +8,7 @@ export const AuthContext = createContext({} as IAuthContext);
 export function AuthProvider({ children }) {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const router = useRouter();
-  const [token, setToken] = useState<string | null>();
+  const [token, setToken] = useState<string | null>(null);
 
   const login = async (payload: ILoginPayload): Promise<void> => {
     try {
@@ -20,7 +20,7 @@ export function AuthProvider({ children }) {
     } catch (error) {
       // implement toast
       setToken(null);
-      throw Error(error?.response?.data?.message || "Unexpected error");
+      throw new Error(error?.response?.data?.message || "Unexpected error");
     }
   };
 

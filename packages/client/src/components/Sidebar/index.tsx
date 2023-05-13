@@ -95,13 +95,15 @@ export default function SideBar() {
         {routerItems
           .filter(({ sidebarType }) => sidebarType === "Item")
           .map(({ icon, label, path }) => {
-            const selected = router.pathname.startsWith(path);
+            const selected = router.pathname.startsWith(path || "");
             return (
               <Item.Root
                 key={path}
                 className={clsx("w-full", retract && "justify-center")}
                 selected={selected}
-                onClick={() => router.pathname !== path && router.push(path)}
+                onClick={() =>
+                  path && router.pathname !== path && router.push(path)
+                }
               >
                 <Item.Icon selected={selected}>{icon}</Item.Icon>
                 {!retract && (

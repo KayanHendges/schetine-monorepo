@@ -1,16 +1,14 @@
 import { useForm } from "react-hook-form";
-import LoginForm from "@components/Forms/Login";
 import {
   ILoginFormSchema,
   loginFormSchema,
 } from "@components/Forms/Login/loginFormSchema";
 import { joiResolver } from "@hookform/resolvers/joi";
 import { handleSubmit } from "@utils/form";
-import { loginProfessional } from "@providers/api/auth";
 import { useContext, useState } from "react";
 import { AuthContext } from "@contexts/authContext";
 import { useRouter } from "next/router";
-import { FormContainerProvider } from "@components/Containers/Form";
+import { LoginForm } from "@components/Forms/Login";
 
 export default function Login() {
   const { login } = useContext(AuthContext);
@@ -40,13 +38,12 @@ export default function Login() {
 
   return (
     <div className="w-full h-full flex items-center justify-center">
-      <FormContainerProvider onSubmit={handleLogin} className="w-96">
-        <LoginForm
-          formRef={form}
-          onSubmit={handleLogin}
-          errorMessage={errorMessage}
-        />
-      </FormContainerProvider>
+      <LoginForm
+        className="w-96"
+        formHook={form}
+        onSubmit={handleLogin}
+        errorMessage={errorMessage}
+      />
     </div>
   );
 }

@@ -13,8 +13,9 @@ import { Text } from "@components/Texts/Text";
 import { keyboardMapFunctions } from "@components/Inputs/Select/helpers";
 import { InputMenuProps, SelectProps } from "@components/Inputs/Select/types";
 import { TextInput } from "@components/Inputs/Text/InputText";
+import { useForm, FieldValues, Path } from "react-hook-form";
 
-export function SelectInput<T = any>({
+export function SelectInput<T extends FieldValues>({
   leftIcon,
   validation,
   isDropdownOpen,
@@ -28,6 +29,8 @@ export function SelectInput<T = any>({
   emptyListMessage = "Nenhum resultado encontrado.",
   formRef,
 }: SelectProps<T>) {
+  const formHook = formRef || { ...useForm<T>(), name: "value" as Path<T> };
+
   const [open, setOpen] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<string>("");
   const [hoverIndex, setHoverIndex] = useState<number | null>(null);
@@ -44,7 +47,9 @@ export function SelectInput<T = any>({
 
   const handleSelectedOption = (option: T | null) => {
     const alreadySelected =
-      option && selectedOption[optionKey] === option[optionKey];
+      option &&
+      selectedOption &&
+      selectedOption[optionKey] === option[optionKey];
 
     const optionToSave = !option && !allowNull ? selectedOption : option;
     onSelectOption(allowNull && alreadySelected ? null : optionToSave);
@@ -67,8 +72,9 @@ export function SelectInput<T = any>({
         open,
         setOpen,
         setSelectedOption: () => {
-          const option = matchOptions[hoverIndex ?? selectedIndex];
-          handleSelectedOption(option?.value || null);
+          const index = hoverIndex ?? selectedIndex;
+          const option = index ? matchOptions[index] : null;
+          handleSelectedOption(option?.value ?? null);
         },
       });
     else {
@@ -108,9 +114,7 @@ export function SelectInput<T = any>({
       <TextInput.Input
         onKeyDown={handleKeyboardEvent}
         placeholder={placeholder}
-        register={
-          formRef?.register ? formRef.register(formRef.name) : undefined
-        }
+        {...formHook.register(formHook.name)}
         onChange={({ target }) => setInputValue(target.value)}
         value={
           (!open && selectedOption

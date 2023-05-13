@@ -9,9 +9,10 @@ export default function PopUpOptions<T = any>({
 }: PopUpOptionProps<T>) {
   return (
     <PopUp {...props}>
-      {options.map(({ value, render, action, label, className }) => {
+      {options.map(({ value, render, action, label, className }, index) => {
         return (
           <OptionItem
+            key={index}
             className={className}
             onClick={() => action && action({ label, value })}
           >

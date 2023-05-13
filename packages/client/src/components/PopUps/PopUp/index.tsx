@@ -1,4 +1,5 @@
 import { PopUpProps } from "@components/PopUps/PopUp/types";
+import { useComponentClick } from "@hooks/dom";
 import clsx from "clsx";
 import { useEffect, useRef } from "react";
 
@@ -6,22 +7,16 @@ export default function PopUp({
   isOpen = true,
   className,
   children,
+  close,
   ...props
 }: PopUpProps) {
   if (!isOpen) return <></>;
 
   const containerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (!isOpen || !containerRef.current) return;
-
-    const body = document.querySelector("body");
-    const { clientWidth, clientHeight } = body;
-
-    const container = containerRef.current;
-    const { offsetHeight, offsetWidth, offsetLeft, offsetTop } = container;
-    console.log({ offsetTop, offsetLeft });
-  }, [isOpen]);
+  useComponentClick({ref: containerRef, onClickOutside: (e) => {
+    e.preventDefault()
+    close && close()
+  }})
 
   return (
     <div

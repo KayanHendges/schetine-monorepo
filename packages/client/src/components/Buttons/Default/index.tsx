@@ -1,9 +1,9 @@
 import clsx from "clsx";
 import { Slot } from "@radix-ui/react-slot";
-import {HTMLAttributes, ReactNode } from "react";
+import { ButtonHTMLAttributes, ReactNode } from "react";
 import CircularLoader from "@components/Loaders/CircularLoader";
 
-export interface ButtonProps extends HTMLAttributes<HTMLButtonElement> {
+export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
   asChild?: boolean;
   isLoading?: boolean;
@@ -41,7 +41,7 @@ export function Button({
       )}
       {...(!isEnabled
         ? { onSubmit: () => {}, onClick: () => {}, disabled: true }
-        : [{}])}
+        : {})}
       {...props}
     >
       {isLoading ? <CircularLoader /> : children}

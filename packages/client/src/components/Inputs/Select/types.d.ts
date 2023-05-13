@@ -12,7 +12,7 @@ interface SelectProps<T> {
   validation?: string | "error";
   placeholder?: string;
   isDropdownOpen?: boolean;
-  formRef?: FormRef;
+  formRef?: FormRef<T>;
   renderLabel: (option: T | null) => string;
   options: SelectOption<T>[];
   selectedOption: T | null;
@@ -34,8 +34,8 @@ interface InputMenuProps<T> {
 }
 
 interface keyboardMenuHandler {
-  hoverIndex: number;
-  setHoverIndex: (index: number) => void;
+  hoverIndex: number | null;
+  setHoverIndex: (index: number | null) => void;
   optionsLength: number;
   open: boolean;
   setOpen: (open: boolean) => void;

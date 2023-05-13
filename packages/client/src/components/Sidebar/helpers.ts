@@ -4,5 +4,5 @@ export const fullNameInitials = (fullName: string) => {
   const firstName = names.shift();
   const lastName = names.pop() || "";
 
-  return firstName.substring(0, 1) + (lastName.substring(0, 1) || "");
+  return firstName?.substring(0, 1) + (lastName.substring(0, 1) || "");
 };

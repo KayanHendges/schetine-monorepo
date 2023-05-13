@@ -4,7 +4,7 @@ import clsx from "clsx";
 import { useContext } from "react";
 
 interface Props {
-  customHelper?: JSX.Element;
+  customHelper: JSX.Element | null;
   renderListBar: boolean;
   setRenderListBar: SetState<boolean>;
   isCustomHelperOpen: boolean;

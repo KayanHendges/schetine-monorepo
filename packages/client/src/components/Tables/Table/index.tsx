@@ -95,7 +95,7 @@ function TableBody<T>({
                 const labelKey = typeof label === "string" ? label : label.key;
                 const key = `${String(data[identifierKey])}-${labelKey}`;
 
-                const dataValue = _.get(data, dataKey, "");
+                const dataValue = dataKey ? _.get(data, dataKey, "") : "";
                 const valueType = typeof dataValue;
                 const value = render
                   ? render(data, rowIndex)
