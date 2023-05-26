@@ -1,3 +1,4 @@
+"use client";
 import { sleep } from "@utils/promises";
 import { createContext, useState } from "react";
 import HelperBar from "@components/HelperBar";

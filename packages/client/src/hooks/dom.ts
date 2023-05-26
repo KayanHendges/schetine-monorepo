@@ -17,5 +17,5 @@ export function useComponentClick({ ref, onClickInside, onClickOutside }: Outsid
       return () => 
         document.removeEventListener("mousedown", handleClickOutside);
       
-    }, [ref]);
+    }, [onClickInside, onClickOutside, ref]);
   }

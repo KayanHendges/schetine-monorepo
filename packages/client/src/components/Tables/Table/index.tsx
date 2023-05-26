@@ -22,7 +22,7 @@ function TableHeader<T>({ columns, className, ...props }: TableHeaderProps<T>) {
     <div
       className={clsx(
         "flex w-full h-12",
-        "border-b border-b-gray-600",
+        "border-b border-b-neutral-600",
         className
       )}
       {...props}
@@ -69,7 +69,7 @@ function TableBody<T>({
   return (
     <div
       className={clsx(
-        "flex flex-1 flex-col divide-y divide-gray-700",
+        "flex flex-1 flex-col divide-y divide-neutral-700",
         className
       )}
       {...props}

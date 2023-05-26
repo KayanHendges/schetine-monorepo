@@ -2,7 +2,6 @@ import clsx from "clsx";
 import { Slot } from "@radix-ui/react-slot";
 import { ReactNode } from "react";
 import SideBar from "@components/Sidebar";
-import { ArrowRight } from "phosphor-react";
 import { HelperBarProvider } from "@contexts/helperBarContext";
 import DesktopHeader from "@components/Containers/Desktop/Header";
 
@@ -17,7 +16,7 @@ export function ContainerApp({ children, asChild }: BaseComponentProps) {
   return (
     <Component
       className={clsx(
-        "w-screen h-screen bg-black flex items-start justify-start pt-3 overflow-hidden"
+        "w-screen h-screen flex items-start justify-start pt-3 overflow-hidden"
       )}
     >
       <HelperBarProvider>
@@ -25,14 +24,14 @@ export function ContainerApp({ children, asChild }: BaseComponentProps) {
         <div
           className={clsx(
             "flex-1 h-full overflow-hidden",
-            "bg-gray-800 rounded-t-2xl mr-3"
+            "bg-neutral-800 rounded-t-2xl mr-3"
           )}
         >
           <DesktopHeader />
           <div
             className={clsx(
               "flex-1 h-full overflow-auto",
-              "scrollbar-thin scrollbar-track-transparent scrollbar-thumb-gray-700"
+              "scrollbar-thin scrollbar-track-transparent scrollbar-thumb-neutral-700"
             )}
           >
             {children}

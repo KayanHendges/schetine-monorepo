@@ -1,5 +1,6 @@
+"use client";
 import { AuthContext } from "@contexts/authContext";
-import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 import {
   AddressBook,
   CalendarBlank,
@@ -10,9 +11,9 @@ import {
 } from "phosphor-react";
 import { useContext } from "react";
 
-export default function useCientRoutes() {
+export default function useClientRoutes() {
   const { logOut } = useContext(AuthContext);
-  const router = useRouter();
+  const pathname = usePathname();
 
   const routerItems: RouteItem[] = [
     {
@@ -54,7 +55,7 @@ export default function useCientRoutes() {
   ];
 
   const currentRoute = routerItems.find((route) =>
-    route?.path?.startsWith(router.pathname)
+    route?.path?.startsWith(pathname)
   );
 
   return { routerItems, currentRoute };

@@ -19,15 +19,7 @@ export default function Username<T extends Record<string, any>>({
   icon = <At />,
   placeholder,
   validate,
-  formHook: {
-    name,
-    register,
-    formState,
-    watch,
-    setError,
-    trigger,
-    setValue,
-  },
+  formHook: { name, register, formState, watch, setError, trigger, setValue },
 }: Props<T>) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isUnique, setIsUnique] = useState<boolean | null>(null);
@@ -80,7 +72,7 @@ export default function Username<T extends Record<string, any>>({
 
   return (
     <div className="flex flex-col gap-3">
-      <Text className="text-gray-300">{label}</Text>
+      <Text className="text-neutral-300">{label}</Text>
       <div>
         <TextInput.Root validation={error && "error"}>
           <TextInput.Icon>{icon && icon}</TextInput.Icon>

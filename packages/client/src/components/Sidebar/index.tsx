@@ -1,3 +1,4 @@
+"use client";
 import Avatar from "@components/Sidebar/Avatar";
 import { fullNameInitials } from "@components/Sidebar/helpers";
 import { Text } from "@components/Texts/Text";
@@ -6,7 +7,7 @@ import { useContext, useState } from "react";
 import SelectBusiness from "@components/Selects/Business/Index";
 import { Item } from "@components/Items/Default";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { useRouter, usePathname } from "next/navigation";
 import { Slot } from "@radix-ui/react-slot";
 import useRoutes from "@routes/index";
 import { BusinessContext } from "@contexts/businessContext";
@@ -21,6 +22,7 @@ export default function SideBar() {
   const { routerItems } = useRoutes();
 
   const router = useRouter();
+  const pathname = usePathname();
 
   const { professional } = useContext(ProfessionalContext);
   const { currentBusiness } = useContext(BusinessContext);
@@ -43,7 +45,7 @@ export default function SideBar() {
     <span
       className={clsx(
         "w-full h-px rounded",
-        retract ? "bg-gray-700" : "bg-gray-600"
+        retract ? "bg-neutral-700" : "bg-neutral-600"
       )}
     />
   );
@@ -95,20 +97,18 @@ export default function SideBar() {
         {routerItems
           .filter(({ sidebarType }) => sidebarType === "Item")
           .map(({ icon, label, path }) => {
-            const selected = router.pathname.startsWith(path || "");
+            const selected = pathname.startsWith(path || "");
             return (
               <Item.Root
                 key={path}
                 className={clsx("w-full", retract && "justify-center")}
                 selected={selected}
-                onClick={() =>
-                  path && router.pathname !== path && router.push(path)
-                }
+                onClick={() => path && pathname !== path && router.push(path)}
               >
                 <Item.Icon selected={selected}>{icon}</Item.Icon>
                 {!retract && (
                   <Item.Text
-                    selected={selected}
+                    // selected={selected}
                     size={"sm"}
                     className={clsx(
                       "transition-opacity",
@@ -139,7 +139,7 @@ export default function SideBar() {
                 <div
                   className={clsx(
                     "group w-fit flex justify-start items-center gap-4",
-                    "cursor-pointer text-gray-400 hover:text-white transition-opacity",
+                    "cursor-pointer text-neutral-400 hover:text-white transition-opacity",
                     retract || onSideBarTransition
                       ? "opacity-0 hidden"
                       : "opacity-100 flex"
@@ -148,7 +148,7 @@ export default function SideBar() {
                   <Slot>{icon}</Slot>
                   <Text
                     size="sm"
-                    className="text-gray-400 group group-hover:text-white"
+                    className="text-neutral-400 group group-hover:text-white"
                   >
                     {label}
                   </Text>

@@ -1,5 +1,6 @@
+"use client";
 import { loginProfessional } from "@providers/api/auth";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { destroyCookie, parseCookies, setCookie } from "nookies";
 import { createContext, useEffect, useState } from "react";
 

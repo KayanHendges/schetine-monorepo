@@ -46,6 +46,7 @@ export default function AssignedBusinessSeachContent() {
         <Heading size="lg">Meus Espaços</Heading>
         <Button
           className="w-min"
+          type="button"
           onClick={() =>
             initCustomHelper(
               <CreateBusinessForm

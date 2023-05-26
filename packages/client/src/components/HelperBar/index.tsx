@@ -39,7 +39,7 @@ export default function HelperBar({
           className={clsx(
             "flex w-full h-full flex-col z-10",
             "absolute overflow-auto",
-            "bg-gray-750 rounded-t-2xl mr-3 transition-all",
+            "bg-neutral-750 rounded-t-2xl mr-3 transition-all",
             { "translate-y-full": isOpen && !isCustomHelperOpen }
           )}
         >

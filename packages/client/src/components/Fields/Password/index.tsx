@@ -28,7 +28,7 @@ export default function PassowordField<T extends Record<string, any>>({
   const error = formState.errors[name];
   return (
     <div className="flex flex-col gap-3">
-      <Text className="text-gray-300">{label}</Text>
+      <Text className="text-neutral-300">{label}</Text>
       <div>
         <TextInput.Root validation={error && "error"}>
           <TextInput.Icon>

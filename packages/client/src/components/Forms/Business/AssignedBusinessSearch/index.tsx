@@ -1,7 +1,6 @@
 import FormContainerProvider from "@components/Containers/Forms/FormContainer/FormContainerContext";
 import { IFormContainerContext } from "@components/Containers/Forms/FormContainer/types";
 import AssignedBusinessSeachContent from "@components/Forms/Business/AssignedBusinessSearch/AssignedBusinessSeachContent";
-import CreateBusinessFormContent from "@components/Forms/Business/CreateBusiness/CreateBusinessFormContent";
 import { createContext } from "react";
 
 export const AssignedBusinessSearchContext = createContext(

@@ -29,7 +29,8 @@ export function SelectInput<T extends FieldValues>({
   emptyListMessage = "Nenhum resultado encontrado.",
   formRef,
 }: SelectProps<T>) {
-  const formHook = formRef || { ...useForm<T>(), name: "value" as Path<T> };
+  const internalForm = { ...useForm<T>(), name: "value" as Path<T> };
+  const formHook = formRef || internalForm;
 
   const [open, setOpen] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<string>("");
@@ -107,7 +108,7 @@ export function SelectInput<T extends FieldValues>({
       onFocus={() => setOpen(true)}
       validation={validation}
       className={clsx(
-        "group flex items-center gap-3 h-12 py-4 px-3 rounded  bg-gray-800 w-full relative"
+        "group flex items-center gap-3 h-12 py-4 px-3 rounded  bg-neutral-800 w-full relative"
       )}
     >
       {leftIcon && <TextInput.Icon>{leftIcon}</TextInput.Icon>}
@@ -179,7 +180,7 @@ function Menu<T>({
       onBlur={() => setOpen(false)}
       className={clsx(
         "w-full flex flex-col justify-start items-center absolute",
-        "p-1 top-14 left-0 bg-gray-900 rounded"
+        "p-1 top-14 left-0 bg-neutral-900 rounded"
       )}
     >
       {isEmptyList && (
@@ -201,7 +202,7 @@ function Menu<T>({
                 <Item.Root
                   selected={selected}
                   className={clsx({
-                    "bg-gray-700": hover && !selected,
+                    "bg-neutral-700": hover && !selected,
                   })}
                 >
                   <Item.Text selected={selected}>

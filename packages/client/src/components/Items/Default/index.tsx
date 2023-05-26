@@ -1,6 +1,5 @@
-import { HTMLAttributes, InputHTMLAttributes, ReactNode } from "react";
+import { HTMLAttributes, ReactNode } from "react";
 import { Slot } from "@radix-ui/react-slot";
-import { UseFormRegister, UseFormRegisterReturn } from "react-hook-form";
 import clsx from "clsx";
 import { Check, X } from "phosphor-react";
 import { Text, TextProps } from "@components/Texts/Text";
@@ -17,7 +16,9 @@ function ItemRoot({ children, className, selected, ...props }: ItemRootProps) {
       className={clsx(
         "group flex w-full h-12 gap-3 justify-start items-center p-3 rounded-lg",
         "cursor-pointer transition-all",
-        selected ? "bg-indigo-400" : "hover:bg-gray-700",
+        selected
+          ? "bg-indigo-400 text-white"
+          : "hover:bg-neutral-700 text-neutral-400",
         className
       )}
       {...props}
@@ -39,8 +40,8 @@ function ItemIcon({ children, className, selected, ...props }: ItemIconProps) {
     <Slot
       {...props}
       className={clsx(
-        "w-6 h-6 text-gray-400 group-focus-within:text-gray-700 transition",
-        { "text-white": selected },
+        "w-6 h-6 group-focus-within:text-neutral-700 transition",
+        selected ? "text-white" : "text-neutral-400",
         className
       )}
     >
@@ -59,7 +60,10 @@ export interface ItemTextProps extends TextProps {
 
 function ItemText({ children, selected, className, ...props }: ItemTextProps) {
   return (
-    <Text className={clsx({ "text-white": selected }, className)} {...props}>
+    <Text
+      className={clsx(selected ? "text-white" : "text-neutral-400", className)}
+      {...props}
+    >
       {children}
     </Text>
   );

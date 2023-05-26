@@ -19,9 +19,9 @@ export default function OptionButton({
   return (
     <Component
       className={clsx(
-        "w-8 h-8 rounded-full text-gray-400 cursor-pointer",
+        "w-8 h-8 rounded-full text-neutral-400 cursor-pointer",
         "flex justify-center items-center",
-        "hover:bg-gray-700 transition-colors",
+        "hover:bg-neutral-700 transition-colors",
         className
       )}
       {...(!isEnabled

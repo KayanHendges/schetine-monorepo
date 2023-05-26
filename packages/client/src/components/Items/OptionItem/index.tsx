@@ -8,8 +8,8 @@ export default function OptionItem({ children, className, ...props }: Props) {
     <div
       className={clsx(
         "w-full flex justify-center items-center py-1",
-        "text-gray-400 cursor-pointer transition-all",
-        "hover:bg-gray-700 hover:text-white",
+        "text-neutral-400 cursor-pointer transition-all",
+        "hover:bg-neutral-700 hover:text-white",
         className
       )}
       {...props}

@@ -10,7 +10,8 @@ export default function FormContainer({
   disabled,
   ...props
 }: FormContainerProps) {
-  const [isLoading, setIsLoading] = loadingState || useState<boolean>(false);
+  const useLoadingState = useState<boolean>(false);
+  const [isLoading, setIsLoading] = loadingState ?? useLoadingState;
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();

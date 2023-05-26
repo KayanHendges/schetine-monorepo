@@ -32,7 +32,7 @@ export default function TextField<T extends Record<string, any>>({
   const error = formState.errors[name];
   return (
     <div className="flex flex-col gap-3">
-      {label && <Text className="text-gray-300">{label} </Text>}
+      {label && <Text className="text-neutral-300">{label} </Text>}
       <div>
         <TextInput.Root validation={error && "error"}>
           {icon && <TextInput.Icon>{icon}</TextInput.Icon>}

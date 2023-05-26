@@ -7,7 +7,10 @@ export interface BaseComponentProps {
   asChild?: boolean;
 }
 
-export function ContainerPublicRoutes({ children, asChild }: BaseComponentProps) {
+export function ContainerPublicRoutes({
+  children,
+  asChild,
+}: BaseComponentProps) {
   const Component = asChild ? Slot : "div";
 
   return (

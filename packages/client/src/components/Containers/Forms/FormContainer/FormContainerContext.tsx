@@ -14,9 +14,8 @@ export default function FormContainerProvider<T>({
   Context,
   ...props
 }: FormContainerContextProps<T>) {
-  const [isFormLoading, setIsFormLoading] = loadingState
-    ? loadingState
-    : useState<boolean>(false);
+  const useLoadingState = useState<boolean>(false);
+  const [isFormLoading, setIsFormLoading] = loadingState ?? useLoadingState;
 
   const { formState } = formHook;
 

@@ -1,3 +1,4 @@
+"use client";
 import useClientRoutes from "@routes/index";
 import { Text } from "@components/Texts/Text";
 import Link from "next/link";
@@ -11,16 +12,16 @@ export default function DesktopHeader() {
   const { open, close, isOpen } = useContext(HelperBarContext);
 
   const Arrow = (
-    <div className="text-gray-700">
+    <div className="text-neutral-700">
       <ArrowRight size={24} />
     </div>
   );
 
   return (
-    <div className="w-full h-12 flex justify-between items-center bg-gray-900 rounded-t-2xl px-4">
+    <div className="w-full h-12 flex justify-between items-center bg-neutral-900 rounded-t-2xl px-4">
       <div className="flex justify-center items-center gap-3">
         <Link href={"/"}>
-          <div className="text-gray-500 cursor-pointer hover:text-gray-400 transition-colors">
+          <div className="text-neutral-500 cursor-pointer hover:text-neutral-400 transition-colors">
             <House size={24} weight="fill" />
           </div>
         </Link>
@@ -32,8 +33,8 @@ export default function DesktopHeader() {
           "w-8 h-8 flex justify-center items-center rounded-full cursor-pointer",
           "transition-colors",
           isOpen
-            ? "bg-gray-700 text-gray-400"
-            : "text-gray-500 hover:bg-gray-700 hover:text-gray-400"
+            ? "bg-neutral-700 text-neutral-400"
+            : "text-neutral-500 hover:bg-neutral-700 hover:text-neutral-400"
         )}
         onClick={() => (isOpen ? close() : open())}
       >

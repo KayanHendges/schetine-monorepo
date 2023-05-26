@@ -1,3 +1,4 @@
+"use client";
 import { AuthContext } from "@contexts/authContext";
 import { getLoggedPofessional } from "@providers/api/auth";
 import {

@@ -10,13 +10,16 @@ export default function PopUp({
   close,
   ...props
 }: PopUpProps) {
-  if (!isOpen) return <></>;
-
   const containerRef = useRef<HTMLDivElement>(null);
-  useComponentClick({ref: containerRef, onClickOutside: (e) => {
-    e.preventDefault()
-    close && close()
-  }})
+  useComponentClick({
+    ref: containerRef,
+    onClickOutside: (e) => {
+      e.preventDefault();
+      isOpen && close && close();
+    },
+  });
+
+  if (!isOpen) return <></>;
 
   return (
     <div
@@ -24,7 +27,7 @@ export default function PopUp({
       className={clsx(
         "w-64 h-min flex flex-col py-2 rounded",
         "absolute z-10 right-0 inset-y-full overflow-hidden",
-        "bg-gray-750",
+        "bg-neutral-750",
         className
       )}
       {...props}
