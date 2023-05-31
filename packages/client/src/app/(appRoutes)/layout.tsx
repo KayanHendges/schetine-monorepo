@@ -1,4 +1,4 @@
-import { ContainerApp } from "@components/Containers/Desktop/ContainerApp";
+import { ContainerApp } from "@components/Containers/desktop/ContainerApp";
 
 export const metadata = {
   title: "schetine",

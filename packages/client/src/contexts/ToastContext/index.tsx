@@ -1,19 +1,43 @@
 "use client";
 import { INotification } from "@components/Notification/types";
 import Toast from "@components/Toast";
-import { createContext, useState } from "react";
+import {
+  IToastNotification,
+  IToastContext,
+} from "@contexts/ToastContext/types";
+import { produce } from "immer";
+import { createContext, useEffect, useState } from "react";
 
 export const ToastContext = createContext({} as IToastContext);
 
 export function ToastProvider({ children }) {
-  const [notifications, setNotifications] = useState<INotification[]>([
-    { title: "uepa", type: "success", duration: 1000 },
-    { title: "upa", type: "warning", duration: 1000 },
-    { title: "inhain", type: "error", duration: 1000 },
-  ]);
+  const [notifications, setNotifications] = useState<IToastNotification[]>([]);
+
+  const notify = ({
+    duration = 5 * 1000,
+    closeButton = true,
+    type = "success",
+    ...notification
+  }: INotification) => {
+    const hash = Math.floor(Math.random() * 1000);
+    const created = new Date().getTime();
+
+    setNotifications(
+      produce((draft) => {
+        draft.unshift({
+          ...notification,
+          type,
+          duration,
+          hash,
+          closeButton,
+          created,
+        });
+      })
+    );
+  };
 
   return (
-    <ToastContext.Provider value={{}}>
+    <ToastContext.Provider value={{ notify }}>
       <Toast
         notifications={notifications}
         setNotifications={setNotifications}

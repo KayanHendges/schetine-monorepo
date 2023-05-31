@@ -20,11 +20,6 @@ export default function PassowordField<T extends Record<string, any>>({
     setValue(name, value as PathValue<T, Path<T>>);
   };
 
-  useEffect(() => {
-    console.log("mounting password");
-    return () => console.log("unmounting password");
-  }, []);
-
   const error = formState.errors[name];
   return (
     <div className="flex flex-col gap-3">

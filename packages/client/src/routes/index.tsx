@@ -1,4 +1,5 @@
 "use client";
+import { ToastContext } from "@contexts/ToastContext";
 import { AuthContext } from "@contexts/authContext";
 import { usePathname } from "next/navigation";
 import {
@@ -13,6 +14,7 @@ import { useContext } from "react";
 
 export default function useClientRoutes() {
   const { logOut } = useContext(AuthContext);
+  const { notify } = useContext(ToastContext);
   const pathname = usePathname();
 
   const routerItems: RouteItem[] = [
@@ -49,7 +51,10 @@ export default function useClientRoutes() {
     {
       label: "Sair",
       icon: <SignOut />,
-      action: () => logOut(),
+      action: () => {
+        logOut();
+        notify({ type: "info", header: "Logout feito com sucesso!" });
+      },
       sidebarType: "smallItem",
     },
   ];

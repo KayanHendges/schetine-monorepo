@@ -25,22 +25,24 @@ export default function CreateBusinessFormContent() {
         formHook={{ ...formHook, name: "name" }}
       />
       <div className="w-full flex flex-col gap-3">
-        <Button isLoading={isFormLoading} className="w-full">
+        <Button
+          isLoading={isFormLoading}
+          className="w-full"
+          disabled={hasError}
+        >
           Criar Espaço
         </Button>
         <Button
           className="w-full"
           buttonStyle="secondary"
           type="button"
-          onClick={() => closeCustomHelper()}
+          onClick={() => {
+            closeCustomHelper();
+            formHook.reset();
+          }}
         >
           Cancelar
         </Button>
-        {hasError && (
-          <Text size="sm" className="text-red-400 text-center">
-            Houve algum problema. Tente novamente.
-          </Text>
-        )}
       </div>
     </>
   );

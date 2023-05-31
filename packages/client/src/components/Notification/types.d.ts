@@ -1,18 +1,23 @@
 import { HTMLAttributes } from "react";
 
-type NotificationType = "success" | "warning" | "error";
+type NotificationType = "success" | "warning" | "error" | "info";
 
 interface NotiicationColorProperties {
   background: string;
-  border: string;
-  text: string;
+  icon: JSX.Element;
 }
+
+interface onClosePayload extends Omit<INotification, "onClose"> {}
 
 interface INotification {
-  type: NotificationType;
-  duration: number;
-  title: JSX.Element | string
+  type?: NotificationType;
+  duration?: number;
+  header?: JSX.Element | string
   children?: JSX.Element | string;
+  closeButton?: boolean;
+  className?: string;
+  hasIcon?: boolean;
+  onClose?: (notificaiton: onClosePayload) => void;
 }
 
-type INotificationProps =  INotificationProps & HTMLAttributes<HTMLDivElement>
+interface INotificationProps extends INotification {}

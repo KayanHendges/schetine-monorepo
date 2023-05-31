@@ -10,8 +10,7 @@ import { useContext } from "react";
 import { FormRegisterContext } from "@components/Forms/Register";
 
 export default function RegisterContentForm() {
-  const { isFormLoading, formHook, errorMessage, hasError } =
-    useContext(FormRegisterContext);
+  const { isFormLoading, formHook, hasError } = useContext(FormRegisterContext);
 
   return (
     <>
@@ -41,11 +40,6 @@ export default function RegisterContentForm() {
           placeholder="Mínimo de 8 caracteres"
         />
       </div>
-      {errorMessage && (
-        <Text className="text-red-500 text-center" size="md">
-          {errorMessage}
-        </Text>
-      )}
       <Button isLoading={isFormLoading} isEnabled={!hasError}>
         Criar conta
       </Button>

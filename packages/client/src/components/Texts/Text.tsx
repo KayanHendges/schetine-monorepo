@@ -7,9 +7,16 @@ export interface TextProps {
   children: ReactNode;
   asChild?: boolean;
   className?: string;
+  title?: string;
 }
 
-export function Text({ size = "md", children, asChild, className }: TextProps) {
+export function Text({
+  size = "md",
+  children,
+  asChild,
+  className,
+  title,
+}: TextProps) {
   const Component = asChild ? Slot : "span";
 
   return (
@@ -24,6 +31,7 @@ export function Text({ size = "md", children, asChild, className }: TextProps) {
         },
         className
       )}
+      title={title}
     >
       {children}
     </Component>

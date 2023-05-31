@@ -4,6 +4,7 @@ import { AssignedBusinessSearchContext } from "@components/Forms/Business/Assign
 import { CreateBusinessForm } from "@components/Forms/Business/CreateBusiness";
 import { createBusinessFormSchema } from "@components/Forms/Business/CreateBusiness/CreateBusinessForm";
 import { Heading } from "@components/Texts/Heading";
+import { ToastContext } from "@contexts/ToastContext";
 import { BusinessContext } from "@contexts/businessContext";
 import { HelperBarContext } from "@contexts/helperBarContext";
 import { joiResolver } from "@hookform/resolvers/joi";
@@ -17,6 +18,7 @@ export default function AssignedBusinessSeachContent() {
   const { formHook } = useContext(AssignedBusinessSearchContext);
   const { initCustomHelper, closeCustomHelper } = useContext(HelperBarContext);
   const { includeBusiness } = useContext(BusinessContext);
+  const { notify } = useContext(ToastContext);
 
   const createBusinessForm = useForm<ICreateBusinessForm>({
     resolver: joiResolver(createBusinessFormSchema),
@@ -27,12 +29,13 @@ export default function AssignedBusinessSeachContent() {
       const payload = await handleSubmit(createBusinessForm);
       const createdBusiness = await createBusiness(payload);
       includeBusiness(createdBusiness);
-
+      notify({ header: "Espaço criado com sucesso!" });
       createBusinessForm.reset();
       closeCustomHelper();
     } catch (error) {
-      createBusinessForm.setError("root", {
-        message: "Houve algum erro no servidor. Tente novamente",
+      notify({
+        header: "Erro ao criar espaço. Tente novamente",
+        type: "error",
       });
     }
   };

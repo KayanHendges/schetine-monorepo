@@ -7,11 +7,12 @@ import { BusinessContext } from "@contexts/businessContext";
 import { Table } from "@components/Tables/Table";
 import { TableColum } from "@components/Tables/Table/types";
 import { ProfessionalContext } from "@contexts/professionalContext";
-import OptionButton from "@components/Buttons/Option";
 import PopUpOptions from "@components/PopUps/PopUpOptions";
 import { AssignedBusinessSearchForm } from "@components/Forms/Business/AssignedBusinessSearch";
 import { handleSubmit } from "@utils/form";
 import { assignedBusinessSearchFormSchema } from "@components/Forms/Business/AssignedBusinessSearch/BussinessSearchForm";
+import ButtonBox from "@components/Buttons/Box";
+import { DotsThreeVertical } from "phosphor-react";
 
 export default function Appointments() {
   const { assignedBusiness } = useContext(BusinessContext);
@@ -60,9 +61,11 @@ export default function Appointments() {
           const matchIndex = rowIndex === openOptionIndex;
           return (
             <div className="relative">
-              <OptionButton
+              <ButtonBox
                 onClick={() => setOpenOptionIndex(matchIndex ? null : rowIndex)}
-              />
+              >
+                <DotsThreeVertical />
+              </ButtonBox>
               {matchIndex && (
                 <PopUpOptions
                   close={() => setOpenOptionIndex(null)}

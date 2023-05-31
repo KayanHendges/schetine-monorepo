@@ -14,7 +14,7 @@ export default function ContainerRoot({ children }) {
         <AuthProvider>
           <ProfessionalProvider>
             <BusinessProvider>
-              <div className="bg-black">{children}</div>
+              <div>{children}</div>
             </BusinessProvider>
           </ProfessionalProvider>
         </AuthProvider>

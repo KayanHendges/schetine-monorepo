@@ -28,11 +28,11 @@ export function Button({
         "w-full px-4 py-3 gap-3 rounded",
         "transition-colors font-semibold truncate",
         buttonStyle === "primary"
-          ? "bg-indigo-400 focus:ring-2 ring-white text-black"
+          ? "bg-indigo-400 focus:ring-2 ring-white text-neutral-950"
           : "bg-transparent ring-inset ring-2 ring-indigo-400 text-indigo-400 focus:ring-white focus:ring-offset-0",
         {
           "hover:bg-indigo-300": isEnabled && buttonStyle === "primary",
-          "hover:bg-indigo-300 hover:ring-indigo-300 hover:text-black":
+          "hover:bg-indigo-300 hover:ring-indigo-300 hover:text-neutral-950":
             isEnabled && buttonStyle === "secondary",
           "bg-indigo-500": !isEnabled,
           "cursor-not-allowed": !isEnabled,

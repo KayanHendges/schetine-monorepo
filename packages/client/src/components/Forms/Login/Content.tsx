@@ -7,7 +7,7 @@ import { Text } from "@components/Texts/Text";
 import { useContext } from "react";
 
 export default function LoginFormContent() {
-  const { isFormLoading, formHook, errorMessage } = useContext(LoginFormContext);
+  const { isFormLoading, formHook } = useContext(LoginFormContext);
 
   return (
     <>
@@ -19,11 +19,6 @@ export default function LoginFormContent() {
         <EmailField formHook={{ ...formHook, name: "email" }} />
         <PassowordField formHook={{ ...formHook, name: "password" }} />
       </div>
-      {errorMessage && (
-        <Text className="text-red-500 text-center whitespace-normal" size="md">
-          {errorMessage}
-        </Text>
-      )}
       <div className="flex flex-col items-center gap-6">
         <Button isLoading={isFormLoading}>Entrar na plataforma</Button>
         <div className="flex flex-col items-center gap-4">

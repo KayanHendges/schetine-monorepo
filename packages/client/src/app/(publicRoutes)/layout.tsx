@@ -1,5 +1,4 @@
 import { ContainerPublicRoutes } from "@components/Containers/ContainerPublicRoutes";
-import ContainerRoot from "@components/Containers/ContainerRoot";
 
 export const metadata = {
   title: "schetine",

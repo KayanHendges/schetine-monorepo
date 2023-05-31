@@ -3,7 +3,7 @@ import { Slot } from "@radix-ui/react-slot";
 import { ReactNode } from "react";
 import SideBar from "@components/Sidebar";
 import { HelperBarProvider } from "@contexts/helperBarContext";
-import DesktopHeader from "@components/Containers/Desktop/Header";
+import DesktopHeader from "@components/Containers/desktop/Header";
 
 export interface BaseComponentProps {
   children: ReactNode;

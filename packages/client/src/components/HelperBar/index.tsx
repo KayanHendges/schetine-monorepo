@@ -1,5 +1,6 @@
 import ListBar from "@components/HelperBar/ListBar";
 import { HelperBarContext } from "@contexts/helperBarContext";
+import { SetState } from "@types";
 import clsx from "clsx";
 import { useContext } from "react";
 
@@ -39,7 +40,7 @@ export default function HelperBar({
           className={clsx(
             "flex w-full h-full flex-col z-10",
             "absolute overflow-auto",
-            "bg-neutral-750 rounded-t-2xl mr-3 transition-all",
+            "bg-neutral-800 rounded-t-2xl mr-3 transition-all",
             { "translate-y-full": isOpen && !isCustomHelperOpen }
           )}
         >

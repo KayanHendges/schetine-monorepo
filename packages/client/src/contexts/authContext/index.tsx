@@ -2,7 +2,7 @@
 import { loginProfessional } from "@providers/api/auth";
 import { useRouter } from "next/navigation";
 import { destroyCookie, parseCookies, setCookie } from "nookies";
-import { createContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 export const AuthContext = createContext({} as IAuthContext);
 
@@ -19,9 +19,8 @@ export function AuthProvider({ children }) {
       setToken(jwtPayload.accessToken);
       router.push(redirectPush);
     } catch (error) {
-      // implement toast
       setToken(null);
-      throw new Error(error?.response?.data?.message || "Unexpected error");
+      throw new Error(error);
     }
   };
 
