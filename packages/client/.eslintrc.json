@@ -1,8 +1,23 @@
 {
-  "extends": ["next", "prettier"],
-  "plugins": ["prettier", "@typescript-eslint/parser"],
+  "extends": [
+    "plugin:@typescript-eslint/recommended",
+    "next",
+    "next/core-web-vitals",
+    "prettier",
+    "plugin:prettier/recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint", "prettier"],
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 12,
+    "sourceType": "module"
+  },
   "rules": {
-    "prettier/prettier": ["error"],
-    "import/no-extraneous-dependencies": "off"
+    "prettier/prettier": ["warn"],
+    "import/no-extraneous-dependencies": "off",
+    "react-hooks/exhaustive-deps": "warn"
   }
 }

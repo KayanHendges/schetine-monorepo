@@ -27,7 +27,7 @@ export default function PopUp({
       className={clsx(
         "w-64 h-min flex flex-col py-2 rounded",
         "absolute z-10 right-0 inset-y-full overflow-hidden",
-        "bg-neutral-750",
+        "bg-neutral-700",
         className
       )}
       {...props}

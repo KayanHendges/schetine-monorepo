@@ -26,7 +26,7 @@ export function Button({
     <Component
       className={clsx(
         "w-full px-4 py-3 gap-3 rounded",
-        "transition-colors font-semibold truncate",
+        "transition-colors font-semibold truncate disabled:cursor-not-allowed",
         buttonStyle === "primary"
           ? "bg-indigo-400 focus:ring-2 ring-white text-neutral-950"
           : "bg-transparent ring-inset ring-2 ring-indigo-400 text-indigo-400 focus:ring-white focus:ring-offset-0",
@@ -35,14 +35,13 @@ export function Button({
           "hover:bg-indigo-300 hover:ring-indigo-300 hover:text-neutral-950":
             isEnabled && buttonStyle === "secondary",
           "bg-indigo-500": !isEnabled,
-          "cursor-not-allowed": !isEnabled,
         },
         className
       )}
-      {...(!isEnabled
-        ? { onSubmit: () => {}, onClick: () => {}, disabled: true }
-        : {})}
       {...props}
+      {...(!isEnabled || isLoading
+        ? { onSubmit: undefined, onClick: undefined, disabled: true }
+        : {})}
     >
       {isLoading ? <CircularLoader /> : children}
     </Component>

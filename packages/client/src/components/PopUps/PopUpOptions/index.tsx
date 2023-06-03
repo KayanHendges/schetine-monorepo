@@ -3,20 +3,24 @@ import PopUp from "@components/PopUps/PopUp";
 import { PopUpOptionProps } from "@components/PopUps/PopUpOptions/types";
 import clsx from "clsx";
 
-export default function PopUpOptions<T = any>({
+export default function PopUpOptions<T, R extends JSX.Element>({
   options,
   ...props
-}: PopUpOptionProps<T>) {
+}: PopUpOptionProps<T, R>) {
   return (
     <PopUp {...props}>
       {options.map(({ value, render, action, label, className }, index) => {
+        if (render) return render;
         return (
           <OptionItem
             key={index}
-            className={className}
-            onClick={() => action && action({ label, value })}
+            className={clsx("hover:bg-neutral-500", className)}
+            onClick={async () => {
+              if (action) await action({ label, value });
+              props.close();
+            }}
           >
-            {render ? render({ value, label, action }) : label}
+            {label}
           </OptionItem>
         );
       })}
