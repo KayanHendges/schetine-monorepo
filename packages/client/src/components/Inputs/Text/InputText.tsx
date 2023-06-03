@@ -1,6 +1,5 @@
 import React, { HTMLAttributes, InputHTMLAttributes, ReactNode } from "react";
 import { Slot } from "@radix-ui/react-slot";
-import { UseFormRegister, UseFormRegisterReturn } from "react-hook-form";
 import clsx from "clsx";
 import { Check, X } from "phosphor-react";
 
@@ -84,8 +83,7 @@ function TextInputValidatedIcon({
 
 TextInputIcon.displayName = "TextInput.ValidatedIcon";
 
-export interface TextInputInputProps
-  extends InputHTMLAttributes<HTMLInputElement> {}
+export type TextInputInputProps = InputHTMLAttributes<HTMLInputElement>;
 
 const TextInputInput = React.forwardRef(
   (props: TextInputInputProps, ref: React.LegacyRef<HTMLInputElement>) => {

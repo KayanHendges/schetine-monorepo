@@ -36,8 +36,13 @@ export default function Toast({
   };
 
   return (
-    <div className={clsx("w-96 absolute top-4 right-4", "flex flex-col gap-2")}>
-      {displayList.map(({ onClose, ...itemProps }, index) => {
+    <div
+      className={clsx(
+        "w-96 absolute top-4 right-4 z-50",
+        "flex flex-col gap-2"
+      )}
+    >
+      {displayList.map(({ onClose, ...itemProps }) => {
         return (
           <Notification
             key={itemProps.hash}
@@ -50,11 +55,9 @@ export default function Toast({
         );
       })}
       {hiddenNotifications > 0 && (
-        <Notification
-          className="mt-auto"
-          hasIcon={false}
-          children={`+${hiddenNotifications + 1} notificações`}
-        />
+        <Notification className="mt-auto" hasIcon={false}>
+          {`+${hiddenNotifications + 1} notificações`}
+        </Notification>
       )}
     </div>
   );

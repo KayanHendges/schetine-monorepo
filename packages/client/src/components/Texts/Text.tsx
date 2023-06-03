@@ -1,13 +1,14 @@
 import clsx from "clsx";
 import { Slot } from "@radix-ui/react-slot";
-import { ReactNode } from "react";
+import { HTMLAttributes, ReactNode } from "react";
 
-export interface TextProps {
+export interface TextProps extends HTMLAttributes<HTMLSpanElement> {
   size?: "sm" | "md" | "lg" | "xl";
   children: ReactNode;
   asChild?: boolean;
   className?: string;
   title?: string;
+  truncate?: boolean;
 }
 
 export function Text({
@@ -15,15 +16,18 @@ export function Text({
   children,
   asChild,
   className,
+  truncate = true,
   title,
+  ...props
 }: TextProps) {
   const Component = asChild ? Slot : "span";
 
   return (
     <Component
       className={clsx(
-        "font-sans truncate",
+        "font-sans text-center justify-center",
         {
+          truncate,
           "text-xs": size === "sm",
           "text-sm": size === "md",
           "text-md": size === "lg",
@@ -32,6 +36,7 @@ export function Text({
         className
       )}
       title={title}
+      {...props}
     >
       {children}
     </Component>

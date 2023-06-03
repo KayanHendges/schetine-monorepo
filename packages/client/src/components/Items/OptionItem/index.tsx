@@ -1,11 +1,12 @@
 import clsx from "clsx";
 import { HTMLAttributes } from "react";
 
-interface Props extends HTMLAttributes<HTMLDivElement> {}
+interface Props extends HTMLAttributes<HTMLButtonElement> {}
 
 export default function OptionItem({ children, className, ...props }: Props) {
   return (
-    <div
+    <button
+      type="button"
       className={clsx(
         "w-full flex justify-center items-center py-1",
         "text-neutral-400 cursor-pointer transition-all",
@@ -15,6 +16,6 @@ export default function OptionItem({ children, className, ...props }: Props) {
       {...props}
     >
       {children}
-    </div>
+    </button>
   );
 }
