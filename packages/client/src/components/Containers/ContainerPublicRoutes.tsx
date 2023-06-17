@@ -14,8 +14,6 @@ export function ContainerPublicRoutes({
   const Component = asChild ? Slot : "div";
 
   return (
-    <Component className={clsx("w-screen h-screen")}>
-      {children}
-    </Component>
+    <Component className={clsx("w-screen h-screen")}>{children}</Component>
   );
 }

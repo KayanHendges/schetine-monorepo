@@ -1,10 +1,6 @@
-import { sleep } from "@utils/promises";
 import clsx from "clsx";
-import { useEffect, useState } from "react";
 
-interface Props {}
-
-export default function ListBar({}: Props) {
+export default function ListBar({}) {
   return (
     <div
       className={clsx(

@@ -1,7 +1,7 @@
-interface FormProps<T extends Record<string, any>> {
-  formHook: UseFormReturn<T>;
-  errorMessage?: string | null;
-  formLoadingState?: SetState<boolean>;
-  onSubmit?: (event?: FormEvent<HTMLFormElement>) => Promise<void> | void;
+import { FormContainerContextProps } from "@components/Containers/Forms/FormContainer/types";
+import { FieldValues } from "react-hook-form";
+
+interface FormProps<T extends FieldValues>
+  extends Omit<FormContainerContextProps<T>, "Context"> {
   className?: string;
 }

@@ -16,8 +16,8 @@ export default function LoginFormContent() {
         <Text>Faça seu login e comece a usar</Text>
       </div>
       <div className="flex flex-col gap-4">
-        <EmailField formHook={{ ...formHook, name: "email" }} />
-        <PassowordField formHook={{ ...formHook, name: "password" }} />
+        <EmailField formHook={formHook} formName="email" />
+        <PassowordField formHook={formHook} formName="password" />
       </div>
       <div className="flex flex-col items-center gap-6">
         <Button isLoading={isFormLoading}>Entrar na plataforma</Button>

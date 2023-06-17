@@ -7,7 +7,10 @@ import {
   getCurrentBusinessIdCookie,
   saveCurrentBusinessCookie,
 } from "./helpers";
-import { deleteBusiness as apiDeleteBusiness } from "@providers/api/business";
+import {
+  deleteBusiness as apiDeleteBusiness,
+  updateBusiness as apiUpdateBusiness,
+} from "@providers/api/business";
 import { ToastContext } from "@contexts/ToastContext";
 
 export const BusinessContext = createContext({} as IBusinessContext);
@@ -15,7 +18,8 @@ export const BusinessContext = createContext({} as IBusinessContext);
 export function BusinessProvider({ children }) {
   const { professional } = useContext(ProfessionalContext);
   const { notify } = useContext(ToastContext);
-  const [currentBusiness, setCurrentBusiness] = useState<Business | null>(null);
+  const [currentBusiness, setCurrentBusiness] =
+    useState<AssignedBusiness | null>(null);
   const queryClient = useQueryClient();
   const queryClientName = "assigned_business";
 
@@ -23,17 +27,19 @@ export function BusinessProvider({ children }) {
     data: assignedBusiness,
     isLoading: fetchingAssignedBusiness,
     refetch: refetchAssignedBusiness,
-  } = useQuery<Business[]>(queryClientName, () =>
+  } = useQuery<AssignedBusiness[]>(queryClientName, () =>
     fetchAssignedBusiness(professional?.id)
   );
 
-  const handleCurrentBusiness = (business: Business | null) => {
+  const handleCurrentBusiness = (business: AssignedBusiness | null) => {
     setCurrentBusiness(business);
     saveCurrentBusinessCookie(business);
   };
 
-  const includeBusiness = (business: Business) => {
-    if (professional) business.owner = professional;
+  const includeBusiness = (payload: Business) => {
+    if (!professional) throw new Error("Missing professional");
+
+    const business: AssignedBusiness = { ...payload, owner: professional };
     const newList = [business];
     if (assignedBusiness) newList.push(...assignedBusiness);
     queryClient.setQueryData(queryClientName, newList);
@@ -56,6 +62,33 @@ export function BusinessProvider({ children }) {
       return deletedBusiness;
     } catch (error) {
       notify({ type: "error", header: "Falha ao excluir espaço" });
+      throw error;
+    }
+  };
+
+  const updateBusiness = async (
+    businessId: string,
+    payload: UpdateBusinessDTO
+  ) => {
+    try {
+      const updatedBusiness = await apiUpdateBusiness(businessId, payload);
+      const indexUpdate = assignedBusiness?.findIndex(
+        (it) => it.id === updatedBusiness.id
+      );
+
+      if (indexUpdate !== undefined && assignedBusiness && professional) {
+        const newList = assignedBusiness;
+        newList.splice(indexUpdate, 1, {
+          ...updatedBusiness,
+          owner: professional,
+        });
+        queryClient.setQueriesData(queryClientName, newList);
+      }
+
+      notify({ header: `Espaço ${updatedBusiness.name} editado com sucesso!` });
+      return updatedBusiness;
+    } catch (error) {
+      notify({ type: "error", header: "Falha ao editar espaço" });
       throw error;
     }
   };
@@ -84,6 +117,7 @@ export function BusinessProvider({ children }) {
         currentBusiness,
         includeBusiness,
         deleteBusiness,
+        updateBusiness,
         handleCurrentBusiness,
         fetchingAssignedBusiness,
       }}

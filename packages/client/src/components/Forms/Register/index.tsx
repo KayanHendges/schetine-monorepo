@@ -2,6 +2,7 @@ import FormContainerProvider from "@components/Containers/Forms/FormContainer/Fo
 import { IFormContainerContext } from "@components/Containers/Forms/FormContainer/types";
 import RegisterContentForm from "@components/Forms/Register/Content";
 import { IRegisterFormSchema } from "@components/Forms/Register/registerFormSchema";
+import { FormProps } from "@components/Forms/types";
 import { createContext } from "react";
 
 export const FormRegisterContext = createContext(
@@ -10,10 +11,7 @@ export const FormRegisterContext = createContext(
 
 export function RegisterForm(props: FormProps<IRegisterFormSchema>) {
   return (
-    <FormContainerProvider
-      Context={FormRegisterContext}
-      {...props}
-    >
+    <FormContainerProvider Context={FormRegisterContext} {...props}>
       <RegisterContentForm />
     </FormContainerProvider>
   );

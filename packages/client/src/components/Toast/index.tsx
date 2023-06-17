@@ -1,10 +1,7 @@
 import Notification from "@components/Notification";
-import { INotification, onClosePayload } from "@components/Notification/types";
 import { IToastProps } from "@components/Toast/types";
-import { IToastNotification } from "@contexts/ToastContext/types";
 import clsx from "clsx";
 import { produce } from "immer";
-import { useEffect } from "react";
 
 export default function Toast({
   notifications,

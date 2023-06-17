@@ -1,6 +1,6 @@
 import { FormContainerProps } from "@components/Containers/Forms/FormContainer/types";
 import clsx from "clsx";
-import { FormEvent, useState } from "react";
+import { FormEvent } from "react";
 
 export default function FormContainer({
   children,
@@ -10,8 +10,7 @@ export default function FormContainer({
   disabled,
   ...props
 }: FormContainerProps) {
-  const useLoadingState = useState<boolean>(false);
-  const [isLoading, setIsLoading] = loadingState ?? useLoadingState;
+  const [isLoading, setIsLoading] = loadingState;
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();

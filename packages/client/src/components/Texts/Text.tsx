@@ -25,7 +25,7 @@ export function Text({
   return (
     <Component
       className={clsx(
-        "font-sans text-center justify-center",
+        "font-sans",
         {
           truncate,
           "text-xs": size === "sm",

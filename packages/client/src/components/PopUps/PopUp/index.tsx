@@ -1,7 +1,7 @@
 import { PopUpProps } from "@components/PopUps/PopUp/types";
 import { useComponentClick } from "@hooks/dom";
 import clsx from "clsx";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 
 export default function PopUp({
   isOpen = true,

@@ -4,27 +4,30 @@ import { Text } from "@components/Texts/Text";
 import { Envelope } from "phosphor-react";
 import { useEffect, useRef, useState } from "react";
 import { debounce } from "lodash";
-import { Path, PathValue, UseFormTrigger } from "react-hook-form";
+import { FieldValues, Path, UseFormTrigger } from "react-hook-form";
 import { findProfessional } from "@providers/api/professional";
+import { SetState } from "@types";
+import { FormValueType } from "types";
 
-interface Props<T> extends FieldProps<T> {
+interface Props<T extends FieldValues> extends FieldProps<T> {
   validate?: boolean;
 }
 
-export default function EmailField<T>({
+export default function EmailField<T extends FieldValues>({
   label = "Endereço de email",
   placeholder = "Email",
   validate,
   onChange,
-  formHook: { name, register, formState, trigger, setError, watch, setValue },
+  formHook: { register, formState, trigger, setError, watch, setValue },
+  formName,
 }: Props<T>) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isUnique, setIsUnique] = useState<boolean | null>(null);
-  const error = formState.errors[name as string];
+  const error = formState.errors[formName as string];
 
   const onHandleChanges = (value: string) => {
     if (onChange) onChange(value);
-    setValue(name, value as PathValue<T, Path<T>>);
+    setValue(formName, value as FormValueType<T>);
   };
 
   const validateUniqueEmail = useRef(
@@ -32,7 +35,7 @@ export default function EmailField<T>({
       async (
         email: string,
         name: Path<T>,
-        trigger: UseFormTrigger<any>,
+        trigger: UseFormTrigger<T>,
         setIsUnique: SetState<boolean | null>
       ) => {
         const isValid = await trigger(name, { shouldFocus: true });
@@ -54,7 +57,7 @@ export default function EmailField<T>({
     )
   );
 
-  const watchedValue = watch(name);
+  const watchedValue = watch(formName);
   const typedValue = typeof watchedValue === "string" ? watchedValue : "";
 
   useEffect(() => {
@@ -63,8 +66,8 @@ export default function EmailField<T>({
       return;
     }
 
-    validateUniqueEmail.current(typedValue, name, trigger, setIsUnique);
-  }, [name, trigger, typedValue, validate]);
+    validateUniqueEmail.current(typedValue, formName, trigger, setIsUnique);
+  }, [formName, trigger, typedValue, validate]);
 
   return (
     <div className="flex flex-col gap-3">
@@ -77,7 +80,7 @@ export default function EmailField<T>({
           <TextInput.Input
             type="email"
             placeholder={placeholder}
-            {...register(name)}
+            {...register(formName)}
             onChange={({ target }) => onHandleChanges(target.value)}
           />
           {!isLoading && isUnique !== null && (

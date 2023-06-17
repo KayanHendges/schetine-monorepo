@@ -1,3 +1,6 @@
 interface IAssignedBusinessSearchForm {
-  name?: string;
+  name: string;
+  opa: {
+    epa: string;
+  };
 }

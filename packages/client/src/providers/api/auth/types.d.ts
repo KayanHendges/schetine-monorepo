@@ -5,10 +5,10 @@ interface LoginPayload {
 
 interface LoginResponse {
   accessToken: string;
-  expiresIn: number
+  expiresIn: number;
 }
 
 interface AuthPayload {
   accessToken: string;
-  expiresIn: number
+  expiresIn: number;
 }

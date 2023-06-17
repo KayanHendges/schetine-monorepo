@@ -2,25 +2,27 @@ import { FieldProps } from "@components/Fields/types";
 import { TextInput } from "@components/Inputs/Text/InputText";
 import { Text } from "@components/Texts/Text";
 import { Lock, EyeClosed, Eye } from "phosphor-react";
-import { useEffect, useState } from "react";
-import { PathValue, Path } from "react-hook-form";
+import { useState } from "react";
+import { FieldValues } from "react-hook-form";
+import { FormValueType } from "types";
 
-interface Props<T> extends FieldProps<T> {}
+type Props<T extends FieldValues> = FieldProps<T>;
 
-export default function PassowordField<T extends Record<string, any>>({
+export default function PassowordField<T extends FieldValues>({
   label = "Senha",
   placeholder = "",
   onChange,
-  formHook: { name, register, formState, setValue },
+  formHook: { register, formState, setValue },
+  formName,
 }: Props<T>) {
   const [hidePassword, setHidePassword] = useState<boolean>(true);
 
   const onHandleChanges = (value: string) => {
     if (onChange) onChange(value);
-    setValue(name, value as PathValue<T, Path<T>>);
+    setValue(formName, value as FormValueType<T>);
   };
 
-  const error = formState.errors[name];
+  const error = formState.errors[formName];
   return (
     <div className="flex flex-col gap-3">
       <Text className="text-neutral-300">{label}</Text>
@@ -32,7 +34,7 @@ export default function PassowordField<T extends Record<string, any>>({
           <TextInput.Input
             type={hidePassword ? "password" : "text"}
             placeholder={placeholder}
-            {...register(name)}
+            {...register(formName)}
             onChange={({ target }) => onHandleChanges(target.value)}
           />
           <TextInput.Icon

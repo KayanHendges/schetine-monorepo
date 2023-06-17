@@ -2,7 +2,7 @@
 import { useForm } from "react-hook-form";
 import { joiResolver } from "@hookform/resolvers/joi";
 import { handleSubmit } from "@utils/form";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { AuthContext } from "@contexts/authContext";
 import {
   IRegisterFormSchema,

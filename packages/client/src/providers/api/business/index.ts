@@ -15,12 +15,23 @@ export const listBusiness = async ({
     })
   ).data;
 
+export const listAssignedBusiness = async ({
+  page = 1,
+  pageSize = 20,
+  ...params
+}: ListBusinessParams) =>
+  (
+    await api.get<ApiListResponse<AssignedBusiness>>("/business", {
+      params: { ...params, page, pageSize, include: ["owner"] },
+    })
+  ).data;
+
 export const createBusiness = async (dto: CreateBusinessDTO) =>
   (await api.post<Omit<Business, "owner">>("business", dto)).data;
 
 export const updateBusiness = async (
   businessId: string,
-  dto: CreateBusinessDTO
+  dto: UpdateBusinessDTO
 ) => (await api.patch<Business>(`business/${businessId}`, dto)).data;
 
 export const deleteBusiness = async (businessId: string) =>

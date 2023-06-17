@@ -2,6 +2,7 @@ import FormContainerProvider from "@components/Containers/Forms/FormContainer/Fo
 import { IFormContainerContext } from "@components/Containers/Forms/FormContainer/types";
 import LoginFormContent from "@components/Forms/Login/Content";
 import { ILoginFormSchema } from "@components/Forms/Login/loginFormSchema";
+import { FormProps } from "@components/Forms/types";
 import { createContext } from "react";
 
 export const LoginFormContext = createContext(
@@ -10,10 +11,7 @@ export const LoginFormContext = createContext(
 
 export function LoginForm(props: FormProps<ILoginFormSchema>) {
   return (
-    <FormContainerProvider
-      Context={LoginFormContext}
-      {...props}
-    >
+    <FormContainerProvider Context={LoginFormContext} {...props}>
       <LoginFormContent />
     </FormContainerProvider>
   );

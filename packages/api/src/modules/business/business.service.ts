@@ -1,4 +1,4 @@
-import { Injectable, Inject } from '@nestjs/common';
+import { Injectable, Inject, HttpException } from '@nestjs/common';
 import {
   IBusinessRepository,
   ListBusinessParams,
@@ -84,11 +84,15 @@ export class BusinessService implements IBusinessService {
     where: UpdateBusinessParam,
     business: UpdateBusinessDTO,
   ): Promise<Business> {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    return await this.businessRepository.update(
-      { ...where, ownerId },
-      business,
-    );
+    const businessFound = await this.businessRepository.find(where);
+
+    if (businessFound.ownerId !== ownerId)
+      new HttpException(
+        'Professional not allowed to update this business',
+        403,
+      );
+
+    return await this.businessRepository.update(where, business);
   }
 
   async delete(

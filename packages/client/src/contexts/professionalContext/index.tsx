@@ -8,7 +8,6 @@ import {
   useEffect,
   useState,
 } from "react";
-import { IProfessionalContext } from "@contexts/professionalContext/types";
 
 export const ProfessionalContext = createContext({} as IProfessionalContext);
 
@@ -16,8 +15,8 @@ export function ProfessionalProvider({ children }) {
   const [professional, setProfessional] = useState<Professional | null>(null);
   const { token, logOut } = useContext(AuthContext);
 
-  const currentProfessional = useCallback(
-    async (token: string): Promise<Professional | null> => {
+  const currentProfessional =
+    useCallback(async (): Promise<Professional | null> => {
       try {
         const data = await getLoggedPofessional();
         setProfessional(data);
@@ -28,12 +27,10 @@ export function ProfessionalProvider({ children }) {
         return null;
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    },
-    [logOut]
-  );
+    }, [logOut]);
 
   useEffect(() => {
-    if (token) currentProfessional(token);
+    if (token) currentProfessional();
   }, [currentProfessional, token]);
 
   return (

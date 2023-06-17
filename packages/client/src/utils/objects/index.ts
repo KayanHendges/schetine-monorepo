@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export const objectErrorToArray = (obj: any): string[] => {
   const strings: string[] = [];
 

@@ -1,6 +1,6 @@
 type OrderBy = "asc" | "desc";
 
-interface OrderParam<T> extends Record<keyof T, OrderBy> {}
+type OrderParam<T> = Record<keyof T, OrderBy>;
 
 interface ApiPagination<T> {
   orderBy?: OrderParam<T>;

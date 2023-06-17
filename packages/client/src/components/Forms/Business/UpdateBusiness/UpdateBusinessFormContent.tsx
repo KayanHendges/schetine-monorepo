@@ -1,21 +1,28 @@
 import { Button } from "@components/Buttons/Default";
 import TextField from "@components/Fields/TextField";
-import { CreateBusinessFormContext } from "@components/Forms/Business/CreateBusiness";
+import { updateBusinessFormContext } from "@components/Forms/Business/UpdateBusiness";
 import { Heading } from "@components/Texts/Heading";
 import { HelperBarContext } from "@contexts/helperBarContext";
 import { Storefront } from "phosphor-react";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 
-export default function CreateBusinessFormContent() {
+export default function UpdateBusinessFormContent({
+  business,
+}: UpdateBusinessFormProps) {
   const { closeCustomHelper } = useContext(HelperBarContext);
   const { isFormLoading, formHook, hasError } = useContext(
-    CreateBusinessFormContext
+    updateBusinessFormContext
   );
+
+  useEffect(() => {
+    formHook.reset(business, { keepDefaultValues: false });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [business]);
 
   return (
     <>
       <Heading size="lg" className="text-center">
-        Criar novo espaço
+        Editar Espaço
       </Heading>
       <TextField
         icon={<Storefront />}
@@ -30,7 +37,7 @@ export default function CreateBusinessFormContent() {
           className="w-full"
           disabled={hasError}
         >
-          Criar Espaço
+          Salvar
         </Button>
         <Button
           className="w-full"
@@ -41,7 +48,7 @@ export default function CreateBusinessFormContent() {
             formHook.reset();
           }}
         >
-          Cancelar
+          Voltar
         </Button>
       </div>
     </>

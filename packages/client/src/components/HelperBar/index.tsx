@@ -38,7 +38,7 @@ export default function HelperBar({
       {(customHelper || isCustomHelperOpen) && (
         <div
           className={clsx(
-            "flex w-full h-full flex-col z-10",
+            "flex w-full h-full flex-col z-10 p-3",
             "absolute overflow-auto",
             "bg-neutral-800 rounded-t-2xl mr-3 transition-all",
             { "translate-y-full": isOpen && !isCustomHelperOpen }

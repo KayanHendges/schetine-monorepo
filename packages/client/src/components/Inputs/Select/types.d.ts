@@ -1,4 +1,3 @@
-import { HTMLAttributes, InputHTMLAttributes } from "react";
 import { FormRef } from "types";
 
 interface SelectOption<T> {

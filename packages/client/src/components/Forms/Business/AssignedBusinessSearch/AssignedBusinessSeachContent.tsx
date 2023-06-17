@@ -53,7 +53,6 @@ export default function AssignedBusinessSeachContent() {
           onClick={() =>
             initCustomHelper(
               <CreateBusinessForm
-                className="p-3"
                 formHook={createBusinessForm}
                 onSubmit={handleCreateBusinessForm}
               />
@@ -66,7 +65,8 @@ export default function AssignedBusinessSeachContent() {
       <TextField
         icon={<Storefront />}
         placeholder="Pesquise pelo nome do espaço"
-        formHook={{ ...formHook, name: "name" }}
+        formHook={formHook}
+        formName={"name"}
       />
     </>
   );

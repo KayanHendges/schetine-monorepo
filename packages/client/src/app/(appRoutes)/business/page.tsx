@@ -14,17 +14,28 @@ import { assignedBusinessSearchFormSchema } from "@components/Forms/Business/Ass
 import ButtonBox from "@components/Buttons/Box";
 import { DotsThreeVertical } from "phosphor-react";
 import OptionItem from "@components/Items/OptionItem";
-import { Modal } from "@components/Modals/Modal";
-import { Text } from "@components/Texts/Text";
+import DeleteBusinessModal from "src/app/(appRoutes)/business/DeleteBusinessModal";
+import { HelperBarContext } from "@contexts/helperBarContext";
+import { UpdateBusinessForm } from "@components/Forms/Business/UpdateBusiness";
 
 export default function Appointments() {
-  const { assignedBusiness, deleteBusiness } = useContext(BusinessContext);
-  const [isDeletingBusiness, setIsDeletingBusiness] = useState<boolean>(false);
+  const { assignedBusiness, updateBusiness } = useContext(BusinessContext);
+  const { initCustomHelper, closeCustomHelper } = useContext(HelperBarContext);
+  const { professional } = useContext(ProfessionalContext);
   const [businessToDelete, setBusinessToDelete] = useState<Business | null>(
     null
   );
-  const { professional } = useContext(ProfessionalContext);
   const [filteredBusiness, setFilteredBusiness] = useState<Business[]>([]);
+
+  const handleUpdateBusiness = useCallback(
+    async (id: string, business: IUpdateBusinessForm) => {
+      try {
+        await updateBusiness(id, business);
+        closeCustomHelper();
+      } catch (error) {}
+    },
+    [closeCustomHelper, updateBusiness]
+  );
 
   const searchForm = useForm<IAssignedBusinessSearchForm>({
     resolver: joiResolver(assignedBusinessSearchFormSchema),
@@ -45,21 +56,12 @@ export default function Appointments() {
   const [openOptionIndex, setOpenOptionIndex] = useState<number | null>(null);
 
   const handleOwnerName = useCallback(
-    (business: Business) => {
-      const isOnwer = professional?.id === business?.owner?.id;
+    (business: AssignedBusiness) => {
+      const isOnwer = professional?.id === business.owner.id;
       return isOnwer ? "você" : business?.owner?.name;
     },
     [professional?.id]
   );
-
-  const handleDeleteBusiness = async (business: Business) => {
-    setIsDeletingBusiness(true);
-    try {
-      await deleteBusiness(business);
-      setBusinessToDelete(null);
-    } catch {}
-    setIsDeletingBusiness(false);
-  };
 
   const OptionsButton = useCallback(
     (business: Business, rowIndex: number) => {
@@ -77,6 +79,15 @@ export default function Appointments() {
               options={[
                 {
                   label: "editar",
+                  action: () =>
+                    initCustomHelper(
+                      <UpdateBusinessForm
+                        business={{ name: business.name }}
+                        onSuccess={(payload) =>
+                          handleUpdateBusiness(business.id, payload)
+                        }
+                      />
+                    ),
                 },
                 {
                   render: (
@@ -85,6 +96,7 @@ export default function Appointments() {
                       className={"hover:bg-red-500"}
                       onClick={() => {
                         setBusinessToDelete(business);
+                        closeCustomHelper();
                         setOpenOptionIndex(null);
                       }}
                     >
@@ -98,7 +110,7 @@ export default function Appointments() {
         </div>
       );
     },
-    [openOptionIndex]
+    [closeCustomHelper, handleUpdateBusiness, initCustomHelper, openOptionIndex]
   );
 
   const columns: TableColum<Business>[] = useMemo(
@@ -121,7 +133,7 @@ export default function Appointments() {
 
   useEffect(() => {
     filterBusiness();
-  }, [filterBusiness]);
+  }, [filterBusiness, assignedBusiness]);
 
   return (
     <div className={clsx("flex w-full h-full flex-col gap-4 p-4")}>
@@ -130,27 +142,10 @@ export default function Appointments() {
         formHook={searchForm}
       />
       {businessToDelete && (
-        <Modal.Root onClose={() => setBusinessToDelete(null)}>
-          <Modal.Header title="Excluir Espaço" />
-          <Modal.Body>
-            <Text truncate={false}>
-              Você tem certeza que deseja excluir o espaço{" "}
-              <strong className="text-red-500">{businessToDelete.name}</strong>?
-            </Text>
-          </Modal.Body>
-          <Modal.Footer>
-            <Modal.FooterButton onClick={() => setBusinessToDelete(null)}>
-              cancelar
-            </Modal.FooterButton>
-            <Modal.FooterButton
-              onClick={() => handleDeleteBusiness(businessToDelete)}
-              dangerous
-              isLoading={isDeletingBusiness}
-            >
-              excluir
-            </Modal.FooterButton>
-          </Modal.Footer>
-        </Modal.Root>
+        <DeleteBusinessModal
+          business={businessToDelete}
+          onClose={() => setBusinessToDelete(null)}
+        />
       )}
       <Table.Root>
         <Table.Header columns={columns} />

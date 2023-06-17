@@ -3,6 +3,7 @@ import { api } from "@providers/api";
 import { AxiosResponse } from "axios";
 import { useCallback, useEffect, useState } from "react";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function useFetch<T = any, P = Record<string, any>>({
   path,
   params = {},

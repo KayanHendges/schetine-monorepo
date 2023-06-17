@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { HTMLAttributes } from "react";
 
-interface Props extends HTMLAttributes<HTMLButtonElement> {}
+type Props = HTMLAttributes<HTMLButtonElement>;
 
 export default function OptionItem({ children, className, ...props }: Props) {
   return (

@@ -1,12 +1,7 @@
 "use client";
-import { INotification } from "@components/Notification/types";
 import Toast from "@components/Toast";
-import {
-  IToastNotification,
-  IToastContext,
-} from "@contexts/ToastContext/types";
 import { produce } from "immer";
-import { createContext, useEffect, useState } from "react";
+import { createContext, useState } from "react";
 
 export const ToastContext = createContext({} as IToastContext);
 

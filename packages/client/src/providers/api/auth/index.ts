@@ -1,5 +1,4 @@
 import { api } from "@providers/api";
-import { AxiosResponse } from "axios";
 import { parseCookies } from "nookies";
 
 api.interceptors.request.use((success) => {

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { DateTime } from "luxon";
 
 function isIsoDateString(value: any): boolean {
@@ -17,7 +18,6 @@ export const handleDates = (body: any) => {
 
 export const normalizeDate = (date: any): DateTime => {
   if (typeof date === "number") return DateTime.fromMillis(date);
-  else if (typeof date === "string")
-    return DateTime.fromISO(date);
+  else if (typeof date === "string") return DateTime.fromISO(date);
   else return DateTime.fromJSDate(date);
 };

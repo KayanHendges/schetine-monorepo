@@ -1,4 +1,4 @@
-import { listBusiness } from "@providers/api/business";
+import { listAssignedBusiness } from "@providers/api/business";
 import { destroyCookie, parseCookies, setCookie } from "nookies";
 
 export const fetchAssignedBusiness = async (
@@ -6,9 +6,8 @@ export const fetchAssignedBusiness = async (
 ) => {
   if (!professionalId) return [];
   try {
-    const { list } = await listBusiness({
+    const { list } = await listAssignedBusiness({
       associatedProfessionalId: professionalId,
-      include: ["owner"]
     });
     return list;
   } catch (error) {
@@ -22,7 +21,9 @@ export const getCurrentBusinessIdCookie = (): string | null => {
   return parseCookies()[businessCookieKey] || null;
 };
 
-export const saveCurrentBusinessCookie = (business: Business | null) => {
+export const saveCurrentBusinessCookie = (
+  business: AssignedBusiness | null
+) => {
   destroyCookie(undefined, businessCookieKey);
 
   if (business?.id)

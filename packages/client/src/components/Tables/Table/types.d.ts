@@ -4,7 +4,10 @@ import { NestedKeyOf } from "types";
 interface TableColum<T> {
   dataKey?: NestedKeyOf<T>;
   label: JSX.Element | string;
-  render?: (value: T, rowIndex: number) => JSX.Element | string | number | undefined;
+  render?: (
+    value: T,
+    rowIndex: number
+  ) => JSX.Element | string | number | undefined;
   width?: string;
   className?: HTMLAttributes<HTMLDivElement>["className"];
   justify?: "start" | "center" | "end" | "between" | "around" | "evenly";

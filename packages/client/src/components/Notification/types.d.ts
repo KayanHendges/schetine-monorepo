@@ -1,5 +1,3 @@
-import { HTMLAttributes } from "react";
-
 type NotificationType = "success" | "warning" | "error" | "info";
 
 interface NotiicationColorProperties {
@@ -7,12 +5,12 @@ interface NotiicationColorProperties {
   icon: JSX.Element;
 }
 
-interface onClosePayload extends Omit<INotification, "onClose"> {}
+type onClosePayload = Omit<INotification, "onClose">;
 
 interface INotification {
   type?: NotificationType;
   duration?: number;
-  header?: JSX.Element | string
+  header?: JSX.Element | string;
   children?: JSX.Element | string;
   closeButton?: boolean;
   className?: string;
@@ -20,4 +18,4 @@ interface INotification {
   onClose?: (notificaiton: onClosePayload) => void;
 }
 
-interface INotificationProps extends INotification {}
+type INotificationProps = INotification;

@@ -1,7 +1,6 @@
 import { HTMLAttributes, ReactNode } from "react";
 import { Slot } from "@radix-ui/react-slot";
 import clsx from "clsx";
-import { Check, X } from "phosphor-react";
 import { Text, TextProps } from "@components/Texts/Text";
 
 export interface ItemRootProps extends HTMLAttributes<HTMLDivElement> {

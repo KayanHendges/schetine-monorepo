@@ -7,11 +7,13 @@ import { Text } from "@components/Texts/Text";
 import { normalizeDate } from "@utils/formats/date";
 import clsx from "clsx";
 import _ from "lodash";
-import { DateTime, DurationUnit } from "luxon";
+import { DateTime } from "luxon";
 
 function TableRoot({ children, className, ...props }: TableRootProps) {
   return (
-    <div className={clsx("flex flex-col flex-1", className)}>{children}</div>
+    <div className={clsx("flex flex-col flex-1", className)} {...props}>
+      {children}
+    </div>
   );
 }
 
@@ -48,12 +50,10 @@ function TableHeader<T>({ columns, className, ...props }: TableHeaderProps<T>) {
 TableHeader.displayName = "Table.Header";
 
 const handleFormatDate = (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   date: any,
   format = "hh:mm:ss dd/MM/yyyy"
 ): string => {
-  const unitsAgo = (unit: DurationUnit) =>
-    Math.abs(Number(dateTime.diffNow(unit)[unit]));
-
   const dateTime = normalizeDate(date);
   return dateTime.toFormat(format);
 };

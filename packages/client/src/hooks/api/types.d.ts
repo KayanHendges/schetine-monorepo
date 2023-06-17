@@ -1,13 +1,14 @@
-import { AxiosRequestConfig } from "axios";
+import { FieldValues } from "react-hook-form";
 
-interface UseFetchProps<P = Record<string, any>> {
+interface UseFetchProps<P = FieldValues> {
   path: string;
   params?: P;
   updateDataState?: boolean;
   lock?: boolean;
 }
 
-interface UseFetchReturn<T = any, P = Record<string, any>> {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+interface UseFetchReturn<T = any, P = FieldValues> {
   isLoading: boolean;
   data: T | null;
   error: Error | null;
@@ -18,10 +19,8 @@ interface UsePostProps<P, D> extends UseFetchProps<P> {
   data: D;
 }
 
-interface UsePostReturn<
-  T = any,
-  P = Record<string, any>,
-  D = Record<string, any>
-> extends Omit<UseFetchProps<T, D>> {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
+interface UsePostReturn<T = any, P = FieldValues, D = FieldValues>
+  extends Omit<UseFetchProps<T, D>> {
   data: D;
 }

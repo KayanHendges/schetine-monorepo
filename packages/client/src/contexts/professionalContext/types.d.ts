@@ -1,6 +1,4 @@
-import { UseFormReturn } from "react-hook-form";
-
-interface IRegisterPayload extends RegisterProfessionalPayload {}
+type IRegisterPayload = RegisterProfessionalPayload;
 
 interface IProfessionalContext {
   professional: Professional | null;

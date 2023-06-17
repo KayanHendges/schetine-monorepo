@@ -1,15 +1,10 @@
 import ButtonBox from "@components/Buttons/Box";
 import IconBox from "@components/Icons/IconBox";
-import {
-  INotificationProps,
-  NotificationType,
-  NotiicationColorProperties,
-} from "@components/Notification/types";
 import { Text } from "@components/Texts/Text";
 import { sleep } from "@utils/promises";
 import clsx from "clsx";
 import { Check, Info, Warning, X } from "phosphor-react";
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useCallback, useLayoutEffect, useState } from "react";
 
 export default function Notification({
   onClose,
@@ -55,25 +50,25 @@ export default function Notification({
   const display = isOpen && render;
   const hidden = !render && !isOpen;
 
-  const initial = async () => {
-    await sleep(transitionMs);
-    setRender(true);
-    if (duration) setTimeout(() => internalClose(), duration);
-  };
-
-  const internalClose = async () => {
+  const internalClose = useCallback(async () => {
     setIsOpen(false);
     await sleep(1);
     onClose && onClose(notification);
     await sleep(transitionMs);
     setRender(false);
-  };
+  }, [notification, onClose]);
+
+  const initial = useCallback(async () => {
+    await sleep(transitionMs);
+    setRender(true);
+    if (duration) setTimeout(() => internalClose(), duration);
+  }, [duration, internalClose]);
 
   useLayoutEffect(() => {
     if (isOpen) {
       initial();
     }
-  }, [isOpen]);
+  }, [initial, isOpen]);
 
   if (hidden) return <></>;
 

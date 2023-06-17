@@ -9,9 +9,7 @@ import { Storefront } from "phosphor-react";
 import { useContext, useEffect } from "react";
 import { useForm } from "react-hook-form";
 
-interface Props {}
-
-export default function SelectBusiness({}: Props) {
+export default function SelectBusiness({}) {
   const { assignedBusiness } = useContext(BusinessContext);
   const { currentBusiness, handleCurrentBusiness } =
     useContext(BusinessContext);
@@ -25,8 +23,7 @@ export default function SelectBusiness({}: Props) {
     values: { business: currentBusiness },
   });
 
-  const { getValues, reset, setValue, formState, clearErrors } =
-    currentBusinessForm;
+  const { getValues, setValue, formState, clearErrors } = currentBusinessForm;
   const errorState = formState.errors;
 
   useEffect(() => {

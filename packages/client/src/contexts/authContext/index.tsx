@@ -2,7 +2,7 @@
 import { loginProfessional } from "@providers/api/auth";
 import { useRouter } from "next/navigation";
 import { destroyCookie, parseCookies, setCookie } from "nookies";
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 
 export const AuthContext = createContext({} as IAuthContext);
 

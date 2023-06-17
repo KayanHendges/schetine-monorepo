@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { publicRoutes } from "src/config/routes";
 
-export async function middleware({ nextUrl, url, cookies }: NextRequest) {
+export async function middleware({ nextUrl, cookies }: NextRequest) {
   const token = cookies.get("auth.token");
 
   if (publicRoutes.includes(nextUrl.pathname)) {

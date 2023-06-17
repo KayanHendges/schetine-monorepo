@@ -20,23 +20,27 @@ export default function RegisterContentForm() {
       </div>
       <div className="flex flex-col gap-4">
         <TextField
-          formHook={{ ...formHook, name: "name" }}
+          formHook={formHook}
+          formName="name"
           label={"Nome completo"}
           icon={<User />}
           placeholder={"Ex: João Silva"}
         />
         <Username
-          formHook={{ ...formHook, name: "username" }}
+          formHook={formHook}
+          formName="username"
           placeholder="Ex: joao_silva"
           validate
         />
         <EmailField
-          formHook={{ ...formHook, name: "email" }}
+          formHook={formHook}
+          formName="email"
           placeholder="Ex: joao.silva@email.com"
           validate
         />
         <PassowordField
-          formHook={{ ...formHook, name: "password" }}
+          formHook={formHook}
+          formName="password"
           placeholder="Mínimo de 8 caracteres"
         />
       </div>

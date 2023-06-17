@@ -6,31 +6,33 @@ import { At } from "phosphor-react";
 import { useEffect, useRef, useState } from "react";
 import { debounce } from "lodash";
 import { findProfessional } from "@providers/api/professional";
-import { usernameRegex } from "@components/Forms/Register/registerFormSchema";
-import { Path, PathValue, UseFormTrigger, UseFormWatch } from "react-hook-form";
+import { FieldValues, Path, UseFormTrigger } from "react-hook-form";
+import { SetState } from "@types";
+import { FormValueType } from "types";
 
-interface Props<T> extends FieldProps<T> {
+interface Props<T extends FieldValues> extends FieldProps<T> {
   validate?: boolean;
   icon?: JSX.Element;
 }
 
-export default function Username<T extends Record<string, any>>({
+export default function Username<T extends FieldValues>({
   label = "Nome do usuário",
   icon = <At />,
   placeholder,
   validate,
-  formHook: { name, register, formState, watch, setError, trigger, setValue },
+  formHook: { register, formState, watch, setError, trigger, setValue },
+  formName,
 }: Props<T>) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isUnique, setIsUnique] = useState<boolean | null>(null);
-  const error = formState.errors[name];
+  const error = formState.errors[formName];
 
   const validateUniqueUsername = useRef(
     debounce(
       async (
         username: string,
         name: Path<T>,
-        trigger: UseFormTrigger<any>,
+        trigger: UseFormTrigger<T>,
         setIsUnique: SetState<boolean | null>
       ) => {
         const isValid = await trigger(name, { shouldFocus: true });
@@ -57,18 +59,18 @@ export default function Username<T extends Record<string, any>>({
       .replace(" ", "_")
       .replace(/[Çç]/g, "c")
       .replaceAll(/([^a-z0-9._])|((?<=[_.])[_.])/g, "");
-    setValue(name, cleanValue as PathValue<T, Path<T>>);
+    setValue(formName, cleanValue as FormValueType<T>);
   };
 
-  const typedValue = watch(name);
+  const typedValue = watch(formName);
   useEffect(() => {
     if (!validate || !typedValue?.length) {
       setIsUnique(null);
       return;
     }
 
-    validateUniqueUsername.current(typedValue, name, trigger, setIsUnique);
-  }, [name, trigger, typedValue, validate]);
+    validateUniqueUsername.current(typedValue, formName, trigger, setIsUnique);
+  }, [formName, trigger, typedValue, validate]);
 
   return (
     <div className="flex flex-col gap-3">
@@ -79,7 +81,7 @@ export default function Username<T extends Record<string, any>>({
           <TextInput.Input
             type="text"
             placeholder={placeholder}
-            {...register(name)}
+            {...register(formName)}
             onChange={({ target }) => validateOnChange(target.value)}
           />
           {!isLoading && isUnique !== null && (
