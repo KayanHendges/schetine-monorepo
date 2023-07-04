@@ -6,6 +6,7 @@ import { MongoAppointmentRepository } from './appointments/implementations/mongo
 import { PrismaBusinessRepository } from './business/implementations/prisma.business.repository';
 import { PrismaClientsRepository } from './clients/implementations/prisma.clients.repository';
 import { PrismaProfessionalsRepository } from './professionals/implementations/prisma.professionals.repository';
+import { PrismaAuthRepository } from './auth/implementations/prisma.auth.repository';
 
 @Module({
   imports: [
@@ -34,6 +35,10 @@ import { PrismaProfessionalsRepository } from './professionals/implementations/p
       useClass: PrismaClientsRepository,
     },
     {
+      provide: 'IAuthRepository',
+      useClass: PrismaAuthRepository,
+    },
+    {
       provide: 'IAppointmentRepository',
       useClass: MongoAppointmentRepository,
     },
@@ -44,6 +49,7 @@ import { PrismaProfessionalsRepository } from './professionals/implementations/p
     'IBusinessRepository',
     'IClientRepository',
     'IAppointmentRepository',
+    'IAuthRepository',
   ],
 })
 export class RepositoryModule {}

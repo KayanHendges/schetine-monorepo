@@ -9,8 +9,8 @@ export const customMessages: LanguageMessages = {
   "object.min": "Esse campo deve ter no mínimo {{#limit}} propriedades",
   "object.max": "Esse campo deve ter no máximo {{#limit}} propriedades",
   "object.length": "Esse campo deve ter exatamente {{#limit}} propriedades",
-  "object.unknown":
-    "Esse campo contém propriedades desconhecidas: {{#unknown}}",
+  // "object.unknown":
+  //   "O campo {{#key}} contém propriedades desconhecidas: {{#unknown}}",
   "string.min": "Esse campo deve ter no mínimo {{#limit}} caracteres",
   "string.max": "Esse campo deve ter no máximo {{#limit}} caracteres",
   "string.alphanum": "Esse campo deve conter somente caracteres alfanuméricos",

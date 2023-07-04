@@ -71,12 +71,16 @@ export class BusinessService implements IBusinessService {
       orderBy,
     };
 
-    const list = await this.businessRepository.list(repositoryParams);
-    const count = await this.businessRepository.count({
-      where: repositoryParams?.where,
-    });
+    try {
+      const list = await this.businessRepository.list(repositoryParams);
+      const count = await this.businessRepository.count({
+        where: repositoryParams?.where,
+      });
 
-    return { page, pageSize, list, count };
+      return { page, pageSize, list, count };
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async update(

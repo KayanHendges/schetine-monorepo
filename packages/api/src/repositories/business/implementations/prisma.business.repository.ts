@@ -43,7 +43,9 @@ export class PrismaBusinessRepository
 
     return this._prisma.business.findMany({
       where: whereParams,
-      include: formatIncludeArray<BusinessIncludeOption>(include || []),
+      include: include
+        ? formatIncludeArray<BusinessIncludeOption>(include)
+        : undefined,
       orderBy,
       take,
       skip,

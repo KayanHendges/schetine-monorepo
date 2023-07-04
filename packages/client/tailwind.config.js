@@ -8,10 +8,7 @@ module.exports = {
     // Or if using `src` directory:
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
   ],
-  safelist: [
-    "className",
-    "hoverStyles"
-  ],
+  safelist: ["className", "hoverStyles"],
   theme: {
     fontSize: {
       xs: 14,

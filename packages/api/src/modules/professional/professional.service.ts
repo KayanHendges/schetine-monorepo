@@ -12,30 +12,37 @@ import {
 import { IProfessionalService } from './professional.service.interface';
 import { Professional } from '../../entities/professional';
 import { ResponseList } from '../../types';
+import { IAuthRepository } from 'src/repositories/auth/auth.repository.interface';
 
 @Injectable()
 export class ProfessionalService implements IProfessionalService {
   constructor(
     @Inject('IProfessionalRepository')
     private readonly professionalRepository: IProfessionalRepository,
+    @Inject('IAuthRepository')
+    private readonly authRepository: IAuthRepository,
   ) {}
-  async create(
-    createProfessional: CreateProfessionalDTO,
-  ): Promise<Professional> {
+  async create({
+    password,
+    ...createProfessional
+  }: CreateProfessionalDTO): Promise<Professional> {
     const professional = new Professional(createProfessional);
-    const passwordHash = bcrypt.hashSync(
-      createProfessional.password,
-      8,
-    ) as string;
+    const passwordHash = bcrypt.hashSync(password, 8) as string;
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { password, ...createdProfessional } =
-      await this.professionalRepository.create({
-        ...professional,
+    try {
+      console.log(professional);
+      const createdProfessional = await this.professionalRepository.create(
+        professional,
+      );
+
+      await this.authRepository.storeProfessionalCredential({
+        professionalId: createdProfessional.id,
         password: passwordHash,
       });
-
-    return createdProfessional;
+      return createdProfessional;
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async find(param: FindProfessionalDTO): Promise<Professional> {
@@ -45,7 +52,7 @@ export class ProfessionalService implements IProfessionalService {
       throw new Error(`Professional not found`);
     }
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { password, ...professional } = professionalFound;
+    const professional = professionalFound;
 
     return professional;
   }
@@ -63,7 +70,7 @@ export class ProfessionalService implements IProfessionalService {
     const list = (await this.professionalRepository.list(repositoryParams)).map(
       (value) => {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { password, ...professional } = value;
+        const professional = value;
         return professional;
       },
     );
@@ -77,7 +84,7 @@ export class ProfessionalService implements IProfessionalService {
   ): Promise<Professional> {
     professional;
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { password, ...updated } = await this.professionalRepository.update(
+    const updated = await this.professionalRepository.update(
       where,
       professional,
     );
@@ -87,9 +94,7 @@ export class ProfessionalService implements IProfessionalService {
 
   async delete(where: DeleteProfessionalParam): Promise<Professional> {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { password, ...deleted } = await this.professionalRepository.delete(
-      where,
-    );
+    const deleted = await this.professionalRepository.delete(where);
 
     return deleted;
   }

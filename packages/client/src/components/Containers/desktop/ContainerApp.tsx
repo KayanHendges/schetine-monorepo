@@ -23,14 +23,15 @@ export function ContainerApp({ children, asChild }: BaseComponentProps) {
         <SideBar />
         <div
           className={clsx(
-            "flex-1 h-full overflow-hidden",
+            "flex-1 h-full flex flex-col overflow-hidden",
             "bg-neutral-800 rounded-t-2xl mr-3"
           )}
         >
           <DesktopHeader />
           <div
             className={clsx(
-              "flex-1 h-full overflow-auto",
+              "flex-1 w-full overflow-auto",
+              "flex flex-col items-center gap-4 p-4",
               "scrollbar-thin scrollbar-track-transparent scrollbar-thumb-neutral-700"
             )}
           >

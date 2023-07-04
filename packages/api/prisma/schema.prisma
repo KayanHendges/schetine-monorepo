@@ -11,17 +11,27 @@ datasource db {
 }
 
 model Professional {
-  id                   String                 @unique @default(uuid())
+  id                   String                   @unique @default(uuid())
   name                 String
-  username             String                 @unique
-  email                String                 @unique
-  password             String
+  username             String                   @unique
+  email                String                   @unique
   businessProfessional BusinessProfessional[]
   business             Business[]
-  modified             DateTime               @updatedAt
-  created              DateTime               @default(now())
+  modified             DateTime                 @updatedAt
+  created              DateTime                 @default(now())
+  credentials          ProfessionalCredential[]
 
   @@map("professionals")
+}
+
+model ProfessionalCredential {
+  professionalId String       @unique @map("professional_id")
+  professional   Professional @relation(fields: [professionalId], references: [id])
+  password       String
+  modified       DateTime     @updatedAt
+  created        DateTime     @default(now())
+
+  @@map("professional_credentials")
 }
 
 model Business {

@@ -5,11 +5,14 @@ import { IProfessionalRepository } from '../../repositories/professionals/profes
 import { GetLoggedProfessionalDTO, LoginDTO } from './auth.dto';
 import { IAuthService, LoginResponse } from './auth.service.interface';
 import { Professional } from 'src/entities/professional';
+import { IAuthRepository } from 'src/repositories/auth/auth.repository.interface';
 
 export class AuthService implements IAuthService {
   constructor(
     @Inject('IProfessionalRepository')
     private readonly professionalRepository: IProfessionalRepository,
+    @Inject('IAuthRepository')
+    private readonly authRepository: IAuthRepository,
     private jwtService: JwtService,
   ) {}
 
@@ -22,12 +25,13 @@ export class AuthService implements IAuthService {
         email,
       });
 
-      if (!professional) throw new Error('Invalid credentials');
-
-      const passwordMatch = await bcrypt.compare(
-        password,
-        professional.password,
+      const credential = await this.authRepository.findProfessionalCredential(
+        professional.id,
       );
+
+      if (!professional || !credential) throw new Error('Invalid credentials');
+
+      const passwordMatch = await bcrypt.compare(password, credential.password);
 
       if (!passwordMatch) throw new Error('Invalid credentials');
 
@@ -46,8 +50,7 @@ export class AuthService implements IAuthService {
   async getLoggedProfessional({
     id,
   }: GetLoggedProfessionalDTO): Promise<Professional> {
-    const { password, ...professional } =
-      await this.professionalRepository.find({ id });
+    const professional = await this.professionalRepository.find({ id });
 
     if (!professional) throw new Error('Professional not found.');
 
