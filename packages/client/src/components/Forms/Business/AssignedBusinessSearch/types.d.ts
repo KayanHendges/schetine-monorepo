@@ -1,0 +1,3 @@
+interface IAssignedBusinessSearchForm {
+  name: string;
+}

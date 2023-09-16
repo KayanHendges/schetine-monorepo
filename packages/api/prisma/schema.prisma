@@ -1,0 +1,74 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Professional {
+  id                   String                   @unique @default(uuid())
+  name                 String
+  username             String                   @unique
+  email                String                   @unique
+  businessProfessional BusinessProfessional[]
+  business             Business[]
+  modified             DateTime                 @updatedAt
+  created              DateTime                 @default(now())
+  credentials          ProfessionalCredential[]
+
+  @@map("professionals")
+}
+
+model ProfessionalCredential {
+  professionalId String       @unique @map("professional_id")
+  professional   Professional @relation(fields: [professionalId], references: [id])
+  password       String
+  modified       DateTime     @updatedAt
+  created        DateTime     @default(now())
+
+  @@map("professional_credentials")
+}
+
+model Business {
+  id                   String                 @unique @default(uuid())
+  name                 String
+  ownerId              String                 @map("owner_id")
+  owner                Professional           @relation(fields: [ownerId], references: [id])
+  businessProfessional BusinessProfessional[]
+  modified             DateTime               @updatedAt
+  created              DateTime               @default(now())
+  client               Client[]
+
+  @@map("business")
+}
+
+model BusinessProfessional {
+  id             String       @unique @default(uuid())
+  businessId     String       @map("business_id")
+  business       Business     @relation(fields: [businessId], references: [id])
+  professionalId String       @map("professional_id")
+  professional   Professional @relation(fields: [professionalId], references: [id])
+
+  @@map("business_professionals")
+}
+
+model Client {
+  id         String    @unique @default(uuid())
+  name       String
+  businessId String    @map("business_id")
+  business   Business  @relation(fields: [businessId], references: [id])
+  phone      String?
+  cpf        String?
+  birth      DateTime?
+  email      String?
+  comment    String?
+  modified   DateTime  @updatedAt
+  created    DateTime  @default(now())
+
+  @@map("clients")
+}
